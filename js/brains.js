@@ -1,3 +1,15 @@
+// Define array of objects for staff details. 
+const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'JHH'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'JHH'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'JHH'},
+{name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'JHH'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
+{name: 'MICHAEL DATHAN-HORDER', locationId: 'lmdh', commentId:'cmdh', workshop: 'JHH'}, {name: 'MITCHELL PACEY', locationId: 'lmjp', commentId:'cmjp', workshop: 'JHH'}, {name: 'STEVEN BRADBURY', locationId: 'lsb', commentId:'csb', workshop: 'JHH'},
+{name: 'KEITH BALL', locationId: 'lkb', commentId:'ckb', workshop: 'JHH'}, {name: 'ELLEN HEYDON', locationId: 'leh', commentId:'ceh', workshop: 'JHH'}, {name: 'RODNEY BIRT', locationId: 'lrb', commentId:'crb', workshop: 'JHH'},
+{name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram', workshop: 'JHH'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp', workshop: 'JHH'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb', workshop: 'Tamworth'},
+{name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId:'cjl', workshop: 'Tamworth'}, {name: 'AZMI REFAL', locationId: 'lar', commentId:'car', workshop: 'Tamworth'}, {name: 'BRET PRYOR', locationId: 'lbp', commentId:'cbp', workshop: 'Tamworth'},
+{name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt', workshop: 'Maitland'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps', workshop: 'Maitland'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm', workshop: 'Maitland'},
+{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Maitland'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Maitland'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Maitland'},
+{name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Maitland'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
+
+// Define the clinical units and departments within the health service.
 const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
 "WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
 "WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME", 
@@ -8,15 +20,43 @@ const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", 
 "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
 "WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD",];
 
-const employee = ["lik", "lpk", "lmi", "lgg", "lds", "las", "lmdh", "lmjp", "lsb", "lkb", "leh", "lrb", "lkw", "lttv", "lram", "lmp", 
-"ltt", "lps", "lwf", "lmm", "llr", "lml", "lpb", "ljl", "lar", "lbp"];
+// Get the employee location element id's from the staff array for each staff member.
+const employee = staffArray.map((staffMember) => {
+    return staffMember.locationId
+}) 
 
-const jhhEmp = ["ISHAQUE KHAN", "PAUL COOKSON", "MICHELLE ISON", "GLADY GIDEON", "DURGA SOMPALLE", "ATIF SIDDIQUI", "MICHAEL DATHAN-HORDER",
-"MITCHELL PACEY", "STEVEN BRADBURY", "KEITH BALL", "ELLEN HEYDON", "RODNEY BIRT", "KENDO WU", "RAY AUNEI MOSE", "MITCHELL PYNE"];
+// Get all JHH employee names.
+const jhhEmp = staffArray.reduce((acc, staffMember) => {
+    if (staffMember.workshop == 'JHH') {
+        acc.push(staffMember.name);
+        return acc;
+    }
+    else {
+        return acc;
+    }
+}, []);
 
-const green1 = ["TROY TRAEGAR", "PATRICK SMALL", "MATHEW MURRELL", "WAYNE FULLER", "LEIGH RYAN", "MATTHEW LAW", "TOME TOMEV"];
+// Get all Green Team employee names.
+const green1 = staffArray.reduce((acc, staffMember) => {
+    if (staffMember.workshop == 'Maitland') {
+        acc.push(staffMember.name);
+        return acc;
+    }
+    else {
+        return acc;
+    }
+}, []);
 
-const tamworth1 = ["PEDRAM BIDAR", "JOHN LARKWORTHY", "AZMI REFAL", "BRET PRYOR"];
+// Get all New England employee names.
+const tamworth1 = staffArray.reduce((acc, staffMember) => {
+    if (staffMember.workshop == 'Tamworth') {
+        acc.push(staffMember.name);
+        return acc;
+    }
+    else {
+        return acc;
+    }
+}, []); 
 
 var pagefrom;
 
@@ -132,16 +172,6 @@ function publishToTable() {
     // getting Employer that was clicked on
     var Id = document.getElementById("empId").innerHTML;
     var item = document.getElementById("location").value;
-
-    const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi'},
-{name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas'},
-{name: 'MICHAEL DATHAN-HORDER', locationId: 'lmdh', commentId:'cmdh'}, {name: 'MITCHELL PACEY', locationId: 'lmjp', commentId:'cmjp'}, {name: 'STEVEN BRADBURY', locationId: 'lsb', commentId:'csb'},
-{name: 'KEITH BALL', locationId: 'lkb', commentId:'ckb'}, {name: 'ELLEN HEYDON', locationId: 'leh', commentId:'ceh'}, {name: 'RODNEY BIRT', locationId: 'lrb', commentId:'crb'},
-{name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb'},
-{name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId:'cjl'}, {name: 'AZMI REFAL', locationId: 'lar', commentId:'car'}, {name: 'BRET PRYOR', locationId: 'lbp', commentId:'cbp'},
-{name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm'},
-{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml'},
-{name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw'}];
 
     const staffMember = staffArray.find((staff) => {
         return staff.name == Id;
