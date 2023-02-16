@@ -1,139 +1,37 @@
-const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE", "WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A", "WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME", "KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS", "WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB", "SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT", "NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK", "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", "WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD",];
-const employee = ["lik", "lpk", "lmi", "lgg", "lds", "las", "lmdh", "lmjp", "lsb", "lkb", "leh", "lrb", "lkw", "lttv", "lram", "lmp", "ltt", "lps", "lwf", "lmm", "llr", "lml", "lpb", "ljl", "lar", "lbp"];
-const jhhEmp = ["ISHAQUE KHAN", "PAUL COOKSON", "MICHELLE ISON", "GLADY GIDEON", "DURGA SOMPALLE", "ATIF SIDDIQUI", "MICHAEL DATHAN-HORDER", "MITCHELL PACEY", "STEVEN BRADBURY", "KEITH BALL", "ELLEN HEYDON", "RODNEY BIRT", "KENDO WU", "RAY AUNEI MOSE", "MITCHELL PYNE"];
+const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
+"WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
+"WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME", 
+"KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS",
+"WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB", 
+"SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT", 
+"NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK", 
+"MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
+"WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD",];
+
+const employee = ["lik", "lpk", "lmi", "lgg", "lds", "las", "lmdh", "lmjp", "lsb", "lkb", "leh", "lrb", "lkw", "lttv", "lram", "lmp", 
+"ltt", "lps", "lwf", "lmm", "llr", "lml", "lpb", "ljl", "lar", "lbp"];
+
+const jhhEmp = ["ISHAQUE KHAN", "PAUL COOKSON", "MICHELLE ISON", "GLADY GIDEON", "DURGA SOMPALLE", "ATIF SIDDIQUI", "MICHAEL DATHAN-HORDER",
+"MITCHELL PACEY", "STEVEN BRADBURY", "KEITH BALL", "ELLEN HEYDON", "RODNEY BIRT", "KENDO WU", "RAY AUNEI MOSE", "MITCHELL PYNE"];
+
 const green1 = ["TROY TRAEGAR", "PATRICK SMALL", "MATHEW MURRELL", "WAYNE FULLER", "LEIGH RYAN", "MATTHEW LAW", "TOME TOMEV"];
-const tamworth1 = ["PEDRAM BIDAR", "JOHN LARKWORTHY", "AZMI REFAL", "BRET PRYOR"]
+
+const tamworth1 = ["PEDRAM BIDAR", "JOHN LARKWORTHY", "AZMI REFAL", "BRET PRYOR"];
 
 var pagefrom;
 
-
-//local storage setting for units//
+// Set local storage for team
 localStorage.setItem("team", '0');
-localStorage.setItem('CATHLAB', '0');
-localStorage.setItem('ALLIED_HEALTH', '0');
-localStorage.setItem('BME', '0');
-localStorage.setItem('DELIVERY_SUITE', '0');
-localStorage.setItem('AUDIOLOGY', '0');
-localStorage.setItem('PHYSIOTHERAPY', '0');
-localStorage.setItem('ENDOSCOPY', '0');
-localStorage.setItem('DIAGNOSTIC_CENTRE', '0');
-localStorage.setItem('WARD_F1', '0');
-localStorage.setItem('HAPS_LVL_3', '0');
-localStorage.setItem('EMERGENCY', '0');
-localStorage.setItem('WARD_H1', '0');
-localStorage.setItem('GASTROENTEROLOGY', '0');
-localStorage.setItem('WARD_J1', '0');
-localStorage.setItem('ICU', '0');
-localStorage.setItem('GP_ACCESS', '0');
-localStorage.setItem('WARD_K1', '0');
-localStorage.setItem('ICU_BME', '0');
-localStorage.setItem('HAPS_LVL_2A', '0');
-localStorage.setItem('WARD_G1', '0');
-localStorage.setItem('JHH_OPERATING_THEATRE', '0');
-localStorage.setItem('HAPS_LVL_2B', '0');
-localStorage.setItem('JHH_RECOVERY', '0');
-localStorage.setItem('IMAGING', '0');
-localStorage.setItem('LAB_5', '0');
-localStorage.setItem('INNOVATIONS_LAB', '0');
-localStorage.setItem('NICU', '0');
-localStorage.setItem('RNC_BME', '0');
-localStorage.setItem('KALIEDOSCOPE_A', '0');
-localStorage.setItem('RNC_OPERATING_THEATRE', '0');
-localStorage.setItem('KALIEDOSCOPE_B', '0');
-localStorage.setItem('RNC_RECOVERY', '0');
-localStorage.setItem('KALIEDOSCOPE_C', '0');
-localStorage.setItem('WARD_E3', '0');
-localStorage.setItem('NEUROLOGY', '0');
-localStorage.setItem('WARD_F3', '0');
-localStorage.setItem('NEXUS', '0');
-localStorage.setItem('WARD_G3', '0');
-localStorage.setItem('NORTH_BLOCK', '0');
-localStorage.setItem('WARD_H3', '0');
-localStorage.setItem('NUCLEAR_MEDICINE', '0');
-localStorage.setItem('WARD_J3', '0');
-localStorage.setItem('OUTPATIENTS', '0');
-localStorage.setItem('WARD_K3', '0');
-localStorage.setItem('PATHOLOGY', '0');
-localStorage.setItem('PHARMARCY', '0');
-localStorage.setItem('SLEEP_LAB', '0');
-localStorage.setItem('SOUTH_BLOCK', '0');
-localStorage.setItem('WARD_E2', '0');
-localStorage.setItem('WARD_F2', '0');
-localStorage.setItem('WARD_G2', '0');
-localStorage.setItem('WARD_H2', '0');
-localStorage.setItem('WARD_J2', '0');
-localStorage.setItem('WARD_K2', '0');
-localStorage.setItem('WARD_E1', '0');
-localStorage.setItem('CCU', '0');
 
-localStorage.setItem('NEW_MAITLAND', '0');
-localStorage.setItem('BELMONT', '0');
-localStorage.setItem('NEWCASTLE', '0');
-localStorage.setItem('BULAHDELAH', '0');
-localStorage.setItem('KURRI_KURRI', '0');
-localStorage.setItem('CESSNOCK', '0');
-localStorage.setItem('TAREE', '0');
-localStorage.setItem('DUNGOG', '0');
-localStorage.setItem('SINGLETON', '0');
-localStorage.setItem('DENMAN', '0');
-localStorage.setItem('GLOUCESTOR', '0');
-localStorage.setItem('SCONE', '0');
-localStorage.setItem('MUSWELBROOK', '0');
-localStorage.setItem('MURRURUNDI', '0');
-localStorage.setItem('MERRIWA', '0');
+//local storage setting for clinical units//
+unit.map((location) => {
+    localStorage.setItem(location, '0');    
+});
 
-localStorage.setItem('TAMWORTH', '0');
-localStorage.setItem('WALCHA', '0');
-localStorage.setItem('QUIRINDI', '0');
-localStorage.setItem('GUNNEDAH', '0');
-localStorage.setItem('MANILLA', '0');
-localStorage.setItem('ARMIDALE', '0');
-localStorage.setItem('BOGGABRI', '0');
-localStorage.setItem('BARRABA', '0');
-localStorage.setItem('GUYRA', '0');
-localStorage.setItem('NARRABRI', '0');
-localStorage.setItem('WEEWAA', '0');
-localStorage.setItem('BINGARA', '0');
-localStorage.setItem('BUNDARRA', '0');
-localStorage.setItem('GLEN_INNES', '0');
-localStorage.setItem('EMMAVILLE', '0');
-localStorage.setItem('MOREE', '0');
-localStorage.setItem('WARIALDA', '0');
-localStorage.setItem('INVERELL', '0');
-localStorage.setItem('TENTERFIELD', '0');
-
-// JHH Team
-localStorage.setItem('lik', 'HOME');
-localStorage.setItem('lpk', 'HOME');
-localStorage.setItem('lmi', 'HOME');
-localStorage.setItem('lgg', 'HOME');
-localStorage.setItem('lds', 'HOME');
-localStorage.setItem('las', 'HOME');
-localStorage.setItem('lmdh', 'HOME');
-localStorage.setItem('lmjp', 'HOME');
-localStorage.setItem('lsb', 'HOME');
-localStorage.setItem('lkb', 'HOME');
-localStorage.setItem('leh', 'HOME');
-localStorage.setItem('lrb', 'HOME');
-localStorage.setItem('lkw', 'HOME');
-localStorage.setItem('lram', 'HOME');
-localStorage.setItem('lmp', 'HOME');
-
-// Hunter Team
-localStorage.setItem('ltt', 'HOME');
-localStorage.setItem('lps', 'HOME');
-localStorage.setItem('lwf', 'HOME');
-localStorage.setItem('lmm', 'HOME');
-localStorage.setItem('lml', 'HOME');
-localStorage.setItem('llr', 'HOME');
-localStorage.setItem('lttv', 'HOME');
-// New England Team
-localStorage.setItem('lpb', 'HOME');
-localStorage.setItem('ljl', 'HOME');
-localStorage.setItem('lar', 'HOME');
-localStorage.setItem('lbp', 'HOME');
-
-
+// Set local storage of each employee to HOME
+employee.map((member) => {
+    localStorage.setItem(member, 'HOME');
+});
 
 // finding location selected
 function findvalue(e) {
@@ -248,8 +146,6 @@ function publishToTable() {
     const staffMember = staffArray.find((staff) => {
         return staff.name == Id;
     });
-
-    console.log(staffMember);
 
     const locationElementID = staffMember.locationId;
     const commentElementID = staffMember.commentId;
