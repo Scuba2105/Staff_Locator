@@ -1,0 +1,18 @@
+{
+  "name": "hnect-locatorboard",
+  "productName": "BIOMEDICAL ENGINEERING LOCATOR BOARD",
+  "version": "1.0.0",
+  "description": "bme locator board",
+  "main": "main.js",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron": "^6.1.12"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "RAM",
+  "license": "MIT"
+}

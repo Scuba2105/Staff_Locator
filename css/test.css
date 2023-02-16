@@ -1,0 +1,181 @@
+a {
+  display: block;
+  width: auto;
+  height: 30px !important;
+  padding: 5px 10px;
+  color: white;
+
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #0178ff; 
+
+  flex-direction: row;
+}
+
+ul ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+
+  overflow: hidden;
+  background: rgb(0, 0, 0);
+  margin-left: 15px;
+  height: auto;
+  /*transition: max-height .5s ease-in-out;*/
+}
+
+ul ul ul {
+  background: rgb(0, 0, 0);
+  margin-left: auto;
+  height: auto;
+  /* transition: max-height .5s ease-in-out;*/
+  left: 100%;
+  top: 0;
+}
+
+ul ul ul ul {
+  background: #0178ff;
+  margin-left: 15px;
+  border-left: 1px dashed white;
+  height: auto;
+  transition: max-height 0.5s ease-out;
+}
+
+ul li ul {
+  max-height: 0;
+  transition: max-height 1s ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.show-list {
+  max-height: none !important;
+  /*  max-width: none;*/
+  transition: max-height 1s ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+/*00000000000000000000000000000000000000000000000000000*/
+
+.ward {
+  column-count: 2;
+}
+
+.ward2 {
+  column-count: 3;
+}
+
+#buttons li {
+  float: none;
+  list-style: none;
+  text-align: center;
+  background-color: #000000;
+  margin:0;
+  width: auto;
+  line-height: 25px;
+}
+
+#buttons li a {
+  text-decoration: none;
+  color: #FFFFFF;
+  display: block;
+}
+
+#buttons li a:hover {
+  text-decoration: none;
+  color: #000000;
+  background-color: #ff7b00;
+}
+
+.main-navigation li ul li {
+  border-top: 0;
+}
+
+/*ul ul ul {
+  left: 100%;
+  top: 0;
+}
+*/
+ul:before,
+ul:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+
+ul:after {
+  clear: both;
+}
+
+/*button {
+  margin: 20px;
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  background-color: #20b0db;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+
+}
+*/
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 99%;
+  table-layout: fixed;
+}
+
+ul li {
+  display: block;
+  position: relative;
+  float: left;
+  background: #0178ff;
+  z-index: 9;
+  table-layout: fixed;
+}
+
+li ul {
+  display: inline-block;
+}
+
+ul li a {
+  display: block;
+  padding: 1em;
+  text-decoration: none;
+  white-space: normal;
+  color: #fff;
+  z-index: 9;
+}
+
+button {
+  margin: 20px;
+  width: auto;
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  background-color: #20b0db;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+
+}
+object {
+
+  justify-content: top;
+  flex-direction: row;
+  height: auto;
+}
+
+* {
+  box-sizing: content-box;
+  width: 100%;
+}

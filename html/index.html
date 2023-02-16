@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
+	<link rel="stylesheet" href="../css/clock.screen.css" media="screen,projection,tv">
+	<title>
+		HUNTER CLINICAL TECHNOLOGY
+	</title>
+</head>
+
+<body>
+
+	<h1>HUNTER CLINICAL TECHNOLOGY</h1>
+	<h1>LOCATOR BOARD</h1>
+
+	<div id="clock">
+		<noscript>
+			<p>
+				
+			</p>
+		</noscript>
+		<!-- .clockFace -->
+	</div>
+
+	<script src="../js/clock.js"></script>
+
+</body>
+<style>
+	body {
+		font-family: "Work Sans", sans-serif;
+
+		background-image: url("../images/hne-logo.png");
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+	}
+
+	.time {
+		margin: 120px auto;
+		background: rgb(12, 12, 12);
+		color: #fff;
+		border: 7px solid rgb(255, 252, 252);
+		box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgb(0, 0, 0);
+		padding: 8px;
+		text-align: center;
+		width: 500px;
+	}
+
+	.hms {
+		font-size: 68pt;
+		font-weight: 200;
+	}
+
+	.ampm {
+		font-size: 22pt;
+	}
+
+	.date {
+		font-size: 20pt;
+	}
+</style>
+
+<body>
+	<div class="time">
+
+		<span class="hms"></span>
+		<span class="ampm"></span>
+		<br>
+		<span class="date"></span>
+	</div>
+	<script>  function updateTime() {
+		var dateInfo = new Date();
+		/* time */
+		var hr,
+			_min = (dateInfo.getMinutes() < 10) ? "0" + dateInfo.getMinutes() : dateInfo.getMinutes(),
+			sec = (dateInfo.getSeconds() < 10) ? "0" + dateInfo.getSeconds() : dateInfo.getSeconds(),
+			ampm = (dateInfo.getHours() >= 12) ? "PM" : "AM";
+		// replace 0 with 12 at midnight, subtract 12 from hour if 13–23
+		if (dateInfo.getHours() == 0) {
+			hr = 12;
+		} else if (dateInfo.getHours() > 12) {
+			hr = dateInfo.getHours() - 12;
+		} else {
+			hr = dateInfo.getHours();
+		}
+		var currentTime = hr + ":" + _min + ":" + sec;
+		// print time
+		document.querySelector(".hms").innerHTML = currentTime;
+		document.querySelector(".ampm").innerHTML = ampm;
+		/* date */
+		var dow = [
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday"
+		],
+			month = [
+				"January",
+				"February",
+				"March",
+				"April",
+				"May",
+				"June",
+				"July",
+				"August",
+				"September",
+				"October",
+				"November",
+				"December"
+			],
+			day = dateInfo.getDate();
+		// store date
+		var currentDate = dow[dateInfo.getDay()] + ", " + month[dateInfo.getMonth()] + " " + day;
+		document.getElementsByClassName("date")[0].innerHTML = currentDate;
+	};
+	// print time and date once, then update them every second
+	updateTime();
+	setInterval(function () {
+		updateTime()
+	}, 1000);
+	</script>
+</body>
+</html>
