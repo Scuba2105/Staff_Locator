@@ -14,6 +14,17 @@ const __dirname = path.dirname('.')
 app.set('views',path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Serving static files 
+app.use(express.static('public'));
+
+// Serve up jhh.html when root page accessed
+app.get('/', (req, res) => {
+    res.sendFile("public/html/jhh.html", { root: __dirname });
+  });
+
+app.listen(PORT, () => {
+    console.log(`The server is listening on port ${PORT}`)
+})
 
 
 
