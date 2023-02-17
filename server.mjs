@@ -22,6 +22,21 @@ app.get('/', (req, res) => {
     res.sendFile("public/html/jhh.html", { root: __dirname });
   });
 
+// Serve up jhhteam.html when JHH page accessed
+app.get('/JHH', (req, res) => {
+    res.sendFile("public/html/jhhteam.html", { root: __dirname });
+  });
+
+// Serve up greenteam.html when Hunter team page accessed
+app.get('/Hunter', (req, res) => {
+    res.sendFile("public/html/greenteam.html", { root: __dirname });
+  });
+
+// Serve up tamworth.html when New England page is accessed
+app.get('/JHH', (req, res) => {
+    res.sendFile("public/html/tamworth.html", { root: __dirname });
+  });
+
 app.listen(PORT, () => {
     console.log(`The server is listening on port ${PORT}`)
 })
