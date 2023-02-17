@@ -6,7 +6,7 @@ const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', w
 {name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram', workshop: 'JHH'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp', workshop: 'JHH'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb', workshop: 'Tamworth'},
 {name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId:'cjl', workshop: 'Tamworth'}, {name: 'AZMI REFAL', locationId: 'lar', commentId:'car', workshop: 'Tamworth'}, {name: 'BRET PRYOR', locationId: 'lbp', commentId:'cbp', workshop: 'Tamworth'},
 {name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt', workshop: 'Maitland'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps', workshop: 'Maitland'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm', workshop: 'Maitland'},
-{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Maitland'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Maitland'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Maitland'},
+{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Maitland'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Taree'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Mater'},
 {name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Maitland'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
 
 // Define the clinical units and departments within the health service.
@@ -18,7 +18,7 @@ const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", 
 "SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT", 
 "NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK", 
 "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
-"WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD",];
+"WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
 
 // Get the employee location element id's from the staff array for each staff member.
 const employee = staffArray.map((staffMember) => {
@@ -38,7 +38,7 @@ const jhhEmp = staffArray.reduce((acc, staffMember) => {
 
 // Get all Green Team employee names.
 const green1 = staffArray.reduce((acc, staffMember) => {
-    if (staffMember.workshop == 'Maitland') {
+    if (staffMember.workshop == 'Maitland' || staffMember.workshop == 'Mater' || staffMember.workshop == 'Taree') {
         acc.push(staffMember.name);
         return acc;
     }
@@ -65,7 +65,7 @@ localStorage.setItem("team", '0');
 
 //local storage setting for clinical units//
 unit.map((location) => {
-    localStorage.setItem(location, '0');    
+    localStorage.setItem(location, 0);    
 });
 
 // Set local storage of each employee to HOME
@@ -170,25 +170,26 @@ function closeForm() {
 
 function publishToTable() {
     // getting Employer that was clicked on
-    var Id = document.getElementById("empId").innerHTML;
-    var item = document.getElementById("location").value;
-
+    const Id = document.getElementById("empId").innerHTML;
+    const item = document.getElementById("location").value;
+    
     const staffMember = staffArray.find((staff) => {
         return staff.name == Id;
     });
 
     const locationElementID = staffMember.locationId;
     const commentElementID = staffMember.commentId;
-
+    const previousLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
+    
     document.getElementById(`${locationElementID}`).innerHTML = document.getElementById("location2").value;
-    var locationVariable = document.getElementById(`${locationElementID}`).innerHTML;
-    localStorage.setItem(`${locationElementID}`, locationVariable);
+    var newLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
+    localStorage.setItem(`${locationElementID}`, newLocation);
     document.getElementById(`${commentElementID}`).innerHTML = document.getElementById("comment").value;
-    setsvg();
+    setsvg(previousLocation, newLocation);
 }
 
 
-function setsvg() {
+function setsvg(previousLocation, newLocation) {
 
     var team = location.pathname.split('/').pop();
     switch (team) {
@@ -206,52 +207,35 @@ function setsvg() {
             break;
     }
 
-
-    //select LS LOC
-    for (let k = 0; k < unit.length; k++) {
-        unitsel = unit[k];     //select unit
-
-        if (unit.includes(unitsel)) {
-            for (let d = 0; d < employee.length; d++) {
-                var empsel = employee[d];   // selecting LS EMP
-                var empseloc = localStorage.getItem(empsel)  //get LS EMP LOC
-
-                if (empseloc == unitsel) {
-                    localStorage.setItem(unitsel, '1');
-                    d = employee.length;
-                } else {
-                    localStorage.setItem(unitsel, '0');
-                }
-
-            }
+    console.log(previousLocation);
+    // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
+    if (unit.includes(previousLocation)) {
+        const count = localStorage.getItem(previousLocation);
+        const newCount = Number(count) - 1;
+        console.log(newCount);
+        localStorage.setItem(previousLocation, newCount);
+        if (newCount > 0) {
+            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 1);
         }
-
-
-
-    }
-    setsvg2();
-
-
-    function setsvg2() {
-
-        // setting svg state depending on local storage state
-        for (let p = 0; p < unit.length; p++) {
-            var unitsel = unit[p];
-
-            if (localStorage.getItem(unitsel) == '1') {
-                document.getElementById(unitsel).setAttribute('opacity', 1);
-            } else {
-                document.getElementById(unitsel).setAttribute('opacity', 0);
-            }
-
+        else {
+            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 0);
         }
-
-
-
-
-
     }
 
+    // Determine if new location is in unit array. Update count in local storage and set svg element opacity.
+    if (unit.includes(newLocation)) { 
+        const count = localStorage.getItem(newLocation);
+        const newCount = Number(count) + 1;
+        localStorage.setItem(newLocation, `${newCount}`);
+        const x = localStorage.getItem('PHYSIOTHERAPY');
+        
+        if (newCount > 0) {
+            document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
+        }
+        else {
+            document.querySelector(`#${newSLocation}`).setAttribute('opacity', 0);
+        }
+    }
 }
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
