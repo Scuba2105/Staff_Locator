@@ -173,21 +173,31 @@ function publishToTable() {
     const Id = document.getElementById("empId").innerHTML;
     const item = document.getElementById("location").value;
     
+    // Find the staff member who was selected and return their staffArray object.
     const staffMember = staffArray.find((staff) => {
         return staff.name == Id;
     });
 
+    // Get the location and comment element ID's of the staff member.
     const locationElementID = staffMember.locationId;
     const commentElementID = staffMember.commentId;
+
+    // Determine the previous location of the staff member which is the current location element text content.
     const previousLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
     
+    // Set the new location to that of the location select in the form.
     document.getElementById(`${locationElementID}`).innerHTML = document.getElementById("location2").value;
+
+    // Replace the new location text spaces with underscores so it can be found in the svg. And store in local storage?? Might not be required 
     var newLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
     localStorage.setItem(`${locationElementID}`, newLocation);
+
+    // Enter the form time, date and comments into the comment field for the employee.
     document.getElementById(`${commentElementID}`).innerHTML = document.getElementById("comment").value;
+    
+    // Set the svg 
     setsvg(previousLocation, newLocation);
 }
-
 
 function setsvg(previousLocation, newLocation) {
 
@@ -207,7 +217,6 @@ function setsvg(previousLocation, newLocation) {
             break;
     }
 
-    console.log(previousLocation);
     // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(previousLocation)) {
         const count = localStorage.getItem(previousLocation);
