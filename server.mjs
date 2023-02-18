@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import { serveCurrentData } from './controllers/controller.mjs';
 
 // Create app
 const app = express();
@@ -18,10 +19,15 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 
 // Serve up jhh.html when root page accessed
-app.get('/', (req, res) => {
-    res.sendFile("public/html/jhh.html", { root: __dirname });
-  });
-
+app.get('/', async (req, res) => {
+  try {
+    await serveCurrentData(req, res, 'Management');
+  } 
+  catch (error) {
+    res.send(err.message);
+  }
+});
+    
 // Serve up jhhteam.html when JHH page accessed
 app.get('/JHH', (req, res) => {
     res.sendFile("public/html/jhhteam.html", { root: __dirname });

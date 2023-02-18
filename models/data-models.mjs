@@ -5,17 +5,22 @@ const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.
 const currentLocations = loadJSON('../json/current-locations.json');
 
 export function fetchLocations(team) { 
-    const teamArray = currentLocations.reduce((acc, currentMember) => {
-        if (currentMember.workshop == team) {
-            acc.push(currentMember);
-            return acc;
+    return new Promise((resolve, reject) => {
+        if (currentLocations == undefined) {
+            reject('The json file has not been loaded from file');
         }
-        else {
-            return acc;
-        }
-    }, []);
-
-    return teamArray;
+        const teamArray = currentLocations.reduce((acc, currentMember) => {
+            if (currentMember.workshop == team) {
+                acc.push(currentMember);
+                return acc;
+            }
+            else {
+                return acc;
+            }
+        }, []);
+    
+        resolve(teamArray);
+    }) 
 };
 
 
