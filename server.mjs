@@ -21,8 +21,7 @@ app.use(express.static('public'));
 app.get('/', async (req, res) => {
   try {
     const currentData = await serveCurrentData('Management');
-    console.log(currentData);
-    res.render('management', {xyzh: 'HNECT Locator Board'});
+    res.render('body', {currentLocations: currentData, backgroundColor: '#ff4444'});
     //res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
   catch (error) {

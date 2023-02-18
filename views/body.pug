@@ -1,0 +1,16 @@
+extends form
+
+block content
+  table#jhh.display
+    thead
+      tr.header
+        th(style='background-color:' + backgroundColor + '; color: #ffffff;') Employee
+        th(style='background-color:' + backgroundColor + '; color: #ffffff;') Location
+        th(style='background-color:' + backgroundColor + '; color: #ffffff;') Comment
+    tbody
+      each employee, i in currentLocations
+        tr
+          td= employee.name
+          td(id=employee.locationId aria-disabled='false') HOME
+          td(id=employee.commentId)
+      
