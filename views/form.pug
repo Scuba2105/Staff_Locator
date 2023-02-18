@@ -81,6 +81,41 @@ html
                           .ward
                             each location in formLocations.newEngland
                               li(onclick='findvalue(this)')
-                                a(href='#')= location                       
-      
-      block content
+                                a(href='#')= location  
+                      li#buttons(onclick='findvalue(this)')
+                        a(href='#') BACK IN 5
+                      li
+                        a(href='#') LEAVE
+                        ul#buttons  
+                          each location in formLocations.leave
+                            li(onclick='findvalue(this)')
+                              a(href='#')= location 
+                      li#buttons(onclick='findvalue(this)')
+                        a(href='#') CUSTOM
+            .tab
+              | SELECT DATE:
+              p
+                input#dateSelect(type='date' name='dateSelect' autofocus='' style='text-align: center;')
+            .tab
+              | SELECT TIME:
+              p
+                input#timeSelect(type='time' name='timeSelect' style='text-align: center;')
+            .tab
+              | CONFIRM or EDIT DETAILS:
+              p
+                | Location:
+                input#location2.use-keyboard-input(style='text-align: center;')
+              p
+                | Comment:
+                input#comment.use-keyboard-input(style='text-align: center;')
+            div(style='float: none;')
+              button#prevBtn(type='button' onclick='nextPrev(-1)') Previous
+              button#nextBtn(type='button' onclick='nextPrev(1)') Next
+            // <button type="button" class="btn" onclicloseForm();">Submit</button>
+            button#cancelBTN.btn.cancel(type='button' onclick='closeForm();Keyboard.close();clearForm();') Cancel
+            div(style='text-align:center;margin-top:40px;')
+              span.step
+              span.step
+              span.step
+              span.step                    
+        block content
