@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 5500;
 const __dirname = path.dirname('.')
 
 // Load pug view engine
-app.set('views',path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Serving static files 
@@ -21,11 +20,13 @@ app.use(express.static('public'));
 // Serve up jhh.html when root page accessed
 app.get('/', async (req, res) => {
   try {
-    //await serveCurrentData(req, res, 'Management');
-    res.sendFile("public/html/jhh.html", { root: __dirname });
+    const currentData = await serveCurrentData('Management');
+    console.log(currentData);
+    res.render('management', {xyzh: 'HNECT Locator Board'});
+    //res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
   catch (error) {
-    res.send(err.message);
+    res.send(error.message);
   }
 });
     
