@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { serveCurrentData } from './controllers/controller.mjs';
+import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
@@ -21,7 +22,7 @@ app.use(express.static('public'));
 app.get('/', async (req, res) => {
   try {
     const currentData = await serveCurrentData('Management');
-    res.render('body', {currentLocations: currentData, backgroundColor: '#ff4444'});
+    res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
     //res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
   catch (error) {

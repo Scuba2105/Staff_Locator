@@ -41,4 +41,46 @@ html
                             a(href='#') Level 3
                             ul#buttons
                               .ward2
+                                each location in formLocations.jhhLevel3
+                                  li(onclick='findvalue(this)')
+                                    a(href='#')= location
+                          li
+                            a(href='#') Level 2
+                            ul#buttons
+                              .ward2
+                                each location in formLocations.jhhLevel2
+                                  li(onclick='findvalue(this)')
+                                    a(href='#')= location
+                          li
+                            a(href='#') Level 1
+                            ul#buttons
+                              .ward2
+                                each location in formLocations.jhhLevel1
+                                  li(onclick='findvalue(this)')
+                                    a(href='#')= location
+                          li
+                            a(href='#') Level 0
+                            ul#buttons
+                              .ward2
+                                each location in formLocations.jhhLevel0
+                                  li(onclick='findvalue(this)')
+                                    a(href='#')= location
+                          each location in formLocations.jhhOther
+                            li#buttons(onclick='findvalue(this)')
+                              a(href='#')= location 
+                      li
+                        a(href='#') HUNTER
+                        ul#buttons
+                          .ward
+                            each location in formLocations.hunter
+                              li(onclick='findvalue(this)')
+                                a(href='#')= location
+                      li
+                        a(href='#') NEW ENGLAND
+                        ul#buttons
+                          .ward
+                            each location in formLocations.newEngland
+                              li(onclick='findvalue(this)')
+                                a(href='#')= location                       
+      
       block content
