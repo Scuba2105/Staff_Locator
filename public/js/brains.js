@@ -76,6 +76,7 @@ employee.map((member) => {
 // finding location selected
 function findvalue(e) {
     document.getElementById("location").value = e.innerText;
+    console.log(e.innerText);
     var locValue = document.getElementById("location").value;
     //Checking if location selected is custom
     if (locValue == "CUSTOM") {
@@ -233,6 +234,7 @@ function setsvg(previousLocation, newLocation) {
 
     // Determine if new location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(newLocation)) { 
+        console.log(newLocation);
         const count = localStorage.getItem(newLocation);
         const newCount = Number(count) + 1;
         localStorage.setItem(newLocation, `${newCount}`);
@@ -242,7 +244,7 @@ function setsvg(previousLocation, newLocation) {
             document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
         }
         else {
-            document.querySelector(`#${newSLocation}`).setAttribute('opacity', 0);
+            document.querySelector(`#${newLocation}`).setAttribute('opacity', 0);
         }
     }
 }

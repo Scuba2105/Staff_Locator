@@ -22,8 +22,8 @@ app.use(express.static('public'));
 app.get('/', async (req, res) => {
   try {
     const currentData = await serveCurrentData('Management');
-    res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
-    //res.sendFile("public/html/jhh.html", { root: __dirname });
+    //res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
+    res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
   catch (error) {
     res.send(error.message);
