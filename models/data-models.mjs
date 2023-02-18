@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
 
-const currentLocations = loadJSON('../json/current-locations.json');
+const currentLocations = loadJSON('../data/current-locations.json');
 
 export function fetchLocations(team) { 
     return new Promise((resolve, reject) => {

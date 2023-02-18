@@ -8,4 +8,37 @@ html
       link(rel='stylesheet' href='../css/style.css')
       script(src='../js/brains.js' defer='')
     body
+      .layout
+        #myForm.form-popup
+          form.form-container
+            h1#empId EMPLOYEE
+            div(style='overflow:auto;')
+            h2(id='' cloc='')
+            label(hidden='') Location:
+            p
+              input#location(type='text' style='text-align: center;' hidden='' required='')
+            .tab
+              | SELECT LOCATION:
+              div
+                table#locationL
+                  tr
+                    ul.main-navigation
+                      li#buttons
+                        a(href='#') BME
+                        ul#buttons
+                          li(onclick='findvalue(this)')
+                            a(href='#') BME
+                          li(onclick='findvalue(this)')
+                            a(href='#') ICU BME
+                          li(onclick='findvalue(this)')
+                            a(href='#') RNC BME
+                      li#buttons(onclick='findvalue(this)')
+                        a(href='#') HOME
+                      li
+                        a(href='#') JHH
+                        ul
+                          li
+                            a(href='#') Level 3
+                            ul#buttons
+                              .ward2
       block content

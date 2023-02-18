@@ -11,6 +11,6 @@ block content
       each employee, i in currentLocations
         tr
           td= employee.name
-          td(id=employee.locationId aria-disabled='false') HOME
-          td(id=employee.commentId)
+          td(id=employee.locationId aria-disabled='false')= employee.currentLocation
+          td(id=employee.commentId)= employee.comments
       
