@@ -21,7 +21,8 @@ app.use(express.static('public'));
 // Serve up jhh.html when root page accessed
 app.get('/', async (req, res) => {
   try {
-    await serveCurrentData(req, res, 'Management');
+    //await serveCurrentData(req, res, 'Management');
+    res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
   catch (error) {
     res.send(err.message);
@@ -30,17 +31,35 @@ app.get('/', async (req, res) => {
     
 // Serve up jhhteam.html when JHH page accessed
 app.get('/JHH', (req, res) => {
+  try {
+    //await serveCurrentData(req, res, 'JHH');
     res.sendFile("public/html/jhhteam.html", { root: __dirname });
+  } 
+  catch (error) {
+    res.send(err.message);
+  }
   });
 
 // Serve up greenteam.html when Hunter team page accessed
 app.get('/Hunter', (req, res) => {
+  try {
+    //await serveCurrentData(req, res, 'Green);
     res.sendFile("public/html/greenteam.html", { root: __dirname });
+  } 
+  catch (error) {
+    res.send(err.message);
+  }
   });
 
 // Serve up tamworth.html when New England page is accessed
 app.get('/JHH', (req, res) => {
+  try {
+    //await serveCurrentData(req, res, 'Tamworth');
     res.sendFile("public/html/tamworth.html", { root: __dirname });
+  } 
+  catch (error) {
+    res.send(err.message);
+  }
   });
 
 app.listen(PORT, () => {
