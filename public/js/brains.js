@@ -240,21 +240,12 @@ function setsvg(previousLocation, newLocation) {
         localStorage.setItem(newLocation, `${newCount}`);
         const x = localStorage.getItem('PHYSIOTHERAPY');
         
-        if (newCount > 0) {
-            document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
-            const elementClasses = document.querySelector(`#${newLocation}`).classList || [];
-            console.log(document.querySelector(`#${newLocation}`));
-            console.log(elementClasses);
-            if (elementClasses[0] == undefined || !elementClasses.contains('animate')) {
-                document.querySelector(`#${newLocation}`).classList.add('animate');
-            }  
-        }
-        else {
-            document.querySelector(`#${newLocation}`).setAttribute('opacity', 0);
-            if (elementClasses.contains('animate')) {
-                document.querySelector(`#${newLocation}`).classList.remove('animate');
-            } 
-        }
+        document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
+        const elementClasses = document.querySelector(`#${newLocation}`).classList || [];
+        console.log(document.querySelector(`#${newLocation}`));
+        if (elementClasses[0] == undefined || !elementClasses.contains('animate')) {
+            document.querySelector(`#${newLocation}`).classList.add('animate');
+        }  
     }
 }
 
