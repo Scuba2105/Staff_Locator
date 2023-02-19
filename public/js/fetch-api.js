@@ -20,8 +20,16 @@ async function getCurrentLocations() {
         body: JSON.stringify(data) // body data type must match "Content-Type" header
       });
       
-      const currentLocations = await response.json();
-      console.log(currentLocations);
+    // Get the array containing the staff members for current page and current locations. 
+    const currentLocations = await response.json();
+    
+    // Update each staff member in the table
+    currentLocations.forEach((staffMember) => {
+        const locationElement = document.querySelector(`#${staffMember.locationId}`);
+        const commentElement = document.querySelector(`#${staffMember.commentId}`);
+        locationElement.textContent = staffMember.currentLocation;
+        commentElement.textContent = staffMember.comments;
+    })
 }
 
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
