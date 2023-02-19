@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { serveCurrentData } from './controllers/controller.mjs';
+import { sendTeamData } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
@@ -68,18 +69,10 @@ app.get('/Tamworth', (req, res) => {
 
 app.post('/GetLocations', async (req, res) => {
   try {
-    // Convert binary string to json and get the team page being viewed.
-    const jsonData = JSON.stringify(req.body);
-    const teamObject = JSON.parse(jsonData);
-    const team = teamObject.team;
-
-    // Get the current location data for the specified team.
-    const currentData = await serveCurrentData(team);
-    
-    // Send current location data as json.
-    res.json(currentData);
-  } catch (error) {
-    
+    sendTeamData(req, res);
+  } 
+  catch (error) {
+    res.send(error.message);
   }
 });
 
