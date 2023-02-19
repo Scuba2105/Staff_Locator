@@ -222,13 +222,13 @@ function setsvg(previousLocation, newLocation) {
     if (unit.includes(previousLocation)) {
         const count = localStorage.getItem(previousLocation);
         const newCount = Number(count) - 1;
-        console.log(newCount);
         localStorage.setItem(previousLocation, newCount);
-        if (newCount > 0) {
-            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 1);
-        }
-        else {
+        const elementClasses = document.querySelector(`#${previousLocation}`).classList || [];
+        console.log(document.querySelector(`#${previousLocation}`));
+        console.log(elementClasses);
+        if (newCount == 0) {
             document.querySelector(`#${previousLocation}`).setAttribute('opacity', 0);
+            document.querySelector(`#${previousLocation}`).classList.remove('animate');
         }
     }
 
@@ -242,9 +242,18 @@ function setsvg(previousLocation, newLocation) {
         
         if (newCount > 0) {
             document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
+            const elementClasses = document.querySelector(`#${newLocation}`).classList || [];
+            console.log(document.querySelector(`#${newLocation}`));
+            console.log(elementClasses);
+            if (elementClasses[0] == undefined || !elementClasses.contains('animate')) {
+                document.querySelector(`#${newLocation}`).classList.add('animate');
+            }  
         }
         else {
             document.querySelector(`#${newLocation}`).setAttribute('opacity', 0);
+            if (elementClasses.contains('animate')) {
+                document.querySelector(`#${newLocation}`).classList.remove('animate');
+            } 
         }
     }
 }
