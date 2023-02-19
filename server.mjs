@@ -7,7 +7,7 @@ import { serveCurrentData } from './controllers/controller.mjs';
 const app = express();
 
 // Define port used for web server to listen on. Set a default if not in hosting environment. 
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5555;
 
 // Define root directory
 const __dirname = path.dirname('.')
@@ -15,11 +15,14 @@ const __dirname = path.dirname('.')
 // Load pug view engine
 app.set('view engine', 'pug');
 
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+
 // Serving static files 
 app.use(express.static('public'));
 
 // Serve up jhh.html when root page accessed
-app.get('/', (req, res) => {
+app.get('/Management', (req, res) => {
   try {
     //const currentData = await serveCurrentData('Management');
     //res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
@@ -53,7 +56,7 @@ app.get('/Hunter', (req, res) => {
   });
 
 // Serve up tamworth.html when New England page is accessed
-app.get('/JHH', (req, res) => {
+app.get('/Tamworth', (req, res) => {
   try {
     //await serveCurrentData(req, res, 'Tamworth');
     res.sendFile("public/html/tamworth.html", { root: __dirname });
@@ -65,8 +68,16 @@ app.get('/JHH', (req, res) => {
 
 app.post('/GetLocations', async (req, res) => {
   try {
+    // Convert binary string to json and get the team page being viewed.
+    const jsonData = JSON.stringify(req.body);
+    const teamObject = JSON.parse(jsonData);
+    const team = teamObject.team;
+
+    // Get the current location data for the specified team.
+    const currentData = await serveCurrentData(team);
     
-    const currentData = await serveCurrentData('Management');
+    // Send current location data as json.
+    res.json(currentData);
   } catch (error) {
     
   }
