@@ -64,8 +64,7 @@ app.get('/JHH', (req, res) => {
   });
 
 app.post('/GetLocations', async (req, res) => {
-  try {
-    
+  try {    
     const currentData = await serveCurrentData('Management');
   } catch (error) {
     

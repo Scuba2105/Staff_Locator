@@ -221,7 +221,7 @@ function setsvg(previousLocation, newLocation) {
     // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(previousLocation)) {
         const count = localStorage.getItem(previousLocation);
-        const newCount = Number(count) - 1;
+        const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
         localStorage.setItem(previousLocation, newCount);
         const elementClasses = document.querySelector(`#${previousLocation}`).classList || [];
         console.log(document.querySelector(`#${previousLocation}`));
