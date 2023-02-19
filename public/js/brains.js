@@ -85,7 +85,7 @@ function findvalue(e) {
         document.getElementById("location2").value = locValue.replace(/_/g, " ");
     }
     //checking if location is bme, icu bme or rnc bme
-    if (locValue == "BME" || locValue == "ICU_BME" || locValue == "RNC_BME") {
+    if (locValue == "BME" || locValue == "ICU BME" || locValue == "RNC BME") {
         currentTab = 0;
         nextPrev(1);
         nextPrev(1);
