@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { serveCurrentData } from './controllers/controller.mjs';
-import { availableLocations } from './data/available-locations.mjs';
+//import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
@@ -19,9 +19,9 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 
 // Serve up jhh.html when root page accessed
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   try {
-    const currentData = await serveCurrentData('Management');
+    //const currentData = await serveCurrentData('Management');
     //res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
     res.sendFile("public/html/jhh.html", { root: __dirname });
   } 
@@ -62,6 +62,15 @@ app.get('/JHH', (req, res) => {
     res.send(err.message);
   }
   });
+
+app.post('/GetLocations', async (req, res) => {
+  try {
+    
+    const currentData = await serveCurrentData('Management');
+  } catch (error) {
+    
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`The server is listening on port ${PORT}`)

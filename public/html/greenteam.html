@@ -6,239 +6,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HNECT LOCATOR BOARD </title>
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/brains.js" defer></script>
+    <script src="../js/fetch-api.js" defer></script>
 </head>
-
-
-<div class="form-popup" id="myForm">
-	<form class="form-container">
-		<h1 id="empId">EMPLOYEE</h1>
-
-		<div style="overflow:auto;">
-
-		</div>
-		<h2 id cloc></h2>
-		<label hidden>Location:</label>
-		<p><input id="location" type="text" style="text-align: center;" hidden required></p>
-
-		<div class="tab">SELECT LOCATION:
-			<div>
-				<table id="locationL">
-
-					<tr>
-						<ul class="main-navigation">
-
-							<li id="buttons"><a href="#">BME</a>
-								<ul id="buttons">
-
-									<li onclick="findvalue(this)"><a href="#">BME</a></li>
-									<li onclick="findvalue(this)"><a href="#">ICU_BME</a></li>
-									<li onclick="findvalue(this)"><a href="#">RNC_BME</a></li>
-
-								</ul>
-							</li>
-							<li id="buttons" onclick="findvalue(this)"><a href="#">HOME</a></li>
-							<li><a href="#">JHH</a>
-								<ul>
-
-									<li><a href="#">Level 3</a>
-
-										<ul id="buttons">
-											<div class="ward2">
-
-												<li onclick="findvalue(this)"><a href="#">ICU</a></li>
-												<li onclick="findvalue(this)"><a href="#">JHH_OPERATING_THEATRE</a></li>
-												<li onclick="findvalue(this)"><a href="#">JHH_RECOVERY</a></li>
-												<li onclick="findvalue(this)"><a href="#">DELIVERY_SUITE</a></li>
-												<li onclick="findvalue(this)"><a href="#">NICU</a></li>
-												<li onclick="findvalue(this)"><a href="#">HAPS_LVL_3</a></li>
-												<li onclick="findvalue(this)"><a href="#">RNC_OPERATING_THEATRE</a></li>
-												<li onclick="findvalue(this)"><a href="#">RNC_RECOVERY</a></li>
-												<!-- <li onclick="findvalue(this)"><a href="#">Intervention Suite</a></li>  -->
-												<li onclick="findvalue(this)"><a href="#">CATHLAB</a></li>
-												<li onclick="findvalue(this)"><a href="#">ENDOSCOPY</a></li>
-												<li onclick="findvalue(this)"><a href="#">LAB_5</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_E3</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_F3</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_G3</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_H3</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_J3</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_K3</a></li>
-												<li onclick="findvalue(this)"><a href="#">CCU</a></li>
-
-												<!-- <li onclick="findvalue(this)"><a href="#">Cardiovascular</a></li>
-												<li onclick="findvalue(this)"><a href="#">Transplant</a></li> -->
-											</div>
-
-										</ul>
-
-
-
-									<li><a href="#">Level 2</a>
-										<ul id="buttons">
-											<div class="ward2">
-												<li onclick="findvalue(this)"><a href="#">SOUTH_BLOCK</a></li>
-												<li onclick="findvalue(this)"><a href="#">NORTH_BLOCK</a></li>
-												<li onclick="findvalue(this)"><a href="#">DIAGNOSTIC_CENTRE</a></li>
-												<li onclick="findvalue(this)"><a href="#">IMAGING</a></li>
-												<li onclick="findvalue(this)"><a href="#">EMERGENCY</a></li>
-												<li onclick="findvalue(this)"><a href="#">PATHOLOGY</a></li>
-												<li onclick="findvalue(this)"><a href="#">GP_ACCESS</a></li>
-												<li onclick="findvalue(this)"><a href="#">SLEEP_LAB</a></li>
-												<li onclick="findvalue(this)"><a href="#">ALLIED_HEALTH</a></li>
-												<li onclick="findvalue(this)"><a href="#">OUTPATIENTS</a></li>
-												<li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_A</a></li>
-												<li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_B</a></li>
-												<li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_C</a></li>
-												<li onclick="findvalue(this)"><a href="#">HAPS_LVL_2A</a></li>
-												<li onclick="findvalue(this)"><a href="#">HAPS_LVL_2B</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_E2</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_F2</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_G2</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_H2</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_J2</a></li>
-												<li onclick="findvalue(this)"><a href="#">WARD_K2</a></li>
-												<li onclick="findvalue(this)"><a href="#">NEXUS</a></li>
-												<li onclick="findvalue(this)"><a href="#">NUCLEAR_MEDICINE</a></li>
-												<li onclick="findvalue(this)"><a href="#">NEUROLOGY</a></li>
-												<li onclick="findvalue(this)"><a href="#">GASTROENTEROLOGY</a></li>
-												<li onclick="findvalue(this)"><a href="#">AUDIOLOGY</a></li>
-												<li onclick="findvalue(this)"><a href="#">INNOVATIONS_LAB</a></li>
-												
-											</div>
-										</ul>
-									</li>
-									<li><a href="#">Level 1</a>
-										<ul id="buttons">
-											<li onclick="findvalue(this)"><a href="#">H.E.L.L</a></li>
-											<li onclick="findvalue(this)"><a href="#">DOCK</a></li>
-											<li onclick="findvalue(this)"><a href="#">PHYSIOTHERAPY</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_E1</a></li>
-											<li onclick="findvalue(this)"><a href="#">SIM CENTRE</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_F1</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_G1</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_H1</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_J1</a></li>
-											<li onclick="findvalue(this)"><a href="#">WARD_K1</a></li>
-										</ul>
-									</li>
-									<li><a href="#">Level 0</a>
-										<ul id="buttons">
-											<li onclick="findvalue(this)"><a href="#">ENGINEERING</a></li>
-										</ul>
-									</li>
-									<li id="buttons" onclick="findvalue(this)"><a href="#">RANKIN PARK</a>
-									<li id="buttons" onclick="findvalue(this)"><a href="#">HMRI</a>
-									<li id="buttons" onclick="findvalue(this)"><a href="#">RONALD McDONALD</a>
-								</ul>
-							</li>
-							<li><a href="#">HUNTER</a>
-								<ul id="buttons">
-									<div class="ward">
-										<li onclick="findvalue(this)"><a href="#">JHH</a></li>
-										<li onclick="findvalue(this)"><a href="#">NEW_MAITLAND</a></li>
-										<li onclick="findvalue(this)"><a href="#">BELMONT</a></li>
-										<li onclick="findvalue(this)"><a href="#">NEWCASTLE</a></li>
-										<li onclick="findvalue(this)"><a href="#">BULAHDELAH</a></li>
-										<li onclick="findvalue(this)"><a href="#">KURRI_KURRI</a></li>
-										<li onclick="findvalue(this)"><a href="#">CESSNOCK</a></li>
-										<li onclick="findvalue(this)"><a href="#">TAREE</a></li>
-										<li onclick="findvalue(this)"><a href="#">DUNGOG</a></li>
-										<li onclick="findvalue(this)"><a href="#">SINGLETON</a></li>
-										<li onclick="findvalue(this)"><a href="#">DENMAN</a></li>
-										<li onclick="findvalue(this)"><a href="#">GLOUCESTOR</a></li>
-										<li onclick="findvalue(this)"><a href="#">SCONE</a></li>
-										<li onclick="findvalue(this)"><a href="#">MUSWELBROOK</a></li>
-										<li onclick="findvalue(this)"><a href="#">MURRURUNDI</a></li>
-										<li onclick="findvalue(this)"><a href="#">MERRIWA</a></li>
-									</div>
-								</ul>
-							</li>
-							<li><a href="#">NEW ENGLAND</a>
-								<ul id="buttons">
-									<div class="ward2">
-										<li onclick="findvalue(this)"><a href="#">TAMWORTH BME</a></li>
-										<li onclick="findvalue(this)"><a href="#">TAMWORTH</a></li>
-										<li onclick="findvalue(this)"><a href="#">WALCHA</a></li>
-										<li onclick="findvalue(this)"><a href="#">QUIRINDI</a></li>
-										<li onclick="findvalue(this)"><a href="#">GUNNEDAH</a></li>
-										<li onclick="findvalue(this)"><a href="#">MANILLA</a></li>
-										<li onclick="findvalue(this)"><a href="#">ARMIDALE</a></li>
-										<li onclick="findvalue(this)"><a href="#">BOGGABRI</a></li>
-										<li onclick="findvalue(this)"><a href="#">BARRABA</a></li>
-										<li onclick="findvalue(this)"><a href="#">GUYRA</a></li>
-										<li onclick="findvalue(this)"><a href="#">NARRABRI</a></li>
-										<li onclick="findvalue(this)"><a href="#">WEEWAA</a></li>
-										<li onclick="findvalue(this)"><a href="#">BINGARA</a></li>
-										<li onclick="findvalue(this)"><a href="#">BUNDARRA</a></li>
-										<li onclick="findvalue(this)"><a href="#">GLEN_INNES</a></li>
-										<li onclick="findvalue(this)"><a href="#">EMMAVILLE</a></li>
-										<li onclick="findvalue(this)"><a href="#">MOREE</a></li>
-										<li onclick="findvalue(this)"><a href="#">WARIALDA</a></li>
-										<li onclick="findvalue(this)"><a href="#">INVERELL</a></li>
-										<li onclick="findvalue(this)"><a href="#">TENTERFIELD</a></li>
-									</div>
-								</ul>
-							</li>
-							<li id="buttons" onclick="findvalue(this)"><a href="#">BACK IN 5</a></li>
-							<li><a href="#">LEAVE</a>
-								<ul id="buttons">
-									<li onclick="findvalue(this)"><a href="#">ANNUAL LEAVE</a></li>
-									<li onclick="findvalue(this)"><a href="#">LONG SERVICE</a></li>
-									<li onclick="findvalue(this)"><a href="#">ADO</a></li>
-									<li onclick="findvalue(this)"><a href="#">SICK LEAVE</a></li>
-									<li onclick="findvalue(this)"><a href="#">OTHER LEAVE</a></li>
-									<li onclick="findvalue(this)"><a href="#">COMBINED LEAVE</a></li>
-
-								</ul>
-
-							</li>
-							<li onclick="findvalue(this)"><a href="#">CUSTOM</a></li>
-						</ul>
-					</tr>
-
-
-					</input>
-				</table>
-			</div>
-		</div>
-
-		<div class="tab">SELECT DATE:
-			<p><input type="date" id="dateSelect" name="dateSelect" autofocus style="text-align: center;" ></p>
-
-		</div>
-
-		<div class="tab">SELECT TIME:
-			<p><input type="time" id="timeSelect" name="timeSelect" style="text-align: center;" ></p>
-		</div>
-
-		<div class="tab">CONFIRM or EDIT DETAILS:
-			<p>Location:<input class="use-keyboard-input" id="location2" style="text-align: center;"></p>
-			<p>Comment:<input class="use-keyboard-input" id="comment" style="text-align: center;" ></p>
-		</div>
-
-		<div style="float: none;">
-			<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-			<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-		</div>
-
-
-
-		<!--<button type="button" class="btn" onclick="publishToTable();clearForm();closeForm();">Submit</button>-->
-		<button id="cancelBTN" type="button" class="btn cancel" onclick="closeForm();clearForm()">Cancel</button>
-		<div style="text-align:center;margin-top:40px;">
-			<span class="step"></span>
-			<span class="step"></span>
-			<span class="step"></span>
-			<span class="step"></span>
-
-		</div>
-	</form>
-</div>
-
-
 <body>
-
-
+    <div class="layout">
+    <div class="form-popup" id="myForm">
+        <form class="form-container">
+            <h1 id="empId">EMPLOYEE</h1>
+    
+            <div style="overflow:auto;">
+    
+            </div>
+            <h2 id cloc></h2>
+            <label hidden>Location:</label>
+            <p><input id="location" type="text" style="text-align: center;" hidden required></p>
+    
+            <div class="tab">SELECT LOCATION:
+                <div>
+                    <table id="locationL">
+    
+                        <tr>
+                            <ul class="main-navigation">
+    
+                                <li id="buttons"><a href="#">BME</a>
+                                    <ul id="buttons">
+    
+                                        <li onclick="findvalue(this)"><a href="#">BME</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">ICU_BME</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">RNC_BME</a></li>
+    
+                                    </ul>
+                                </li>
+                                <li id="buttons" onclick="findvalue(this)"><a href="#">HOME</a></li>
+                                <li><a href="#">JHH</a>
+                                    <ul>
+    
+                                        <li><a href="#">Level 3</a>
+    
+                                            <ul id="buttons">
+                                                <div class="ward2">
+    
+                                                    <li onclick="findvalue(this)"><a href="#">ICU</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">JHH_OPERATING_THEATRE</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">JHH_RECOVERY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">DELIVERY_SUITE</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">NICU</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">HAPS_LVL_3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">RNC_OPERATING_THEATRE</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">RNC_RECOVERY</a></li>
+                                                    <!-- <li onclick="findvalue(this)"><a href="#">Intervention Suite</a></li>  -->
+                                                    <li onclick="findvalue(this)"><a href="#">CATHLAB</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">ENDOSCOPY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">LAB_5</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_E3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_F3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_G3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_H3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_J3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_K3</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">CCU</a></li>
+    
+                                                    <!-- <li onclick="findvalue(this)"><a href="#">Cardiovascular</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">Transplant</a></li> -->
+                                                </div>
+    
+                                            </ul>
+    
+    
+    
+                                        <li><a href="#">Level 2</a>
+                                            <ul id="buttons">
+                                                <div class="ward2">
+                                                    <li onclick="findvalue(this)"><a href="#">SOUTH_BLOCK</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">NORTH_BLOCK</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">DIAGNOSTIC_CENTRE</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">IMAGING</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">EMERGENCY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">PATHOLOGY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">GP_ACCESS</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">SLEEP_LAB</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">ALLIED_HEALTH</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">OUTPATIENTS</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_A</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_B</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">KALIEDOSCOPE_C</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">HAPS_LVL_2A</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">HAPS_LVL_2B</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_E2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_F2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_G2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_H2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_J2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">WARD_K2</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">NEXUS</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">NUCLEAR_MEDICINE</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">NEUROLOGY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">GASTROENTEROLOGY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">AUDIOLOGY</a></li>
+                                                    <li onclick="findvalue(this)"><a href="#">INNOVATIONS_LAB</a></li>
+                                                    
+                                                </div>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Level 1</a>
+                                            <ul id="buttons">
+                                                <li onclick="findvalue(this)"><a href="#">H.E.L.L</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">DOCK</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">PHYSIOTHERAPY</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_E1</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">SIM CENTRE</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_F1</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_G1</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_H1</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_J1</a></li>
+                                                <li onclick="findvalue(this)"><a href="#">WARD_K1</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Level 0</a>
+                                            <ul id="buttons">
+                                                <li onclick="findvalue(this)"><a href="#">ENGINEERING</a></li>
+                                            </ul>
+                                        </li>
+                                        <li id="buttons" onclick="findvalue(this)"><a href="#">RANKIN PARK</a>
+                                        <li id="buttons" onclick="findvalue(this)"><a href="#">HMRI</a>
+                                        <li id="buttons" onclick="findvalue(this)"><a href="#">RONALD McDONALD</a>
+                                    </ul>
+                                </li>
+                                <li><a href="#">HUNTER</a>
+                                    <ul id="buttons">
+                                        <div class="ward">
+                                            <li onclick="findvalue(this)"><a href="#">JHH</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">NEW_MAITLAND</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BELMONT</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">NEWCASTLE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BULAHDELAH</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">KURRI_KURRI</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">CESSNOCK</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">TAREE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">DUNGOG</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">SINGLETON</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">DENMAN</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">GLOUCESTOR</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">SCONE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">MUSWELBROOK</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">MURRURUNDI</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">MERRIWA</a></li>
+                                        </div>
+                                    </ul>
+                                </li>
+                                <li><a href="#">NEW ENGLAND</a>
+                                    <ul id="buttons">
+                                        <div class="ward2">
+                                            <li onclick="findvalue(this)"><a href="#">TAMWORTH BME</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">TAMWORTH</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">WALCHA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">QUIRINDI</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">GUNNEDAH</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">MANILLA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">ARMIDALE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BOGGABRI</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BARRABA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">GUYRA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">NARRABRI</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">WEEWAA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BINGARA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">BUNDARRA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">GLEN_INNES</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">EMMAVILLE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">MOREE</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">WARIALDA</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">INVERELL</a></li>
+                                            <li onclick="findvalue(this)"><a href="#">TENTERFIELD</a></li>
+                                        </div>
+                                    </ul>
+                                </li>
+                                <li id="buttons" onclick="findvalue(this)"><a href="#">BACK IN 5</a></li>
+                                <li><a href="#">LEAVE</a>
+                                    <ul id="buttons">
+                                        <li onclick="findvalue(this)"><a href="#">ANNUAL LEAVE</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">LONG SERVICE</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">ADO</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">SICK LEAVE</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">OTHER LEAVE</a></li>
+                                        <li onclick="findvalue(this)"><a href="#">COMBINED LEAVE</a></li>
+    
+                                    </ul>
+    
+                                </li>
+                                <li onclick="findvalue(this)"><a href="#">CUSTOM</a></li>
+                            </ul>
+                        </tr>
+                        </input>
+                    </table>
+                </div>
+            </div>
+            <div class="tab">SELECT DATE:
+                <p><input type="date" id="dateSelect" name="dateSelect" autofocus style="text-align: center;" ></p>
+    
+            </div>
+    
+            <div class="tab">SELECT TIME:
+                <p><input type="time" id="timeSelect" name="timeSelect" style="text-align: center;" ></p>
+            </div>
+    
+            <div class="tab">CONFIRM or EDIT DETAILS:
+                <p>Location:<input class="use-keyboard-input" id="location2" style="text-align: center;"></p>
+                <p>Comment:<input class="use-keyboard-input" id="comment" style="text-align: center;" ></p>
+            </div>
+    
+            <div style="float: none;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+    
+    
+    
+            <!--<button type="button" class="btn" onclick="publishToTable();clearForm();closeForm();">Submit</button>-->
+            <button id="cancelBTN" type="button" class="btn cancel" onclick="closeForm();clearForm()">Cancel</button>
+            <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+                <span class="step"></span>
+    
+            </div>
+        </form>
+    </div>
     <div>
         <!-- <object data="Hunter.svg" width="750" height="750"></object>  -->
 
@@ -673,11 +667,6 @@
 
         </tbody>
     </table>
-
-
-    <h3></h3>
-
-
     <script>
         var tbl = document.getElementById("green_team"); //retrieve from Table
         if (tbl != null) {
@@ -700,5 +689,5 @@
         });
 
     </script>
-    <script src="brains.js"></script>
+    </div>
 </body>
