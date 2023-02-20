@@ -221,14 +221,14 @@ function setsvg(previousLocation, newLocation) {
     // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(previousLocation)) {
         const count = localStorage.getItem(previousLocation);
-        const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
+        const newCount = Number(count) - 1;
+        console.log(newCount);
         localStorage.setItem(previousLocation, newCount);
-        const elementClasses = document.querySelector(`#${previousLocation}`).classList || [];
-        console.log(document.querySelector(`#${previousLocation}`));
-        console.log(elementClasses);
-        if (newCount == 0) {
+        if (newCount > 0) {
+            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 1);
+        }
+        else {
             document.querySelector(`#${previousLocation}`).setAttribute('opacity', 0);
-            document.querySelector(`#${previousLocation}`).classList.remove('animate');
         }
     }
 
@@ -240,12 +240,12 @@ function setsvg(previousLocation, newLocation) {
         localStorage.setItem(newLocation, `${newCount}`);
         const x = localStorage.getItem('PHYSIOTHERAPY');
         
-        document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
-        const elementClasses = document.querySelector(`#${newLocation}`).classList || [];
-        console.log(document.querySelector(`#${newLocation}`));
-        if (elementClasses[0] == undefined || !elementClasses.contains('animate')) {
-            document.querySelector(`#${newLocation}`).classList.add('animate');
-        }  
+        if (newCount > 0) {
+            document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
+        }
+        else {
+            document.querySelector(`#${newLocation}`).setAttribute('opacity', 0);
+        }
     }
 }
 

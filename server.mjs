@@ -1,13 +1,14 @@
 import express from 'express';
 import path from 'path';
 import { serveCurrentData } from './controllers/controller.mjs';
+import { sendTeamData, updateTeamData } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
 
 // Define port used for web server to listen on. Set a default if not in hosting environment. 
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5555;
 
 // Define root directory
 const __dirname = path.dirname('.')
@@ -15,11 +16,14 @@ const __dirname = path.dirname('.')
 // Load pug view engine
 app.set('view engine', 'pug');
 
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+
 // Serving static files 
 app.use(express.static('public'));
 
 // Serve up jhh.html when root page accessed
-app.get('/', (req, res) => {
+app.get('/Management', (req, res) => {
   try {
     //const currentData = await serveCurrentData('Management');
     //res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
@@ -53,7 +57,7 @@ app.get('/Hunter', (req, res) => {
   });
 
 // Serve up tamworth.html when New England page is accessed
-app.get('/JHH', (req, res) => {
+app.get('/Tamworth', (req, res) => {
   try {
     //await serveCurrentData(req, res, 'Tamworth');
     res.sendFile("public/html/tamworth.html", { root: __dirname });
@@ -64,16 +68,27 @@ app.get('/JHH', (req, res) => {
   });
 
 app.post('/GetLocations', async (req, res) => {
-  try {    
-    const currentData = await serveCurrentData('Management');
-  } catch (error) {
-    
+  try {
+    sendTeamData(req, res);
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
+app.post('/UpdateLocations', async (req, res) => {
+  try {
+    const updatedData = await updateTeamData(req, res, __dirname);
+    res.json(updatedData);
+  } 
+  catch (error) {
+    res.send(error.message);
   }
 });
 
 app.listen(PORT, () => {
     console.log(`The server is listening on port ${PORT}`)
-})
+});
 
 
 

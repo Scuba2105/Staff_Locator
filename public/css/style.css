@@ -290,7 +290,470 @@ object {
     }
 }
 
-.animate {
+
+
+#ALLIED_HEALTH {
     animation: blinker 3s linear infinite;
+}
+
+#AUDIOLOGY {
+    animation: blinker 3s linear infinite;
+}
+
+#BME {
+    animation: blinker 3s linear infinite;
+}
+
+#CATHLAB {
+    animation: blinker 3s linear infinite;
+}
+
+#DELIVERY_SUITE {
+    animation: blinker 3s linear infinite;
+}
+
+#DIAGNOSTIC_CENTRE {
+    animation: blinker 3s linear infinite;
+}
+
+#EMERGENCY {
+    animation: blinker 3s linear infinite;
+}
+
+#ENDOSCOPY {
+    animation: blinker 3s linear infinite;
+}
+
+#GASTROENTEROLOGY {
+    animation: blinker 3s linear infinite;
+}
+
+#GP_ACCESS {
+    animation: blinker 3s linear infinite;
+}
+
+#HAPS_LVL_2A {
+    animation: blinker 3s linear infinite;
+}
+
+#HAPS_LVL_2B {
+    animation: blinker 3s linear infinite;
+}
+
+#HAPS_LVL_3 {
+    animation: blinker 3s linear infinite;
+}
+
+#HAPS {
+    animation: blinker 3s linear infinite;
+}
+
+#ICU {
+    animation: blinker 3s linear infinite;
+}
+
+#ICU_BME {
+    animation: blinker 3s linear infinite;
+}
+
+#IMAGING {
+    animation: blinker 3s linear infinite;
+}
+
+#INNOVATIONS_LAB {
+    animation: blinker 3s linear infinite;
+}
+
+#JHH_OPERATING_THEATRE {
+    animation: blinker 3s linear infinite;
+}
+
+#JHH_RECOVERY {
+    animation: blinker 3s linear infinite;
+}
+
+#KALIEDOSCOPE {
+    animation: blinker 3s linear infinite;
+}
+
+#KALIEDOSCOPE_A {
+    animation: blinker 3s linear infinite;
+}
+
+#KALIEDOSCOPE_B {
+    animation: blinker 3s linear infinite;
+}
+
+#KALIEDOSCOPE_C {
+    animation: blinker 3s linear infinite;
+}
+
+#LAB_5 {
+    animation: blinker 3s linear infinite;
+}
+
+#NEUROLOGY {
+    animation: blinker 3s linear infinite;
+}
+
+#NEXUS {
+    animation: blinker 3s linear infinite;
+}
+
+#NICU {
+    animation: blinker 3s linear infinite;
+}
+
+#NORTH_BLOCK {
+    animation: blinker 3s linear infinite;
+}
+
+#NUCLEAR_MEDICINE {
+    animation: blinker 3s linear infinite;
+}
+
+#OUTPATIENTS {
+    animation: blinker 3s linear infinite;
+}
+
+#PATHOLOGY {
+    animation: blinker 3s linear infinite;
+}
+
+#PHARMARCY {
+    animation: blinker 3s linear infinite;
+}
+
+#PHYSIOTHERAPY {
+    animation: blinker 3s linear infinite;
+}
+
+#RNC_BME {
+    animation: blinker 3s linear infinite;
+}
+
+#RNC_OPERATING_THEATRE {
+    animation: blinker 3s linear infinite;
+}
+
+#RNC_RECOVERY {
+    animation: blinker 3s linear infinite;
+}
+
+#SLEEP_LAB {
+    animation: blinker 3s linear infinite;
+}
+
+#SOUTH_BLOCK {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_E1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_E2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_E3 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_F1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_F2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_F3 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_G1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_G2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_G3 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_H1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_H2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_H3 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_J1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_J2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_J3 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_K1 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_K2 {
+    animation: blinker 3s linear infinite;
+}
+
+#WARD_K3 {
+    animation: blinker 3s linear infinite;
+}
+
+#CCU {
+    animation: blinker 3s linear infinite;
+}
+
+
+
+#ARMIDALE{
+    animation: blinker 3s linear infinite;
+}
+#BARRABA{
+    animation: blinker 3s linear infinite;
+}
+#BINGARA{
+    animation: blinker 3s linear infinite;
+}
+#BOGGABRI{
+    animation: blinker 3s linear infinite;
+}
+#BUNDARRA{
+    animation: blinker 3s linear infinite;
+}
+#EMMAVILLE{
+    animation: blinker 3s linear infinite;
+}
+#GLEN_INNES{
+    animation: blinker 3s linear infinite;
+}
+#GUNNEDAH{
+    animation: blinker 3s linear infinite;
+}
+#GUYRA{
+    animation: blinker 3s linear infinite;
+}
+#INVERELL{
+    animation: blinker 3s linear infinite;
+}
+#MANILLA{
+    animation: blinker 3s linear infinite;
+}
+#MOREE{
+    animation: blinker 3s linear infinite;
+}
+#NARRABRI{
+    animation: blinker 3s linear infinite;
+}
+#QUIRINDI{
+    animation: blinker 3s linear infinite;
+}
+#TAMWORTH{
+    animation: blinker 3s linear infinite;
+}
+#TENTERFIELD{
+    animation: blinker 3s linear infinite;
+}
+#WALCHA{
+    animation: blinker 3s linear infinite;
+}
+#WARIALDA{
+    animation: blinker 3s linear infinite;
+}
+#WEEWAA{
+    animation: blinker 3s linear infinite;
+}
+
+#BELMONT{
+    animation: blinker 3s linear infinite;
+}
+#BULAHDELAH{
+    animation: blinker 3s linear infinite;
+}
+#CESSNOCK{
+    animation: blinker 3s linear infinite;
+}
+#DENMAN{
+    animation: blinker 3s linear infinite;
+}
+#DUNGOG{
+    animation: blinker 3s linear infinite;
+}
+#GLOUCESTOR{
+    animation: blinker 3s linear infinite;
+}
+#JOHN_HUNTER{
+    animation: blinker 3s linear infinite;
+}
+#KURRI_KURRI{
+    animation: blinker 3s linear infinite;
+}
+#NEW_MAITLAND{
+    animation: blinker 3s linear infinite;
+}
+#MERRIWA{
+    animation: blinker 3s linear infinite;
+}
+#MURRURUNDI{
+    animation: blinker 3s linear infinite;
+}
+#MUSWELBROOK{
+    animation: blinker 3s linear infinite;
+}
+#NELSONS_BAY{
+    animation: blinker 3s linear infinite;
+}
+#NEWCASTLE{
+    animation: blinker 3s linear infinite;
+}
+#SCONE{
+    animation: blinker 3s linear infinite;
+}
+#SINGLETON{
+    animation: blinker 3s linear infinite;
+}
+#TAREE{
+    animation: blinker 3s linear infinite;
+}
+
+
+
+#regForm {
+    background-color: #ffffff;
+    margin: 100px auto;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+  }
+  
+  /* Style the input fields */
+
+  
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #dadada;
+  }
+  
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+  
+  /* Make circles that indicate the steps of the form: */
+  .step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+  
+  /* Mark the active step: */
+  .step.active {
+    opacity: 1;
+  }
+  
+  /* Mark the steps that are finished and valid: */
+  .step.finish {
+    background-color: #04AA6D;
+  }
+
+   
+/*****************************************Keyboard*********************************/
+
+  .keyboard {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: #000000;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    transition: bottom 0.4s;
+}
+
+.keyboard--hidden {
+    bottom: -100%;
+}
+
+.keyboard__keys {
+    text-align: center;
+}
+
+.keyboard__key {
+    height: 45px;
+    width: 6%;
+    max-width: 90px;
+    margin: 3px;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 1.05rem;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+.keyboard__key:active {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.keyboard__key--wide {
+    width: 12%;
+}
+
+.keyboard__key--extra-wide {
+    width: 36%;
+    max-width: 500px;
+}
+
+.keyboard__key--activatable::after {
+    content: '';
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+}
+
+.keyboard__key--active::after {
+    background: #08ff00;
+}
+
+.keyboard__key--dark {
+    background: rgba(147, 142, 226, 0.5);
 }
 
