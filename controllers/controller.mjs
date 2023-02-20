@@ -52,7 +52,7 @@ export async function updateTeamData(req, res, __dirname) {
         const filePath = path.join(__dirname, 'data', 'current-locations.json');
         writeDataToFile(filePath, newLocations);
         console.log(newLocations);
-        return newLocations;
+        return updateObject;
     } catch (error) {
         console.log(error);
     }

@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { serveCurrentData } from './controllers/controller.mjs';
 import { sendTeamData, updateTeamData } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
