@@ -1,6 +1,16 @@
 import path from 'path';
-import { fetchLocations, updateLocations } from "../models/data-models.mjs";
+import { fetchLocations, updateLocations, getLatestData } from "../models/data-models.mjs";
 import { writeDataToFile } from '../utils/write-data-to-file.mjs';
+
+export async function serveLatestUpdate(req, res) {
+    try {
+        const latestUpdate = await getLatestData();
+        res.json(latestUpdate);
+    } 
+    catch (error) {
+        console.log(error);    
+    }
+};
 
 export async function serveCurrentData(team) {
     try {

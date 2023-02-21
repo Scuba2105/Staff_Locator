@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { sendTeamData, updateTeamData } from './controllers/controller.mjs';
+import { sendTeamData, updateTeamData, serveLatestUpdate } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
@@ -64,7 +64,17 @@ app.get('/Tamworth', (req, res) => {
   catch (error) {
     res.send(err.message);
   }
-  });
+});
+
+// Serve up the latest updated location to each client 
+app.get('/LatestUpdate', async (req, res) => {
+  try {
+    serveLatestUpdate(req, res);  
+  } 
+  catch (error) {
+    res.send(err.message);
+  }
+});
 
 app.post('/GetLocations', async (req, res) => {
   try {
