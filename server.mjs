@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { sendTeamData, updateTeamData, serveLatestUpdate } from './controllers/controller.mjs';
+import { sendTeamData, updateTeamData } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
@@ -66,10 +66,22 @@ app.get('/Tamworth', (req, res) => {
   }
 });
 
+// Variable stored in memory to track latest update data
+let latestData = {name: 'latest'};
+
 // Serve up the latest updated location to each client 
-app.get('/LatestUpdate', async (req, res) => {
+app.get('/LatestUpdate', (req, res) => {
   try {
-    serveLatestUpdate(req, res);  
+    res.statusCode = 200;
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("connection", "keep-alive");
+    res.setHeader("Content-Type", "text/event-stream");
+
+    setInterval(() => {
+      const data = JSON.stringify(latestData);
+      res.write(`data: ${data}\n\n`);
+    }, 5000);  
   } 
   catch (error) {
     res.send(err.message);
@@ -88,7 +100,8 @@ app.post('/GetLocations', async (req, res) => {
 app.post('/UpdateLocations', async (req, res) => {
   try {
     const updatedData = await updateTeamData(req, res, __dirname);
-    res.json(updatedData);
+    latestData = updatedData;
+    res.send(`Location was successfully updated for ${latestData.name}`);
   } 
   catch (error) {
     res.send(error.message);

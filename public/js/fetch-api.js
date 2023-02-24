@@ -1,11 +1,12 @@
+const currentURL = window.location.href;
+const urlArray = currentURL.split('/');
+
+// Find which team page is currently being viewed and store in an object.
+const team = urlArray[urlArray.length - 1];
+const data = {team: team};
+
 async function getCurrentLocations() {
-    const currentURL = window.location.href;
-    const urlArray = currentURL.split('/');
-
-    // Find which team page is currently being viewed and store in an object.
-    const team = urlArray[urlArray.length - 1];
-    const data = {team: team};
-
+    
     // Set the URL for the fetch api.
     const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/GetLocations';
         
@@ -40,5 +41,31 @@ async function getCurrentLocations() {
       };
     });
 };
+
+sseURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/LatestUpdate';
+console.log(sseURL);
+
+const sseSource = new EventSource(sseURL);
+ 
+sseSource.onmessage = function (event) {
+    
+  // Destructure the update object into variables. 
+    const { name, locationId, commentId, workshop, currentLocation, comments } = JSON.parse(event.data);
+    
+    // Check if the workshop of the updated entry corresponds to the current page
+    if (workshop == team) {
+      // Get the previous location and comments
+      const previousLocation = document.querySelector(`#${locationId}`).textContent;
+      const previousComments = document.querySelector(`#${commentId}`).textContent;
+
+      // Check if previous and current data is the same
+      if (previousLocation != currentLocation && previousComments != comments) {
+        document.querySelector(`#${locationId}`).textContent = currentLocation;
+        document.querySelector(`#${commentId}`).textContent = comments;
+      }
+    }
+};
+ 
+const closeStream = () => sseSource.close();
 
 window.addEventListener('DOMContentLoaded', getCurrentLocations);

@@ -4,8 +4,6 @@ const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.
 
 const currentLocations = loadJSON('../data/current-locations.json');
 
-const latestData = loadJSON('../data/latest-data.json');
-
 export function fetchLocations(team) { 
     return new Promise((resolve, reject) => {
         if (currentLocations == undefined) {
@@ -47,21 +45,6 @@ export function updateLocations(newEntry) {
     });
 };
 
-export function getLatestData() {
-    return new Promise((resolve, reject) => {
-        const lastEntry = latestData;
-        if (lastEntry.updated == false && lastEntry.count < 5) {
-            lastEntry.count += 1;
-            lastEntry.currentStaff = {testData: `Test count: ${lastEntry.count}`}
-            resolve(lastEntry.currentStaff);
-        }
-        else {
-            lastEntry.updated = true;
-            reject("The data is already updated");
-        };
-    }); 
-};
 
-getLatestData();
 
 
