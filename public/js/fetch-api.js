@@ -57,7 +57,7 @@ const sseSource = new EventSource(sseURL);
 // Define the callback to execute when message is received from sse
 sseSource.onmessage = function (event) {
     
-  // Destructure the update object into variables. 
+    // Destructure the update object into variables. 
     const { name, locationId, commentId, workshop, currentLocation, comments } = JSON.parse(event.data);
     
     // Check if the workshop of the updated entry corresponds to the current page
@@ -68,18 +68,40 @@ sseSource.onmessage = function (event) {
       const previousComments = document.querySelector(`#${commentId}`).textContent;
 
       // Check if previous and current data is the same or different
-      if (previousLocation != currentLocation && previousComments != comments) {
+      if (previousLocation != currentLocation || previousComments != comments) {
         
         // Update location and comments if data is different   
         document.querySelector(`#${locationId}`).textContent = currentLocation;
         document.querySelector(`#${commentId}`).textContent = comments;
-
-        // Update svg if data is different
-        previousSVGElement = document.querySelector(`#${previousLocation.replace(/\s/,'_')}`);
-        newSVGElement = document.querySelector(`#${currentLocation.replace(/\s/,'_')}`);
-
-
       }
+    }
+
+    // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
+    if (unit.includes(previousLocation)) {
+      const count = localStorage.getItem(previousLocation);
+      const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
+      localStorage.setItem(previousLocation, newCount);
+      if (newCount > 0) {
+          document.querySelector(`#${previousLocation}`).classList.add('animate');
+          document.querySelector(`#${previousLocation}`).style.opacity = '1';
+      }
+      else {
+          document.querySelector(`#${previousLocation}`).classList.remove('animate')
+          document.querySelector(`#${previousLocation}`).style.opacity = '0';
+      }
+    }
+
+    // Determine if new location is in unit array. Update count in local storage and set svg element opacity.
+    if (unit.includes(newLocation)) { 
+        
+        // Update location count in local storage
+        const count = localStorage.getItem(newLocation);
+        const newCount = Number(count) + 1;
+        localStorage.setItem(newLocation, `${newCount}`);
+        
+        // Animate and make visible the svg
+        document.querySelector(`#${newLocation}`).classList.add('animate');
+        document.querySelector(`#${newLocation}`).style.opacity = '1';
     }
 };
  
