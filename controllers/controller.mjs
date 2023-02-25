@@ -15,6 +15,9 @@ export async function serveCurrentData(team) {
             const currentData = jhhData.slice(4);
             return {teamData: currentData, activeLocations: activeLocations, inactiveLocations: inactiveLocations};
         }
+        else if (team == 'LocationOnly') {
+            return {activeLocations: activeLocations, inactiveLocations: inactiveLocations};
+        }
         else {
             const currentData = await fetchLocations(team);
             return {teamData: currentData, activeLocations: activeLocations, inactiveLocations: inactiveLocations};

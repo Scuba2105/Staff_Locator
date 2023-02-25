@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { sendTeamData, updateTeamData } from './controllers/controller.mjs';
+import { serveCurrentData, sendTeamData, updateTeamData } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
@@ -67,7 +67,7 @@ app.get('/Tamworth', (req, res) => {
 });
 
 // Variable stored in memory to track latest update data
-let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, oldLocation: 'HOME'};
+let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, svgLocationStatus: ''};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -100,9 +100,10 @@ app.post('/GetLocations', async (req, res) => {
 
 app.post('/UpdateLocations', async (req, res) => {
   try {
-    const updatedData = await updateTeamData(req, res, __dirname);
-    latestData = updatedData;
-    res.send(`Location was successfully updated for ${latestData.name}`);
+    const lastUpdatedData = await updateTeamData(req, res, __dirname);
+    const svgData = await serveCurrentData('LocationOnly');
+    latestData = {newData: lastUpdatedData, svgLocationStatus: svgData};
+    res.send(`Location was successfully updated for ${latestData.newData.name}`);
   } 
   catch (error) {
     res.send(error.message);

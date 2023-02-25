@@ -1,12 +1,10 @@
 import fs from 'fs';
 import { availableLocations } from '../data/available-locations.mjs';
-
-const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
-
-const currentLocations = loadJSON('../data/current-locations.json');
+import { readJSON } from '../utils/read-data-from-json.mjs';
 
 export function fetchLocations(team) { 
     return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -25,6 +23,7 @@ export function fetchLocations(team) {
 
 export function fetchAllLocations() {
     return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -35,6 +34,7 @@ export function fetchAllLocations() {
 
 export function getActiveLocations() {
     return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -49,27 +49,31 @@ export function getActiveLocations() {
     }); 
 } 
 
+const data = await getActiveLocations();
+console.log(data);
+
 export function getInactiveLocations(activeLocations) {
     return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
-        const inactiveLocations = availableLocations.reduce((acc, staffMember) => {
-            if (!acc.includes(staffMember.currentLocation)) {
-                acc.push(staffMember.currentLocation)
+        const inactiveLocations = availableLocations.reduce((acc, location) => {
+            if (!currentLocations.includes(location)) {
+                acc.push(location);
                 return acc;
             }
             return acc;
         }, []);
-        resolve(activeLocations);
+        resolve(inactiveLocations);
     }); 
 } 
 
 export function updateLocations(newEntry) {
     return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
         const oldLocations = currentLocations;
         const updatedStaff = oldLocations.map((oldEntry) => {
-            console.log(oldEntry, newEntry);
             if (oldEntry.name == newEntry.name) {
                 return newEntry;
             };

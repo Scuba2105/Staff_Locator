@@ -34,13 +34,12 @@ async function getCurrentLocations() {
     });
 
     // Update svg's with current data
-    currentLocations.allData.forEach((staffMember) => {
-      const location = staffMember.currentLocation.replace(/\s/g, '_');
-      const svgElement = document.querySelector(`#${location}`);
+    currentLocations.activeLocations.forEach((location) => {
+      console.log(location);
+      const svgLocation = location.replace(/\s/g,'_');
+      const svgElement = document.querySelector(`#${svgLocation}`);
       if (svgElement != null) {
-        if (!svgElement.classList.contains('animate')) {
-          svgElement.classList.add('animate');
-        }
+        svgElement.classList.add('animate');
         svgElement.style.opacity = '1';
       };
     });
@@ -60,12 +59,13 @@ sseSource.onmessage = function (event) {
     // Destructure the update object into variables. 
     const receivedData = JSON.parse(event.data);
     const { name, locationId, commentId, workshop, currentLocation, comments } = receivedData.newData;
-    const previousLocation = receivedData.oldLocation;
+    const svgLocations = receivedData.svgLocationStatus;
         
     // Check if the workshop of the updated entry corresponds to the current page
     if (workshop == team) {
       
       // Get the previous location and comments
+      const previousLocation = document.querySelector(`#${locationId}`).textContent;
       const previousComments = document.querySelector(`#${commentId}`).textContent;
 
       // Check if previous and current data is the same or different
@@ -78,43 +78,44 @@ sseSource.onmessage = function (event) {
     }
 
     // Define ID's within svg
-    const prevLocation = previousLocation.replace(/\s/g, '_');
-    const newLocation = currentLocation.replace(/\s/g, '_');
-    console.log(prevLocation, newLocation);
-    updateSVG(prevLocation, newLocation);
+    if (svgLocations != '') {
+      
+      const activeLocations = svgLocations.activeLocations.map((location) => {
+        return location.replace(/\s/g, '_');
+      });
+      const inactiveLocations = svgLocations.inactiveLocations.map((location) => {
+        return location.replace(/\s/g, '_');
+      });
+      updateSVG(activeLocations, inactiveLocations);
+    }
 };
 
-function updateSVG(previousLocation, newLocation) {
-  if (previousLocation != newLocation) {
+function updateSVG(activeLocations, inactiveLocations) {
   
-    // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
-    if (document.querySelector(`#${previousLocation}`) != null) {
-      const count = localStorage.getItem(previousLocation);
-      const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
-      localStorage.setItem(previousLocation, newCount);
-      if (newCount > 0) {
-          document.querySelector(`#${previousLocation}`).classList.add('animate');
-          document.querySelector(`#${previousLocation}`).style.opacity = '1';
-      }
-      else {
-          document.querySelector(`#${previousLocation}`).classList.remove('animate')
-          document.querySelector(`#${previousLocation}`).style.opacity = '0';
-      }
+  // Set the animation inactive for all inactive locations on current page
+  inactiveLocations.forEach((location) => {
+    const svgElement = document.querySelector(`#${location}`);
+    if (svgElement != null) {
+      if (svgElement.classList.contains('animate')) {  
+        svgElement.classList.remove('animate');
+      };
+      
+      svgElement.style.opacity = '0';
     }
+  });
 
-    // Determine if new location is in svg, update count in local storage and set svg element opacity.
-    if (document.querySelector(`#${newLocation}`) != null) { 
+  // Set the animation active for all active location on current page
+  activeLocations.forEach((location) => {
+    const svgElement = document.querySelector(`#${location}`);
+    if (svgElement != null) {  
+      console.log(location, svgElement.classList);
+      if (!svgElement.classList.contains('animate')) {
+          svgElement.classList.add('animate');
+      }
         
-        // Update location count in local storage
-        const count = localStorage.getItem(newLocation);
-        const newCount = Number(count) + 1;
-        localStorage.setItem(newLocation, `${newCount}`);
-        
-        // Animate and make visible the svg
-        document.querySelector(`#${newLocation}`).classList.add('animate');
-        document.querySelector(`#${newLocation}`).style.opacity = '1';
+      svgElement.style.opacity = '1';
     }
-  }
+  });  
 };
 
 // If a close event is required
