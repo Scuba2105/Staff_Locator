@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { availableLocations } from '../data/available-locations.mjs';
 
 const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
 
@@ -18,11 +19,51 @@ export function fetchLocations(team) {
                 return acc;
             }
         }, []);
-        
-        const locationData = {teamData: teamArray, allData: currentLocations};
-        resolve(locationData);
-    }) 
+        resolve(teamArray);
+    });
 };
+
+export function fetchAllLocations() {
+    return new Promise((resolve, reject) => {
+        if (currentLocations == undefined) {
+            reject('The json file has not been loaded from file');
+        }
+        const locationData = currentLocations;
+        resolve(locationData);
+    }); 
+}
+
+export function getActiveLocations() {
+    return new Promise((resolve, reject) => {
+        if (currentLocations == undefined) {
+            reject('The json file has not been loaded from file');
+        }
+        const activeLocations = currentLocations.reduce((acc, staffMember) => {
+            if (!acc.includes(staffMember.currentLocation)) {
+                acc.push(staffMember.currentLocation)
+                return acc;
+            }
+            return acc;
+        }, []);
+        resolve(activeLocations);
+    }); 
+} 
+
+export function getInactiveLocations(activeLocations) {
+    return new Promise((resolve, reject) => {
+        if (currentLocations == undefined) {
+            reject('The json file has not been loaded from file');
+        }
+        const inactiveLocations = availableLocations.reduce((acc, staffMember) => {
+            if (!acc.includes(staffMember.currentLocation)) {
+                acc.push(staffMember.currentLocation)
+                return acc;
+            }
+            return acc;
+        }, []);
+        resolve(activeLocations);
+    }); 
+} 
 
 export function updateLocations(newEntry) {
     return new Promise((resolve, reject) => {

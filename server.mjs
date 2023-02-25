@@ -102,7 +102,7 @@ app.post('/UpdateLocations', async (req, res) => {
   try {
     const updatedData = await updateTeamData(req, res, __dirname);
     latestData = updatedData;
-    res.send(`Location was successfully updated for ${latestData.newData.name}`);
+    res.send(`Location was successfully updated for ${latestData.name}`);
   } 
   catch (error) {
     res.send(error.message);
