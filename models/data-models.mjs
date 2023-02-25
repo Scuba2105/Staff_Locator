@@ -17,6 +17,7 @@ export function fetchLocations(team) {
                 return acc;
             }
         }, []);
+        
         resolve(teamArray);
     });
 };
@@ -48,9 +49,6 @@ export function getActiveLocations() {
         resolve(activeLocations);
     }); 
 } 
-
-const data = await getActiveLocations();
-console.log(data);
 
 export function getInactiveLocations(activeLocations) {
     return new Promise((resolve, reject) => {

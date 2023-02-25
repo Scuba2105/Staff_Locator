@@ -35,7 +35,6 @@ async function getCurrentLocations() {
 
     // Update svg's with current data
     currentLocations.activeLocations.forEach((location) => {
-      console.log(location);
       const svgLocation = location.replace(/\s/g,'_');
       const svgElement = document.querySelector(`#${svgLocation}`);
       if (svgElement != null) {
@@ -108,7 +107,6 @@ function updateSVG(activeLocations, inactiveLocations) {
   activeLocations.forEach((location) => {
     const svgElement = document.querySelector(`#${location}`);
     if (svgElement != null) {  
-      console.log(location, svgElement.classList);
       if (!svgElement.classList.contains('animate')) {
           svgElement.classList.add('animate');
       }

@@ -3,7 +3,7 @@
     "name": "ISHAQUE KHAN",
     "locationId": "lik",
     "commentId": "cik",
-    "workshop": "JHH",
+    "workshop": "Management",
     "currentLocation": "SOUTH BLOCK",
     "comments": "Back Monday"
   },
@@ -11,15 +11,15 @@
     "name": "PAUL COOKSON",
     "locationId": "lpk",
     "commentId": "cpk",
-    "workshop": "JHH",
+    "workshop": "Management",
     "currentLocation": "WARD K1",
-    "comments": "MEETING"
+    "comments": "MORNING TEA"
   },
   {
     "name": "MICHELLE ISON",
     "locationId": "lmi",
     "commentId": "cmi",
-    "workshop": "JHH",
+    "workshop": "Management",
     "currentLocation": "HOME",
     "comments": "Back Monday"
   },
@@ -27,7 +27,7 @@
     "name": "GLADY GIDEON",
     "locationId": "lgg",
     "commentId": "cgg",
-    "workshop": "JHH",
+    "workshop": "Management",
     "currentLocation": "WARD F3",
     "comments": "Back Monday"
   },
