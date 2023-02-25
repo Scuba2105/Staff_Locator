@@ -28,6 +28,7 @@ export function updateLocations(newEntry) {
     return new Promise((resolve, reject) => {
         const oldLocations = currentLocations;
         const updatedStaff = oldLocations.map((oldEntry) => {
+            console.log(oldEntry, newEntry);
             if (oldEntry.name == newEntry.name) {
                 return newEntry;
             };

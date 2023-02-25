@@ -46,7 +46,7 @@ export async function updateTeamData(req, res, __dirname) {
         const updateObject = JSON.parse(jsonData);
         
         // Get the current location data for the specified team.
-        const newLocations = await updateLocations(updateObject);
+        const newLocations = await updateLocations(updateObject.newData);
         
         // Write the data to the json file.
         const filePath = path.join(__dirname, 'data', 'current-locations.json');

@@ -67,7 +67,7 @@ app.get('/Tamworth', (req, res) => {
 });
 
 // Variable stored in memory to track latest update data
-let latestData = {name: 'latest'};
+let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, oldLocation: 'HOME'};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -81,6 +81,7 @@ app.get('/LatestUpdate', (req, res) => {
     setInterval(() => {
       const data = JSON.stringify(latestData);
       res.write(`data: ${data}\n\n`);
+      res.end();
     }, 5000);  
   } 
   catch (error) {
@@ -101,7 +102,7 @@ app.post('/UpdateLocations', async (req, res) => {
   try {
     const updatedData = await updateTeamData(req, res, __dirname);
     latestData = updatedData;
-    res.send(`Location was successfully updated for ${latestData.name}`);
+    res.send(`Location was successfully updated for ${latestData.newData.name}`);
   } 
   catch (error) {
     res.send(error.message);
