@@ -5,9 +5,9 @@ const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', w
 {name: 'KEITH BALL', locationId: 'lkb', commentId:'ckb', workshop: 'JHH'}, {name: 'ELLEN HEYDON', locationId: 'leh', commentId:'ceh', workshop: 'JHH'}, {name: 'RODNEY BIRT', locationId: 'lrb', commentId:'crb', workshop: 'JHH'},
 {name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram', workshop: 'JHH'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp', workshop: 'JHH'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb', workshop: 'Tamworth'},
 {name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId:'cjl', workshop: 'Tamworth'}, {name: 'AZMI REFAL', locationId: 'lar', commentId:'car', workshop: 'Tamworth'}, {name: 'BRET PRYOR', locationId: 'lbp', commentId:'cbp', workshop: 'Tamworth'},
-{name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt', workshop: 'Maitland'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps', workshop: 'Maitland'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm', workshop: 'Maitland'},
-{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Maitland'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Taree'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Mater'},
-{name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Maitland'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
+{name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt', workshop: 'Hunter'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps', workshop: 'Hunter'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm', workshop: 'Hunter'},
+{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Hunter'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Hunter'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Hunter'},
+{name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Hunter'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
 
 // Define the clinical units and departments within the health service.
 const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
@@ -221,31 +221,29 @@ function setsvg(previousLocation, newLocation) {
     // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(previousLocation)) {
         const count = localStorage.getItem(previousLocation);
-        const newCount = Number(count) - 1;
-        console.log(newCount);
+        const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
         localStorage.setItem(previousLocation, newCount);
         if (newCount > 0) {
-            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 1);
+            document.querySelector(`#${previousLocation}`).classList.add('animate');
+            document.querySelector(`#${previousLocation}`).style.opacity = '1';
         }
         else {
-            document.querySelector(`#${previousLocation}`).setAttribute('opacity', 0);
+            document.querySelector(`#${previousLocation}`).classList.remove('animate')
+            document.querySelector(`#${previousLocation}`).style.opacity = '0';
         }
     }
 
     // Determine if new location is in unit array. Update count in local storage and set svg element opacity.
     if (unit.includes(newLocation)) { 
-        console.log(newLocation);
+        
+        // Update location count in local storage
         const count = localStorage.getItem(newLocation);
         const newCount = Number(count) + 1;
         localStorage.setItem(newLocation, `${newCount}`);
-        const x = localStorage.getItem('PHYSIOTHERAPY');
         
-        if (newCount > 0) {
-            document.querySelector(`#${newLocation}`).setAttribute('opacity', 1);
-        }
-        else {
-            document.querySelector(`#${newLocation}`).setAttribute('opacity', 0);
-        }
+        // Animate and make visible the svg
+        document.querySelector(`#${newLocation}`).classList.add('animate');
+        document.querySelector(`#${newLocation}`).style.opacity = '1';
     }
 }
 

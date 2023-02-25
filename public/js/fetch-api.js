@@ -1,3 +1,4 @@
+// Get current window URL and split protocol, domain/port and page into an array
 const currentURL = window.location.href;
 const urlArray = currentURL.split('/');
 
@@ -23,7 +24,7 @@ async function getCurrentLocations() {
       
     // Get the array containing the staff members for current page and current locations. 
     const currentLocations = await response.json();
-        
+    console.log(currentLocations);
     // Update each staff member in the table
     currentLocations.teamData.forEach((staffMember) => {
       const locationElement = document.querySelector(`#${staffMember.locationId}`);
@@ -37,16 +38,23 @@ async function getCurrentLocations() {
       const location = staffMember.currentLocation.replace(/\s/g, '_');
       const svgElement = document.querySelector(`#${location}`);
       if (svgElement != null) {
+        if (!svgElement.classList.contains('animate')) {
+          svgElement.classList.add('animate');
+        }
         svgElement.style.opacity = '1';
       };
     });
 };
 
-sseURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/LatestUpdate';
-console.log(sseURL);
+window.addEventListener('DOMContentLoaded', getCurrentLocations);
 
+// Define the sse end point 
+sseURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/LatestUpdate';
+
+// Create the sse event source object
 const sseSource = new EventSource(sseURL);
- 
+
+// Define the callback to execute when message is received from sse
 sseSource.onmessage = function (event) {
     
   // Destructure the update object into variables. 
@@ -54,18 +62,26 @@ sseSource.onmessage = function (event) {
     
     // Check if the workshop of the updated entry corresponds to the current page
     if (workshop == team) {
+      
       // Get the previous location and comments
       const previousLocation = document.querySelector(`#${locationId}`).textContent;
       const previousComments = document.querySelector(`#${commentId}`).textContent;
 
-      // Check if previous and current data is the same
+      // Check if previous and current data is the same or different
       if (previousLocation != currentLocation && previousComments != comments) {
+        
+        // Update location and comments if data is different   
         document.querySelector(`#${locationId}`).textContent = currentLocation;
         document.querySelector(`#${commentId}`).textContent = comments;
+
+        // Update svg if data is different
+        previousSVGElement = document.querySelector(`#${previousLocation.replace(/\s/,'_')}`);
+        newSVGElement = document.querySelector(`#${currentLocation.replace(/\s/,'_')}`);
+
+
       }
     }
 };
  
 const closeStream = () => sseSource.close();
 
-window.addEventListener('DOMContentLoaded', getCurrentLocations);
