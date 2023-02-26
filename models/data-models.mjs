@@ -74,6 +74,7 @@ export function updateLocations(newEntry) {
             if (oldEntry.name == newEntry.name) {
                 oldEntry.currentLocation = newEntry.currentLocation;
                 oldEntry.comments = newEntry.comments;
+                oldEntry.timestamp = newEntry.timestamp;
                 return oldEntry;
             };
             return oldEntry;
@@ -87,6 +88,28 @@ export function updateLocations(newEntry) {
             reject('An error has occurred and the array is empty');
         }
         
+    });
+};
+
+export function mergeLocalStorage(localEntries) {
+    return new Promise((resolve, reject) => {
+        const currentLocations = readJSON('../data/current-locations.json');
+        const updatedStaff = currentLocations.map((currentEntry) => {
+            const localEntry = localEntries.find((staffMember) => {
+                return staffMember.name = currentEntry.name;
+            })
+            if (localEntry.name != undefined) {
+                
+                if (localEntry.timestamp > currentEntry.timestamp)
+                currentEntry.currentLocation = localEntry.currentLocation;
+                currentEntry.comments = localEntry.comments;
+                currentEntry.timestamp = localEntry.timestamp;
+                return currentEntry;
+            };
+            return currentEntry;
+        });
+
+        resolve(updatedStaff);
     });
 };
 

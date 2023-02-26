@@ -1,5 +1,5 @@
 import path from 'path';
-import { fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations } from "../models/data-models.mjs";
+import { fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalStorage } from "../models/data-models.mjs";
 import { writeDataToFile } from '../utils/write-data-to-file.mjs';
 
 export async function serveCurrentData(team) {
@@ -59,8 +59,11 @@ export async function mergeLocalStorage(req, res) {
     try {
         // Parse the json data into an object 
         const jsonData = JSON.stringify(req.body);
-        const mergeObject = JSON.parse(jsonData);
-        console.log(mergeObject);
+        const mergeObjectArray = JSON.parse(jsonData);
+
+        // Merge local storage entries with current server data
+        const latestData = await mergeLocalStorage(mergeObjectArray);
+        console.log(latestData);
     } catch (error) {
         
     }

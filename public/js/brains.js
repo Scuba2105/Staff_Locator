@@ -188,14 +188,17 @@ function publishToTable() {
     const newLocation = document.getElementById(`${locationElementID}`).innerHTML
     const newComments = document.getElementById(`${commentElementID}`).innerHTML
 
-    postToServer(Id, newLocation, newComments)
+    // Create a timestamp for the update
+    const time = Date.now();
+
+    postToServer(Id, newLocation, newComments, time)
 
 }
 
-async function postToServer(name, location, comments) {
+async function postToServer(name, location, comments, timestamp) {
     
     // Put the data into the required object to post to backend
-    const updateData = {name: name, currentLocation: location, comments: comments}; 
+    const updateData = {name: name, currentLocation: location, comments: comments, timestamp: timestamp}; 
     
     // Set the URL for the fetch api.
     const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
@@ -243,7 +246,7 @@ async function postToServer(name, location, comments) {
                 }
                 return acc;
             }, []).join(',');
-            const storedObjectStringified = `[${storedDataArray}]`;
+            const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
             
             // Post updates to server for merging
             const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/MergeLocalStorage';
@@ -259,7 +262,7 @@ async function postToServer(name, location, comments) {
                 body: storedObjectStringified // body data type must match "Content-Type" header
             });
 
-            // Clear local storage now server reconnected. 
+            
         }
         console.log(message);
     };
