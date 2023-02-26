@@ -12,8 +12,13 @@
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
+<<<<<<< Updated upstream
     "currentLocation": "NEWCASTLE",
     "comments": "     "
+=======
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
+>>>>>>> Stashed changes
   },
   {
     "name": "MICHELLE ISON",
