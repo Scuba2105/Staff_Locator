@@ -224,11 +224,8 @@ async function postToServer(name, location, comments) {
     //await response.json().then((data) => console.log(data)).catch(() => {
     //    const dataString = JSON.stringify(data);
     //   localStorage.setItem(name, dataString);
-    //})
-    
-        
-    
-}
+    //})    
+};
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
