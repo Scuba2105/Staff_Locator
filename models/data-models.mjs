@@ -91,27 +91,32 @@ export function updateLocations(newEntry) {
     });
 };
 
-export function mergeLocalStorage(localEntries) {
+export function mergeLocalData(localEntries) {
     return new Promise((resolve, reject) => {
+        
         const currentLocations = readJSON('../data/current-locations.json');
         const updatedStaff = currentLocations.map((currentEntry) => {
             const localEntry = localEntries.find((staffMember) => {
-                return staffMember.name = currentEntry.name;
-            })
-            if (localEntry.name != undefined) {
+                return staffMember.name == currentEntry.name;
+            });
+            
+            if (localEntry != undefined) {
                 
-                if (localEntry.timestamp > currentEntry.timestamp)
-                currentEntry.currentLocation = localEntry.currentLocation;
-                currentEntry.comments = localEntry.comments;
-                currentEntry.timestamp = localEntry.timestamp;
-                return currentEntry;
+                // If local entry timestamp after server entry timestamp then replace the field otherwise keep current server entry    
+                if (localEntry.timestamp > Number(currentEntry.timestamp)) {
+                    currentEntry.currentLocation = localEntry.currentLocation;
+                    currentEntry.comments = localEntry.comments;
+                    currentEntry.timestamp = localEntry.timestamp;
+                    return currentEntry;
+                }
             };
             return currentEntry;
         });
-
+        
         resolve(updatedStaff);
     });
 };
+
 
 
 

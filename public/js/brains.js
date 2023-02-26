@@ -247,7 +247,7 @@ async function postToServer(name, location, comments, timestamp) {
                 return acc;
             }, []).join(',');
             const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
-            
+            console.log(storedObjectStringified);
             // Post updates to server for merging
             const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/MergeLocalStorage';
         

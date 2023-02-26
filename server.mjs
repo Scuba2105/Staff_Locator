@@ -112,7 +112,7 @@ app.post('/UpdateLocations', async (req, res) => {
 
 app.post('/MergeLocalStorage', async (req, res) => {
   try {
-    await mergeLocalStorage();
+    await mergeLocalStorage(req, res);
   } 
   catch (error) {
     res.send(error.message);
