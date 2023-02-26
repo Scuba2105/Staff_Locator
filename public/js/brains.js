@@ -221,10 +221,10 @@ async function postToServer(name, location, comments) {
     });
      
     // Get the array containing the staff members for current page and current locations. 
-    await response.json().then((data) => console.log(data)).catch(() => {
-        const dataString = JSON.stringify(data);
-        localStorage.setItem(name, dataString);
-    })
+    //await response.json().then((data) => console.log(data)).catch(() => {
+    //    const dataString = JSON.stringify(data);
+    //   localStorage.setItem(name, dataString);
+    //})
     
         
     
