@@ -199,7 +199,7 @@ function publishToTable() {
 async function postToServer(name, location, comments) {
     
     // Put the data into the required object to post to backend
-    const data = {name: name, currentLocation: location, comments: comments}; 
+    const updateData = {name: name, currentLocation: location, comments: comments}; 
     
     // Get current window URL and split protocol, domain/port and page into an array
     const currentURL = window.location.href;
@@ -207,6 +207,10 @@ async function postToServer(name, location, comments) {
 
     // Set the URL for the fetch api.
     const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
+
+    // State whether connection is open
+    const previousConnectionStatus = true;
+    const currentConnectionStatus = true;
 
     // Post the data to the server
     const response = await fetch(apiURL, {
@@ -217,18 +221,29 @@ async function postToServer(name, location, comments) {
         headers: {
         'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
+        body: JSON.stringify(updateData) // body data type must match "Content-Type" header
+    }).then((reply) => {
+        reply.json()
+    }).then((data) => {
+        // Set connection status
+        previousConnectionStatus = currentConnectionStatus;
+        currentConnectionStatus = true;
+        if (previousConnectionStatus == false && currentConnectionStatus == true) {
+            
+        }
+        console.log(data)
+    }).catch(() => {
+        // Set connection status
+        previousConnectionStatus = currentConnectionStatus;
+        currentConnectionStatus = false;
+
+        // If error on connection then store data in local storage
+        const id = updateData.name;
+        const dataString = JSON.stringify(updateData);
+        localStorage.setItem(id, dataString);
     });
      
-    // Get the array containing the staff members for current page and current locations. 
-    //await response.json().then((data) => console.log(data)).catch(() => {
-    //    const dataString = JSON.stringify(data);
-    //   localStorage.setItem(name, dataString);
-    //})
-    
-        
-    
-}
+};
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
