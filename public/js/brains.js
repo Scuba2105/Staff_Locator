@@ -20,6 +20,10 @@ const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", 
 "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
 "WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
 
+// State whether connection is open
+let previousConnectionStatus = true;
+let currentConnectionStatus = true;
+
 // Get the employee location element id's from the staff array for each staff member.
 const employee = staffArray.map((staffMember) => {
     return staffMember.locationId
@@ -208,12 +212,8 @@ async function postToServer(name, location, comments) {
     // Set the URL for the fetch api.
     const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
 
-    // State whether connection is open
-    const previousConnectionStatus = true;
-    const currentConnectionStatus = true;
-
     // Post the data to the server
-    const response = await fetch(apiURL, {
+    const response  = await fetch(apiURL, {
         method: 'POST', 
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -222,16 +222,6 @@ async function postToServer(name, location, comments) {
         'Content-Type': 'application/json'
         },
         body: JSON.stringify(updateData) // body data type must match "Content-Type" header
-    }).then((reply) => {
-        reply.json()
-    }).then((data) => {
-        // Set connection status
-        previousConnectionStatus = currentConnectionStatus;
-        currentConnectionStatus = true;
-        if (previousConnectionStatus == false && currentConnectionStatus == true) {
-            
-        }
-        console.log(data)
     }).catch(() => {
         // Set connection status
         previousConnectionStatus = currentConnectionStatus;
@@ -242,7 +232,22 @@ async function postToServer(name, location, comments) {
         const dataString = JSON.stringify(updateData);
         localStorage.setItem(id, dataString);
     });
-     
+    
+    if (response != undefined) {
+        
+        // Resolve the message from the promise
+        const message = await response.json();
+        
+        // Set connection status
+        previousConnectionStatus = currentConnectionStatus;
+        currentConnectionStatus = true;
+        if (previousConnectionStatus == false && currentConnectionStatus == true) {
+            console.log('Hello');
+            // Grab all data from internal storage and send to server.
+        }
+        console.log(message);
+    };
+        
 };
 
 var currentTab = 0; // Current tab is set to be the first tab (0)

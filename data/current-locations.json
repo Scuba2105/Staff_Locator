@@ -12,7 +12,7 @@
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
-    "currentLocation": "PHYSIOTHERAPY",
+    "currentLocation": "DELIVERY SUITE",
     "comments": "     "
   },
   {
@@ -60,24 +60,24 @@
     "locationId": "lmjp",
     "commentId": "cmjp",
     "workshop": "JHH",
-    "currentLocation": "JHH OPERATING SUITE",
-    "comments": "Back Monday"
+    "currentLocation": "JHH OPERATING THEATRE",
+    "comments": "     "
   },
   {
     "name": "STEVEN BRADBURY",
     "locationId": "lsb",
     "commentId": "csb",
     "workshop": "JHH",
-    "currentLocation": "JHH ICU",
-    "comments": "TESTING"
+    "currentLocation": "ICU",
+    "comments": "     "
   },
   {
     "name": "KEITH BALL",
     "locationId": "lkb",
     "commentId": "ckb",
     "workshop": "JHH",
-    "currentLocation": "EMERGENCY",
-    "comments": "Back Monday"
+    "currentLocation": "BELMONT",
+    "comments": "     "
   },
   {
     "name": "ELLEN HEYDON",

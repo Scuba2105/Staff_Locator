@@ -3,7 +3,7 @@ const currentURL = window.location.href;
 const urlArray = currentURL.split('/');
 
 // Find which team page is currently being viewed and store in an object.
-const team = urlArray[urlArray.length - 1];
+const team = urlArray[urlArray.length - 1].replace('#', '');
 const data = {team: team};
 
 async function getCurrentLocations() {
