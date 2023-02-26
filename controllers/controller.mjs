@@ -55,3 +55,14 @@ export async function updateTeamData(req, res, __dirname) {
     }
 }
 
+export async function mergeLocalStorage(req, res) {
+    try {
+        // Parse the json data into an object 
+        const jsonData = JSON.stringify(req.body);
+        const mergeObject = JSON.parse(jsonData);
+        console.log(mergeObject);
+    } catch (error) {
+        
+    }
+}
+

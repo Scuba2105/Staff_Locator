@@ -1,6 +1,6 @@
 // Get current window URL and split protocol, domain/port and page into an array
-const currentURL = window.location.href;
-const urlArray = currentURL.split('/');
+//const currentURL = window.location.href;
+//const urlArray = currentURL.split('/');
 
 // Find which team page is currently being viewed and store in an object.
 const team = urlArray[urlArray.length - 1].replace('#', '');

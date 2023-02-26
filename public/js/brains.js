@@ -1,3 +1,7 @@
+// Get current window URL and split protocol, domain/port and page into an array
+const currentURL = window.location.href;
+const urlArray = currentURL.split('/');
+
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
 {name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'Management'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
@@ -193,10 +197,6 @@ async function postToServer(name, location, comments) {
     // Put the data into the required object to post to backend
     const updateData = {name: name, currentLocation: location, comments: comments}; 
     
-    // Get current window URL and split protocol, domain/port and page into an array
-    const currentURL = window.location.href;
-    const urlArray = currentURL.split('/');
-
     // Set the URL for the fetch api.
     const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
 
@@ -229,6 +229,8 @@ async function postToServer(name, location, comments) {
         // Set connection status
         previousConnectionStatus = currentConnectionStatus;
         currentConnectionStatus = true;
+
+        // If server has reconnected since last update merge local storage changes to server
         if (previousConnectionStatus == false && currentConnectionStatus == true) {
             
             // Grab all data from internal storage and store in stringified json object
@@ -242,11 +244,20 @@ async function postToServer(name, location, comments) {
                 return acc;
             }, []).join(',');
             const storedObjectStringified = `[${storedDataArray}]`;
-            const x = JSON.parse(storedObjectStringified).map((staff) => {
-                return staff.name;
-            })
-
-            console.log(x);
+            
+            // Post updates to server for merging
+            const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/MergeLocalStorage';
+        
+            const response = await fetch(apiURL, {
+                method: 'POST', 
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: storedObjectStringified // body data type must match "Content-Type" header
+            });
 
             // Clear local storage now server reconnected. 
         }

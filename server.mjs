@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { serveCurrentData, sendTeamData, updateTeamData } from './controllers/controller.mjs';
+import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
@@ -104,6 +104,15 @@ app.post('/UpdateLocations', async (req, res) => {
     const svgData = await serveCurrentData('LocationOnly');
     latestData = {newData: lastUpdatedData, svgLocationStatus: svgData};
     res.json({message: `Location was successfully updated for ${latestData.newData.name}`});
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
+app.post('/MergeLocalStorage', async (req, res) => {
+  try {
+    await mergeLocalStorage();
   } 
   catch (error) {
     res.send(error.message);
