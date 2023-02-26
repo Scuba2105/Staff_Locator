@@ -112,7 +112,7 @@
             margin: 5% auto 15% auto;
             /* 5% from the top, 15% from the bottom and centered */
             border: 1px solid #888;
-            width: 60%;
+            width: 35%;
             /* Could be more or less, depending on screen size */
         }
 
@@ -183,7 +183,7 @@
 
     <div id="id01" class="modal">
 
-        <form class="modal-content animate" action="/action_page.php" method="post">
+        <form class="modal-content animate" action="/action_page.php"  method="post"> <!-- need to change action here to be processed by backend -->
             <div class="imgcontainer">
                 <span onclick="document.getElementById('id01').style.display='none'" class="close"
                     title="Close Modal">&times;</span>
@@ -221,6 +221,7 @@
     </div>
 
     <script>
+        // Move this script to brains
         // Get the modal
         var modal = document.getElementById('id01');
 
