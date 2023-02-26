@@ -1,6 +1,6 @@
 // Define array of objects for staff details. 
-const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'JHH'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'JHH'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'JHH'},
-{name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'JHH'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
+const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
+{name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'Management'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
 {name: 'MICHAEL DATHAN-HORDER', locationId: 'lmdh', commentId:'cmdh', workshop: 'JHH'}, {name: 'MITCHELL PACEY', locationId: 'lmjp', commentId:'cmjp', workshop: 'JHH'}, {name: 'STEVEN BRADBURY', locationId: 'lsb', commentId:'csb', workshop: 'JHH'},
 {name: 'KEITH BALL', locationId: 'lkb', commentId:'ckb', workshop: 'JHH'}, {name: 'ELLEN HEYDON', locationId: 'leh', commentId:'ceh', workshop: 'JHH'}, {name: 'RODNEY BIRT', locationId: 'lrb', commentId:'crb', workshop: 'JHH'},
 {name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram', workshop: 'JHH'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp', workshop: 'JHH'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb', workshop: 'Tamworth'},
@@ -165,10 +165,6 @@ function closeForm() {
 
 }
 
-
-
-
-
 function publishToTable() {
     // getting Employer that was clicked on
     const Id = document.getElementById("empId").innerHTML;
@@ -189,62 +185,49 @@ function publishToTable() {
     // Set the new location to that of the location select in the form.
     document.getElementById(`${locationElementID}`).innerHTML = document.getElementById("location2").value;
 
-    // Replace the new location text spaces with underscores so it can be found in the svg. And store in local storage?? Might not be required 
-    var newLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
-    localStorage.setItem(`${locationElementID}`, newLocation);
-
     // Enter the form time, date and comments into the comment field for the employee.
     document.getElementById(`${commentElementID}`).innerHTML = document.getElementById("comment").value;
-    
-    // Set the svg 
-    setsvg(previousLocation, newLocation);
+
+    // Create the new location and comments variables to send to server
+    const newLocation = document.getElementById(`${locationElementID}`).innerHTML
+    const newComments = document.getElementById(`${commentElementID}`).innerHTML
+
+    postToServer(Id, newLocation, newComments)
+
 }
 
-function setsvg(previousLocation, newLocation) {
+async function postToServer(name, location, comments) {
+    
+    // Put the data into the required object to post to backend
+    const data = {name: name, currentLocation: location, comments: comments}; 
+    
+    // Get current window URL and split protocol, domain/port and page into an array
+    const currentURL = window.location.href;
+    const urlArray = currentURL.split('/');
 
-    var team = location.pathname.split('/').pop();
-    switch (team) {
-        case 'jhh.html':
-            localStorage.setItem('team', '1');
-            break;
-        case 'jhhteam.html':
-            localStorage.setItem('team', '2');
-            break;
-        case 'greenteam.html':
-            localStorage.setItem('team', '3');
-            break;
-        case 'tamworth.html':
-            localStorage.setItem('team', '4');
-            break;
-    }
+    // Set the URL for the fetch api.
+    const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
 
-    // Determine if previous location is in unit array. Update count in local storage and set svg element opacity.
-    if (unit.includes(previousLocation)) {
-        const count = localStorage.getItem(previousLocation);
-        const newCount = Number(count) - 1 < 0 ? 0 : Number(count) - 1;
-        localStorage.setItem(previousLocation, newCount);
-        if (newCount > 0) {
-            document.querySelector(`#${previousLocation}`).classList.add('animate');
-            document.querySelector(`#${previousLocation}`).style.opacity = '1';
-        }
-        else {
-            document.querySelector(`#${previousLocation}`).classList.remove('animate')
-            document.querySelector(`#${previousLocation}`).style.opacity = '0';
-        }
-    }
-
-    // Determine if new location is in unit array. Update count in local storage and set svg element opacity.
-    if (unit.includes(newLocation)) { 
+    // Post the data to the server
+    const response = await fetch(apiURL, {
+        method: 'POST', 
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+     
+    // Get the array containing the staff members for current page and current locations. 
+    await response.json().then((data) => console.log(data)).catch(() => {
+        const dataString = JSON.stringify(data);
+        localStorage.setItem(name, dataString);
+    })
+    
         
-        // Update location count in local storage
-        const count = localStorage.getItem(newLocation);
-        const newCount = Number(count) + 1;
-        localStorage.setItem(newLocation, `${newCount}`);
-        
-        // Animate and make visible the svg
-        document.querySelector(`#${newLocation}`).classList.add('animate');
-        document.querySelector(`#${newLocation}`).style.opacity = '1';
-    }
+    
 }
 
 var currentTab = 0; // Current tab is set to be the first tab (0)

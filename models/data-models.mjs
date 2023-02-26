@@ -69,11 +69,12 @@ export function getInactiveLocations(activeLocations) {
 
 export function updateLocations(newEntry) {
     return new Promise((resolve, reject) => {
-        const currentLocations = readJSON('../data/current-locations.json');
-        const oldLocations = currentLocations;
+        const oldLocations = readJSON('../data/current-locations.json');
         const updatedStaff = oldLocations.map((oldEntry) => {
             if (oldEntry.name == newEntry.name) {
-                return newEntry;
+                oldEntry.currentLocation = newEntry.currentLocation;
+                oldEntry.comments = newEntry.comments;
+                return oldEntry;
             };
             return oldEntry;
         });
@@ -88,6 +89,8 @@ export function updateLocations(newEntry) {
         
     });
 };
+
+
 
 
 
