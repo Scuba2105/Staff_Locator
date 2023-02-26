@@ -4,15 +4,15 @@
     "locationId": "lik",
     "commentId": "cik",
     "workshop": "Management",
-    "currentLocation": "SOUTH BLOCK",
-    "comments": "Back Monday"
+    "currentLocation": "BME",
+    "comments": "     "
   },
   {
     "name": "PAUL COOKSON",
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
-    "currentLocation": "DELIVERY SUITE",
+    "currentLocation": "EMERGENCY",
     "comments": "     "
   },
   {
@@ -20,8 +20,8 @@
     "locationId": "lmi",
     "commentId": "cmi",
     "workshop": "Management",
-    "currentLocation": "HOME",
-    "comments": "Back Monday"
+    "currentLocation": "DELIVERY SUITE",
+    "comments": "     "
   },
   {
     "name": "GLADY GIDEON",

@@ -31,7 +31,7 @@ const employee = staffArray.map((staffMember) => {
 
 // Get all JHH employee names.
 const jhhEmp = staffArray.reduce((acc, staffMember) => {
-    if (staffMember.workshop == 'JHH') {
+    if (staffMember.workshop == 'JHH' || staffMember.workshop == 'Management') {
         acc.push(staffMember.name);
         return acc;
     }
@@ -42,7 +42,7 @@ const jhhEmp = staffArray.reduce((acc, staffMember) => {
 
 // Get all Green Team employee names.
 const green1 = staffArray.reduce((acc, staffMember) => {
-    if (staffMember.workshop == 'Maitland' || staffMember.workshop == 'Mater' || staffMember.workshop == 'Taree') {
+    if (staffMember.workshop == 'Hunter') {
         acc.push(staffMember.name);
         return acc;
     }
@@ -62,20 +62,8 @@ const tamworth1 = staffArray.reduce((acc, staffMember) => {
     }
 }, []); 
 
-var pagefrom;
-
-// Set local storage for team
-localStorage.setItem("team", '0');
-
-//local storage setting for clinical units//
-unit.map((location) => {
-    localStorage.setItem(location, 0);    
-});
-
-// Set local storage of each employee to HOME
-employee.map((member) => {
-    localStorage.setItem(member, 'HOME');
-});
+// Define all staff names
+const allStaffNames = jhhEmp.concat(green1, tamworth1);
 
 // finding location selected
 function findvalue(e) {
@@ -242,8 +230,25 @@ async function postToServer(name, location, comments) {
         previousConnectionStatus = currentConnectionStatus;
         currentConnectionStatus = true;
         if (previousConnectionStatus == false && currentConnectionStatus == true) {
-            console.log('Hello');
-            // Grab all data from internal storage and send to server.
+            
+            // Grab all data from internal storage and store in stringified json object
+            const storedKeys = Object.keys(localStorage);
+            storedDataArray = storedKeys.reduce((acc, key) => {
+                const storedData = localStorage.getItem(key);
+                if (allStaffNames.includes(key)) {
+                    acc.push(storedData);
+                    return acc;
+                }
+                return acc;
+            }, []).join(',');
+            const storedObjectStringified = `[${storedDataArray}]`;
+            const x = JSON.parse(storedObjectStringified).map((staff) => {
+                return staff.name;
+            })
+
+            console.log(x);
+
+            // Clear local storage now server reconnected. 
         }
         console.log(message);
     };
