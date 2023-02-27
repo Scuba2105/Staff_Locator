@@ -262,6 +262,10 @@ async function postToServer(name, location, comments, timestamp) {
                 body: storedObjectStringified // body data type must match "Content-Type" header
             });
 
+            if (response != undefined) {
+                // Clear the local storage. 
+                localStorage.clear();
+            }
             
         }
         console.log(message);

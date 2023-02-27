@@ -57,14 +57,18 @@ export async function updateTeamData(req, res, __dirname) {
 
 export async function mergeLocalStorage(req, res) {
     try {
-        console.log('Hello');
+        
         // Parse the json data into an object 
         const jsonData = JSON.stringify(req.body);
         const mergeObjectArray = JSON.parse(jsonData);
         
         // Merge local storage entries with current server data
         const latestData = await mergeLocalData(mergeObjectArray);
-        console.log(latestData);
+
+        // Write the data to the json file.
+        const filePath = path.join(__dirname, 'data', 'current-locations.json');
+        writeDataToFile(filePath, latestData);
+        
     } catch (error) {
         
     }
