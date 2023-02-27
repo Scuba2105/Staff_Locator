@@ -1,10 +1,9 @@
 import path from 'path';
 import { fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
-import { writeDataToFile } from '../utils/write-data-to-file.mjs';
+import { writeDataToFile } from '../utils/access-json-data.mjs';
 
 export async function serveCurrentData(team) {
     try {
-        const jhhData = await fetchLocations('JHH');
         const activeLocations = await getActiveLocations(); 
         const inactiveLocations = await getInactiveLocations(activeLocations);
         if (team == 'LocationOnly') {
@@ -48,14 +47,14 @@ export async function updateTeamData(req, res, __dirname) {
         
         // Write the data to the json file.
         const filePath = path.join(__dirname, 'data', 'current-locations.json');
-        writeDataToFile(filePath, newLocations);
+        await writeDataToFile(filePath, newLocations);
         return updateObject;
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function mergeLocalStorage(req, res) {
+export async function mergeLocalStorage(req, res, __dirname) {
     try {
         
         // Parse the json data into an object 
@@ -64,13 +63,17 @@ export async function mergeLocalStorage(req, res) {
         
         // Merge local storage entries with current server data
         const latestData = await mergeLocalData(mergeObjectArray);
-
+        
         // Write the data to the json file.
         const filePath = path.join(__dirname, 'data', 'current-locations.json');
-        writeDataToFile(filePath, latestData);
+        await writeDataToFile(filePath, latestData);
+
+        // Send message
+        const message = JSON.stringify({message: 'The local storage data has successfully merged'});
+        res.json(message);
         
     } catch (error) {
-        
+        console.log(error);
     }
 }
 

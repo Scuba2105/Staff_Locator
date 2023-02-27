@@ -227,7 +227,7 @@ async function postToServer(name, location, comments, timestamp) {
     if (response != undefined) {
         
         // Resolve the message from the promise
-        const message = await response.json();
+        const updateMessage = await response.json();
         
         // Set connection status
         previousConnectionStatus = currentConnectionStatus;
@@ -260,15 +260,20 @@ async function postToServer(name, location, comments, timestamp) {
                 'Content-Type': 'application/json'
                 },
                 body: storedObjectStringified // body data type must match "Content-Type" header
-            });
+            }).catch((error) => console.log(`The following error occurred: ${error}`));
 
             if (response != undefined) {
+                const mergeMessage = await response.json();
+                console.log(mergeMessage);
                 // Clear the local storage. 
                 localStorage.clear();
+
+                // Update the svg's after merging
+
             }
             
         }
-        console.log(message);
+        console.log(updateMessage);
     };
         
 };

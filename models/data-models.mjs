@@ -1,10 +1,10 @@
 import fs from 'fs';
 import { availableLocations } from '../data/available-locations.mjs';
-import { readJSON } from '../utils/read-data-from-json.mjs';
+import { readJSON } from '../utils/access-json-data.mjs';
 
-export function fetchLocations(team) { 
-    return new Promise((resolve, reject) => {
-        const currentLocations = readJSON('../data/current-locations.json');
+export async function fetchLocations(team) { 
+    return new Promise(async (resolve, reject) => {
+        const currentLocations = await readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -22,9 +22,9 @@ export function fetchLocations(team) {
     });
 };
 
-export function fetchAllLocations() {
-    return new Promise((resolve, reject) => {
-        const currentLocations = readJSON('../data/current-locations.json');
+export async function fetchAllLocations() {
+    return new Promise(async (resolve, reject) => {
+        const currentLocations = await readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -33,9 +33,9 @@ export function fetchAllLocations() {
     }); 
 }
 
-export function getActiveLocations() {
-    return new Promise((resolve, reject) => {
-        const currentLocations = readJSON('../data/current-locations.json');
+export async function getActiveLocations() {
+    return new Promise(async (resolve, reject) => {
+        const currentLocations = await readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -50,9 +50,9 @@ export function getActiveLocations() {
     }); 
 } 
 
-export function getInactiveLocations(activeLocations) {
-    return new Promise((resolve, reject) => {
-        const currentLocations = readJSON('../data/current-locations.json');
+export async function getInactiveLocations(activeLocations) {
+    return new Promise(async (resolve, reject) => {
+        const currentLocations = await readJSON('../data/current-locations.json');
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }
@@ -67,9 +67,9 @@ export function getInactiveLocations(activeLocations) {
     }); 
 } 
 
-export function updateLocations(newEntry) {
-    return new Promise((resolve, reject) => {
-        const oldLocations = readJSON('../data/current-locations.json');
+export async function updateLocations(newEntry) {
+    return new Promise(async (resolve, reject) => {
+        const oldLocations = await readJSON('../data/current-locations.json');
         const updatedStaff = oldLocations.map((oldEntry) => {
             if (oldEntry.name == newEntry.name) {
                 oldEntry.currentLocation = newEntry.currentLocation;
@@ -91,10 +91,10 @@ export function updateLocations(newEntry) {
     });
 };
 
-export function mergeLocalData(localEntries) {
-    return new Promise((resolve, reject) => {
+export async function mergeLocalData(localEntries) {
+    return new Promise(async (resolve, reject) => {
         
-        const currentLocations = readJSON('../data/current-locations.json');
+        const currentLocations = await readJSON('../data/current-locations.json');
         const updatedStaff = currentLocations.map((currentEntry) => {
             const localEntry = localEntries.find((staffMember) => {
                 return staffMember.name == currentEntry.name;
@@ -112,8 +112,8 @@ export function mergeLocalData(localEntries) {
             };
             return currentEntry;
         });
-        
-        resolve(updatedStaff);
+        const mergedLocationData = JSON.stringify(updatedStaff, null, 2);
+        resolve(mergedLocationData);
     });
 };
 

@@ -1,41 +1,37 @@
 import fs from 'fs'
 
-// Track whether file is currently accessed
-let currentlyAccessed = false;
+// create an asynclock constructor
+class AsyncLock {
+    constructor() {
+        this.disable = () => {};
+        this.promise = Promise.resolve();
+    }
 
-export function readJSON(path) {
-    if (currentlyAccessed = false) {
-        currentlyAccessed = true;
-        const readStartTime = Date.now();
-        const data = fs.readFileSync(new URL(path, import.meta.url));
-        const elapsedTime = Date.now() - readStartTime // Time to read the file. 
-        console.log(`Time to read file is approximately ${elapsedTime} ms`);
-        currentlyAccessed = false;
-        return JSON.parse(data)
-    } 
-    else {
-        console.log('File is currently unavailable.');
-        setTimeout(readJSON(path),500);
-    }    
+    enable() {
+        this.promise = new Promise(resolve => this.disable = resolve);
+    }
 }
 
-export function writeDataToFile(filename, content) {
-    if (currentlyAccessed = false) {
-        currentlyAccessed = true;
-        try {
-            const writeStartTime = Date.now();
-            fs.writeFileSync(filename, content);
-            const elapsedTime = Date.now() - writeStartTime // Time to write the file.    
-            currentlyAccessed = false;
-            console.log("File written successfully");
-            console.log(`Time to write to file is approximately ${elapsedTime} ms`);
-            return JSON.parse(data)
-          } catch(err) {
-            console.error(err);
-          }
+// Create a new instance of the object
+const lock = new AsyncLock()
+
+export async function readJSON(path) {
+    await lock.promise;
+    lock.enable();
+    const data = fs.readFileSync(new URL(path, import.meta.url));
+    lock.disable();
+    return JSON.parse(data);
+}
+
+export async function writeDataToFile(filename, content) {
+    try {
+      await lock.promise;
+      lock.enable();
+      fs.writeFileSync(filename, content);  
+      lock.disable(); 
+      console.log("File written successfully");
     } 
-    else {
-        console.log('File is currently unavailable.');
-        setTimeout(writeDataToFile(filename, content),500);
+    catch(err) {
+      console.error(err);
     }
 }
