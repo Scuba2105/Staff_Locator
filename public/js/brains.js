@@ -81,20 +81,22 @@ function findvalue(e) {
         document.getElementById("location2").value = locValue.replace(/_/g, " ");
     }
     //checking if location is bme, icu bme or rnc bme
-    if (locValue == "BME" || locValue == "ICU BME" || locValue == "RNC BME") {
+    if (locValue == "BME" || locValue == "ICU BME" || locValue == "RNC BME" || locValue == "BACK IN 5") {
         currentTab = 0;
         nextPrev(1);
         nextPrev(1);
         nextPrev(1);
         nextPrev(1);
-    } else if (locValue == "BACK IN 5") {
-        document.getElementById("location2").value = "BACK IN 5";
-        nextPrev(1);
-        nextPrev(1);
-        nextPrev(1);
-        nextPrev(1);
+    
+    /******This was commented out as there was a bug when selected multiple times. Don't know why but it seems to be fixed ******/
+    // } else if (locValue == "BACK IN 5") {
+    //     document.getElementById("location2").value = "BACK IN 5";
+    //     nextPrev(1);
+    //     nextPrev(1);
+    //     nextPrev(1);
+    //     nextPrev(1);
+    // 
     }
-
     else if (locValue == "HOME") {
         let todayIs = new Date();
         let thisDay = todayIs.getDay();
