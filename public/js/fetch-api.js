@@ -1,23 +1,11 @@
-// Find which team page is currently being viewed and store in an object.
-const teamObject = new UrlGenerator();
-const teamName = teamObject.getTeam();
+// Create serverroute object for the get locations route
+const getLocationsRoute = new ServerRoute('GetLocations');
 
 async function getCurrentLocations() {
     
-    const response = await fetch(getLocationsUrl, {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(teamName) // body data type must match "Content-Type" header
-      });
-      
-    // Get the array containing the staff members for current page and current locations. 
-    const currentLocations = await response.json();
-    
+    // Send request to server and resolve response data
+    const currentLocations = await getLocationsRoute.sendRequest();
+        
     // Update each staff member in the table
     currentLocations.teamData.forEach((staffMember) => {
       const locationElement = document.querySelector(`#${staffMember.locationId}`);

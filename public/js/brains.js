@@ -1,9 +1,11 @@
 // Define a class for getting server route information and sending requests endpoint routes.
 class ServerRoute {
-    constructor(endpoint, data) {
+    constructor(endpoint, data = '') {
         this.urlArray = window.location.href.split('/');
         this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
         this.data = data;
+        this.previousConnectionStatus = undefined;
+        this.currentConnectionStatus = true;
     }
 
     // Get the url for the endpoint route
@@ -24,10 +26,13 @@ class ServerRoute {
     // Send a request to the server endpoint
     async sendRequest() {
         if (endpoint == 'GetLocations') {
-            requestData = this.getPageIdentifier();
+            requestData = JSON.stringify(this.getPageIdentifier());
         }
-        else if (endpoint == 'UpdateLocations' || endpoint == 'MergeLocalStorage') {
-            requestData = this.data; 
+        else if (endpoint == 'UpdateLocations') {
+            requestData = JSON.stringify(this.data); 
+        }
+        else if (endpoint == 'MergeLocalStorage') {
+            requestData = this.data;
         }
         else {
             throw new Error('The requested endpoint does not exist');
@@ -52,8 +57,7 @@ class ServerRoute {
 }
 
 // Create server routes objects for each route
-const mergeRoute = new ServerRoute('MergeLocalStorage', 'placeholder for data');
-const getLocationsRoute = new ServerRoute('GetLocations');
+
 const updateLocationsRoute = new ServerRoute('UpdateLocations', 'placeholder for data');
 
 // Define array of objects for staff details. 
@@ -299,23 +303,14 @@ async function postToServer(name, location, comments, timestamp) {
                 }
                 return acc;
             }, []).join(',');
+            
+            // Stringify local storage array for post to server
             const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
             
-            // Post updates to server for merging
-            const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/MergeLocalStorage';
-        
-            const response = await fetch(mergeUrl, {
-                method: 'POST', 
-                mode: 'cors', // no-cors, *cors, same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: storedObjectStringified // body data type must match "Content-Type" header
-            }).catch((error) => console.log(`The following error occurred: ${error}`));
+            const mergeLocationsRoute = new ServerRoute('MergeLocations', storedObjectStringified);
+            const response = await mergeLocationsRoute.sendRequest();
 
-            if (response != undefined) {
+            if (typeof response != undefined) {
                 const mergeMessage = await response.json();
                 console.log(mergeMessage);
                 // Clear the local storage. 
