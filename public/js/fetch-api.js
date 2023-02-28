@@ -1,17 +1,10 @@
-// Get current window URL and split protocol, domain/port and page into an array
-//const currentURL = window.location.href;
-//const urlArray = currentURL.split('/');
-
 // Find which team page is currently being viewed and store in an object.
-const team = urlArray[urlArray.length - 1].replace('#', '');
-const data = {team: team};
+const teamObject = new UrlGenerator();
+const teamName = teamObject.getTeam();
 
 async function getCurrentLocations() {
     
-    // Set the URL for the fetch api.
-    const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/GetLocations';
-        
-    const response = await fetch(apiURL, {
+    const response = await fetch(getLocationsUrl, {
         method: 'POST', 
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -19,7 +12,7 @@ async function getCurrentLocations() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
+        body: JSON.stringify(teamName) // body data type must match "Content-Type" header
       });
       
     // Get the array containing the staff members for current page and current locations. 
@@ -46,11 +39,8 @@ async function getCurrentLocations() {
 
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
 
-// Define the sse end point 
-sseURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/LatestUpdate';
-
 // Create the sse event source object
-const sseSource = new EventSource(sseURL);
+const sseSource = new EventSource(sseUrl);
 
 // Define the callback to execute when message is received from sse
 sseSource.onmessage = function (event) {
@@ -61,7 +51,7 @@ sseSource.onmessage = function (event) {
     const svgLocations = receivedData.svgLocationStatus;
         
     // Check if the workshop of the updated entry corresponds to the current page
-    if (workshop == team) {
+    if (workshop == teamName) {
       
       // Get the previous location and comments
       const previousLocation = document.querySelector(`#${locationId}`).textContent;

@@ -1,6 +1,64 @@
-// Get current window URL and split protocol, domain/port and page into an array
-const currentURL = window.location.href;
-const urlArray = currentURL.split('/');
+// Define a class for getting URL information and generating URL's for endpoint routes.
+class UrlGenerator {
+    constructor(endpoint) {
+        this.urlArray = window.location.href.split('/');
+        this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
+    }
+
+    getRoute() {
+        return this.url;
+    }
+
+    getCurrentURL() {
+        return this.urlArray.join('/');
+    }
+
+    getTeam() {
+        return {team: this.urlArray[this.urlArray.length - 1].replace('#', '')};
+    }
+}
+
+// Define the url for each endpoint route
+const getLocationsUrlObject = new UrlGenerator('GetLocations');
+const getLocationsUrl = getLocationsUrlObject.getRoute();
+
+const updateLocationsUrlObject = new UrlGenerator('UpdateLocations');
+const updateLocationsUrl = updateLocationsUrlObject.getRoute();
+
+const sseUrlObject = new UrlGenerator('LatestUpdate');
+const sseUrl = sseUrlObject.getRoute();
+
+const mergeUrlObject = new UrlGenerator('MergeLocalStorage');
+const mergeUrl = mergeUrlObject.getRoute();
+
+// Define a class for server requests
+class ServerRequests {
+    constructor(httpVerb, route) {
+        this.httpVerb;
+        this.route;
+    }
+
+    async sendRequest() {
+        if (this.httpVerb == 'GET') {
+
+        }
+        else if (this.httpVerb == 'POST') {
+            const response = await fetch(getLocationsUrl, {
+                method: 'POST', 
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(teamName) // body data type must match "Content-Type" header
+            });
+      
+            // Get the array containing the staff members for current page and current locations. 
+            return currentLocations = await response.json();
+        }
+    }
+} 
 
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
@@ -202,11 +260,8 @@ async function postToServer(name, location, comments, timestamp) {
     // Put the data into the required object to post to backend
     const updateData = {name: name, currentLocation: location, comments: comments, timestamp: timestamp}; 
     
-    // Set the URL for the fetch api.
-    const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
-
     // Post the data to the server
-    const response  = await fetch(apiURL, {
+    const response  = await fetch(updateLocationsUrl, {
         method: 'POST', 
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -249,11 +304,11 @@ async function postToServer(name, location, comments, timestamp) {
                 return acc;
             }, []).join(',');
             const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
-            console.log(storedObjectStringified);
+            
             // Post updates to server for merging
             const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/MergeLocalStorage';
         
-            const response = await fetch(apiURL, {
+            const response = await fetch(mergeUrl, {
                 method: 'POST', 
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
