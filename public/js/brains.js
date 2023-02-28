@@ -1,49 +1,40 @@
-// Define a class for getting URL information and generating URL's for endpoint routes.
-class UrlGenerator {
-    constructor(endpoint) {
+// Define a class for getting server route information and sending requests endpoint routes.
+class ServerRoute {
+    constructor(endpoint, data) {
         this.urlArray = window.location.href.split('/');
         this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
+        this.data = data;
     }
 
+    // Get the url for the endpoint route
     getRoute() {
         return this.url;
     }
 
+    // Get the URL for the current page
     getCurrentURL() {
         return this.urlArray.join('/');
     }
 
-    getTeam() {
+    // Identify what page is being viewed (eg. Management, JHH, Hunter, Tamworth)
+    getPageIdentifier() {
         return {team: this.urlArray[this.urlArray.length - 1].replace('#', '')};
     }
-}
 
-// Define the url for each endpoint route
-const getLocationsUrlObject = new UrlGenerator('GetLocations');
-const getLocationsUrl = getLocationsUrlObject.getRoute();
-
-const updateLocationsUrlObject = new UrlGenerator('UpdateLocations');
-const updateLocationsUrl = updateLocationsUrlObject.getRoute();
-
-const sseUrlObject = new UrlGenerator('LatestUpdate');
-const sseUrl = sseUrlObject.getRoute();
-
-const mergeUrlObject = new UrlGenerator('MergeLocalStorage');
-const mergeUrl = mergeUrlObject.getRoute();
-
-// Define a class for server requests
-class ServerRequests {
-    constructor(httpVerb, route) {
-        this.httpVerb;
-        this.route;
-    }
-
+    // Send a request to the server endpoint
     async sendRequest() {
-        if (this.httpVerb == 'GET') {
-
+        if (endpoint == 'GetLocations') {
+            requestData = this.getPageIdentifier();
         }
-        else if (this.httpVerb == 'POST') {
-            const response = await fetch(getLocationsUrl, {
+        else if (endpoint == 'UpdateLocations' || endpoint == 'MergeLocalStorage') {
+            requestData = this.data; 
+        }
+        else {
+            throw new Error('The requested endpoint does not exist');
+        }
+        
+        const endpointURL = this.getRoute(); 
+        const response = await fetch(endpointURL, {
                 method: 'POST', 
                 mode: 'cors', // no-cors, *cors, same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -51,14 +42,19 @@ class ServerRequests {
                 headers: {
                 'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(teamName) // body data type must match "Content-Type" header
+                body: JSON.stringify(requestData) // body data type must match "Content-Type" header
             });
       
             // Get the array containing the staff members for current page and current locations. 
-            return currentLocations = await response.json();
+            const responseData = await response.json();
+            return responseData;
         }
-    }
-} 
+}
+
+// Create server routes objects for each route
+const mergeRoute = new ServerRoute('MergeLocalStorage', 'placeholder for data');
+const getLocationsRoute = new ServerRoute('GetLocations');
+const updateLocationsRoute = new ServerRoute('UpdateLocations', 'placeholder for data');
 
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
