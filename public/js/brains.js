@@ -135,6 +135,19 @@ function findvalue(e) {
         nextPrev(1);
         nextPrev(1);
     }
+    else if (locationOptions.level1.includes(locValue)){
+        nextPrev(1);
+        nextPrev(1);
+    }
+    else if (locationOptions.level2.includes(locValue)){
+        nextPrev(1);
+        nextPrev(1);
+    }
+    else if (locationOptions.level3.includes(locValue)){
+        nextPrev(1);
+        nextPrev(1);
+    }
+
     else {
         currentTab = 0;
         nextPrev(1);
