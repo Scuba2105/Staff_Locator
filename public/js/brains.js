@@ -137,33 +137,21 @@ function findvalue(e) {
         nextPrev(1);
         nextPrev(1);
     }
-<<<<<<< Updated upstream
-    else if (locationOptions.level1.includes(locValue)){
-        nextPrev(1);
-        nextPrev(1);
-    }
-    else if (locationOptions.level2.includes(locValue)){
-        nextPrev(1);
-        nextPrev(1);
-    }
-    else if (locationOptions.level3.includes(locValue)){
-        nextPrev(1);
-        nextPrev(1);
-    }
-=======
     else if (locationOptions.level1.includes(locValue)) {
+        currentTab = 0;
         nextPrev(1);
         nextPrev(1);
     }
     else if (locationOptions.level2.includes(locValue)) {
+        currentTab = 0;
         nextPrev(1);
         nextPrev(1);
     }
     else if (locationOptions.level3.includes(locValue)) {
+        currentTab = 0;
         nextPrev(1);
         nextPrev(1);
-    }    
->>>>>>> Stashed changes
+    }
 
     else {
         currentTab = 0;
@@ -319,7 +307,9 @@ function showTab(n) {
                 setDate = empDate2
             }
             let empTime = document.getElementById("timeSelect").value;
-
+            if (setDate == "") {
+                setDate = "Today";
+            }
 
             let empcomment = `${empTime}     ${setDate}`;
             // document.getElementById("location2").value = document.getElementById("location").value;

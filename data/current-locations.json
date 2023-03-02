@@ -4,8 +4,8 @@
     "locationId": "lik",
     "commentId": "cik",
     "workshop": "Management",
-    "currentLocation": "AUDIOLOGY",
-    "comments": "02:32     "
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "PAUL COOKSON",
@@ -28,16 +28,16 @@
     "locationId": "lgg",
     "commentId": "cgg",
     "workshop": "Management",
-    "currentLocation": "WARD F3",
-    "comments": "Back Monday"
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "DURGA SOMPALLE",
     "locationId": "lds",
     "commentId": "cds",
     "workshop": "JHH",
-    "currentLocation": "WARD G2",
-    "comments": "Back Monday"
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "ATIF SIDDIQUI",
@@ -60,24 +60,24 @@
     "locationId": "lmjp",
     "commentId": "cmjp",
     "workshop": "JHH",
-    "currentLocation": "JHH OPERATING THEATRE",
-    "comments": "     "
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "STEVEN BRADBURY",
     "locationId": "lsb",
     "commentId": "csb",
     "workshop": "JHH",
-    "currentLocation": "ICU",
-    "comments": "     "
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "KEITH BALL",
     "locationId": "lkb",
     "commentId": "ckb",
     "workshop": "JHH",
-    "currentLocation": "EMERGENCY",
-    "comments": "Back Monday"
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "ELLEN HEYDON",
@@ -132,8 +132,8 @@
     "locationId": "lar",
     "commentId": "car",
     "workshop": "Tamworth",
-    "currentLocation": "GLEN INNES",
-    "comments": "Tomorrow 7:30am"
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "BRET PRYOR",
@@ -156,8 +156,8 @@
     "locationId": "lps",
     "commentId": "cps",
     "workshop": "Hunter",
-    "currentLocation": "WALCHA",
-    "comments": "TESTING"
+    "currentLocation": "HOME",
+    "comments": "Back Tomorrow"
   },
   {
     "name": "MATTHEW MURRELL",
