@@ -1,11 +1,17 @@
+// Get team identifier from url
+const teamName = new ServerRoute('GetLocations').getPageIdentifier();
+
 // Create serverroute object for the get locations route
-const getLocationsRoute = new ServerRoute('GetLocations');
+const getLocationsRoute = new ServerRoute('GetLocations', teamName);
 
 async function getCurrentLocations() {
     
     // Send request to server and resolve response data
-    const currentLocations = await getLocationsRoute.sendRequest();
-        
+    const responseData = await getLocationsRoute.sendRequest();
+    
+    // Get the json data from the response object
+    const currentLocations = await responseData.json();
+    console.log(currentLocations);
     // Update each staff member in the table
     currentLocations.teamData.forEach((staffMember) => {
       const locationElement = document.querySelector(`#${staffMember.locationId}`);
@@ -26,6 +32,8 @@ async function getCurrentLocations() {
 };
 
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
+
+const sseUrl = new ServerRoute('LatestUpdate').getRoute();
 
 // Create the sse event source object
 const sseSource = new EventSource(sseUrl);

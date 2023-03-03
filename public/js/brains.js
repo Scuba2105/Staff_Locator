@@ -1,11 +1,28 @@
 // Define a class for getting server route information and sending requests endpoint routes.
 class ServerRoute {
     constructor(endpoint, data = '') {
+        this.endpoint = endpoint;
         this.urlArray = window.location.href.split('/');
         this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
         this.data = data;
         this.previousConnectionStatus = undefined;
-        this.currentConnectionStatus = true;
+        this.currentConnectionStatus = undefined;
+    }
+
+    // Update the route connection status
+    updateConnectionStatus(connected) {
+        this.previousConnectionStatus = this.currentConnectionStatus;
+        this.currentConnectionStatus = connected;
+    }
+
+    // Specify whether the server has reconnected since previous post
+    checkReconnection() {
+        if (previousConnectionStatus == false && currentConnectionStatus == true) {
+            return true
+        }
+        else {
+            return  false
+        }
     }
 
     // Get the url for the endpoint route
@@ -20,18 +37,19 @@ class ServerRoute {
 
     // Identify what page is being viewed (eg. Management, JHH, Hunter, Tamworth)
     getPageIdentifier() {
-        return {team: this.urlArray[this.urlArray.length - 1].replace('#', '')};
+        return {teamName: this.urlArray[this.urlArray.length - 1].replace('#', '')};
     }
 
     // Send a request to the server endpoint
     async sendRequest() {
-        if (endpoint == 'GetLocations') {
+        let requestData;
+        if (this.endpoint == 'GetLocations') {
             requestData = JSON.stringify(this.getPageIdentifier());
         }
-        else if (endpoint == 'UpdateLocations') {
+        else if (this.endpoint == 'UpdateLocations') {
             requestData = JSON.stringify(this.data); 
         }
-        else if (endpoint == 'MergeLocalStorage') {
+        else if (this.endpoint == 'MergeLocalStorage') {
             requestData = this.data;
         }
         else {
@@ -39,6 +57,7 @@ class ServerRoute {
         }
         
         const endpointURL = this.getRoute(); 
+        
         const response = await fetch(endpointURL, {
                 method: 'POST', 
                 mode: 'cors', // no-cors, *cors, same-origin
@@ -47,18 +66,12 @@ class ServerRoute {
                 headers: {
                 'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestData) // body data type must match "Content-Type" header
+                body: requestData // body data type must match "Content-Type" header
             });
       
-            // Get the array containing the staff members for current page and current locations. 
-            const responseData = await response.json();
-            return responseData;
+        return response;
         }
 }
-
-// Create server routes objects for each route
-
-const updateLocationsRoute = new ServerRoute('UpdateLocations', 'placeholder for data');
 
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
@@ -259,21 +272,16 @@ async function postToServer(name, location, comments, timestamp) {
     
     // Put the data into the required object to post to backend
     const updateData = {name: name, currentLocation: location, comments: comments, timestamp: timestamp}; 
-    
-    // Post the data to the server
-    const response  = await fetch(updateLocationsUrl, {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updateData) // body data type must match "Content-Type" header
-    }).catch(() => {
-        // Set connection status
-        previousConnectionStatus = currentConnectionStatus;
-        currentConnectionStatus = false;
+
+    // Create update locations route, send post request with new data and catch errors and respond appropriately 
+    const updateRoute = new ServerRoute('UpdateLocations', updateData);
+    const response = await updateRoute.sendRequest().catch(() => {
+        
+        // Update connection status
+        updateRoute.updateConnectionStatus(false);
+
+        // Check if server has reconnected since previous update
+        updateRoute.checkReconnection();
 
         // If error on connection then store data in local storage
         const id = updateData.name;
@@ -287,11 +295,10 @@ async function postToServer(name, location, comments, timestamp) {
         const updateMessage = await response.json();
         
         // Set connection status
-        previousConnectionStatus = currentConnectionStatus;
-        currentConnectionStatus = true;
+        updateRoute.updateConnectionStatus(true);
 
         // If server has reconnected since last update merge local storage changes to server
-        if (previousConnectionStatus == false && currentConnectionStatus == true) {
+        if (updateRoute.checkReconnection()) {
             
             // Grab all data from internal storage and store in stringified json object
             const storedKeys = Object.keys(localStorage);
@@ -307,10 +314,11 @@ async function postToServer(name, location, comments, timestamp) {
             // Stringify local storage array for post to server
             const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
             
+            // Create merge route object and send a post request
             const mergeLocationsRoute = new ServerRoute('MergeLocations', storedObjectStringified);
             const response = await mergeLocationsRoute.sendRequest();
 
-            if (typeof response != undefined) {
+            if (response != undefined) {
                 const mergeMessage = await response.json();
                 console.log(mergeMessage);
                 // Clear the local storage. 

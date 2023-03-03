@@ -21,11 +21,12 @@ export async function serveCurrentData(team) {
 
 export async function sendTeamData(req, res) {
     try {
+        
         // Convert binary string to json and get the team page being viewed.
         const jsonData = JSON.stringify(req.body);
         const teamObject = JSON.parse(jsonData);
-        const team = teamObject.team;
-
+        const team = teamObject.teamName;
+        
         // Get the current location data for the specified team.
         const currentData = await serveCurrentData(team);
         
