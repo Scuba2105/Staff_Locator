@@ -82,25 +82,30 @@ class ServerRoute {
         }
 }
 
+class MergeData {
+    constructor() {
+       this.management = true;
+       this.jhh = true;
+       this.hunter = true;
+       this.tamworth = true; 
+    }
+
+}
+
+// Create a merge status object to track merge updates for each page
+const mergeStatus = new MergeData();
+
+const keys = Object.keys(mergeStatus);
+const values = keys.map((key) => {
+    return mergeStatus[key];
+})
+console.log(values);
+
 // Create update locations route object
 const updateRoute = new ServerRoute('UpdateLocations');
 
 // Create merge local storage route object
 const mergeLocationsRoute = new ServerRoute('MergeLocalStorage');
-
-// Function for defining the svg manipulation
-function updateSvgOnLoad(currentLocations) {
-    
-    // Update svg's with current data on page load
-    currentLocations.activeLocations.forEach((location) => {
-        const svgLocation = location.replace(/\s/g,'_');
-        const svgElement = document.querySelector(`#${svgLocation}`);
-        if (svgElement != null) {
-          svgElement.classList.add('animate');
-          svgElement.style.opacity = '1';
-        };
-      });
-}
 
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
@@ -344,13 +349,16 @@ async function postToServer(name, location, comments, timestamp) {
             const response = await mergeLocationsRoute.sendRequest(storedObjectStringified);
 
             if (response != undefined) {
+                
+                // Resolve the response data into an object
                 const mergeMessage = await response.json();
-                console.log(mergeMessage);
+                console.log(mergeMessage);                
+
                 // Clear the local storage. 
                 localStorage.clear();
 
-                // Update the svg's after merging
-
+                // Get the latest data and update tables and SVG
+                            
             }
             
         }

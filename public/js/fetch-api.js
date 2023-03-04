@@ -24,8 +24,24 @@ async function getCurrentLocations() {
     updateSvgOnLoad(currentLocations);
 };
 
+// Function for defining the svg manipulation
+function updateSvgOnLoad(currentLocations) {
+    
+  // Update svg's with current data on page load
+  currentLocations.activeLocations.forEach((location) => {
+      const svgLocation = location.replace(/\s/g,'_');
+      const svgElement = document.querySelector(`#${svgLocation}`);
+      if (svgElement != null) {
+        svgElement.classList.add('animate');
+        svgElement.style.opacity = '1';
+      };
+    });
+}
+
+// Add event listener for when DOM content loaded
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
 
+// Define the url for the sse route
 const sseUrl = new ServerRoute('LatestUpdate').getRoute();
 
 // Create the sse event source object
