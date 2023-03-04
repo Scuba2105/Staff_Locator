@@ -1,27 +1,36 @@
 // Define a class for getting server route information and sending requests endpoint routes.
 class ServerRoute {
-    constructor(endpoint, data = '') {
+    constructor(endpoint) {
         this.endpoint = endpoint;
         this.urlArray = window.location.href.split('/');
         this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
-        this.data = data;
         this.previousConnectionStatus = undefined;
         this.currentConnectionStatus = undefined;
     }
 
-    // Update the route connection status
-    updateConnectionStatus(connected) {
-        this.previousConnectionStatus = this.currentConnectionStatus;
-        this.currentConnectionStatus = connected;
+    get previousStatus() {
+        return this.previousConnectionStatus;
     }
 
-    // Specify whether the server has reconnected since previous post
+    get currentStatus() {
+        return this.currentConnectionStatus;
+    }
+    
+    set previousStatus(value) {
+        this.previousConnectionStatus = value;
+    }
+
+    set currentStatus(value) {
+        this.currentConnectionStatus = value;
+    }
+
+    // Check if the server has reconnected
     checkReconnection() {
-        if (previousConnectionStatus == false && currentConnectionStatus == true) {
+        if (this.previousConnectionStatus == false && this.currentConnectionStatus == true) {
             return true
         }
         else {
-            return  false
+            return false
         }
     }
 
@@ -41,16 +50,16 @@ class ServerRoute {
     }
 
     // Send a request to the server endpoint
-    async sendRequest() {
+    async sendRequest(data = '') {
         let requestData;
         if (this.endpoint == 'GetLocations') {
             requestData = JSON.stringify(this.getPageIdentifier());
         }
         else if (this.endpoint == 'UpdateLocations') {
-            requestData = JSON.stringify(this.data); 
+            requestData = JSON.stringify(data); 
         }
         else if (this.endpoint == 'MergeLocalStorage') {
-            requestData = this.data;
+            requestData = data;
         }
         else {
             throw new Error('The requested endpoint does not exist');
@@ -72,6 +81,12 @@ class ServerRoute {
         return response;
         }
 }
+
+// Create update locations route object
+const updateRoute = new ServerRoute('UpdateLocations');
+
+// Create merge local storage route object
+const mergeLocationsRoute = new ServerRoute('MergeLocalStorage');
 
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
@@ -273,16 +288,13 @@ async function postToServer(name, location, comments, timestamp) {
     // Put the data into the required object to post to backend
     const updateData = {name: name, currentLocation: location, comments: comments, timestamp: timestamp}; 
 
-    // Create update locations route, send post request with new data and catch errors and respond appropriately 
-    const updateRoute = new ServerRoute('UpdateLocations', updateData);
-    const response = await updateRoute.sendRequest().catch(() => {
+    // Send post request on the update locations route
+    const response = await updateRoute.sendRequest(updateData).catch(() => {
         
         // Update connection status
-        updateRoute.updateConnectionStatus(false);
-
-        // Check if server has reconnected since previous update
-        updateRoute.checkReconnection();
-
+        updateRoute.previousStatus = updateRoute.currentStatus;
+        updateRoute.currentStatus = false;
+        console.log(updateRoute.previousConnectionStatus, updateRoute.currentConnectionStatus);
         // If error on connection then store data in local storage
         const id = updateData.name;
         const dataString = JSON.stringify(updateData);
@@ -294,11 +306,14 @@ async function postToServer(name, location, comments, timestamp) {
         // Resolve the message from the promise
         const updateMessage = await response.json();
         
-        // Set connection status
-        updateRoute.updateConnectionStatus(true);
+        // Update connection status
+        updateRoute.previousStatus = updateRoute.currentStatus;
+        updateRoute.currentStatus = true;
+        console.log(updateRoute.previousConnectionStatus, updateRoute.currentConnectionStatus);
+        const reconnected = updateRoute.checkReconnection(); 
 
         // If server has reconnected since last update merge local storage changes to server
-        if (updateRoute.checkReconnection()) {
+        if (reconnected) {
             
             // Grab all data from internal storage and store in stringified json object
             const storedKeys = Object.keys(localStorage);
@@ -314,9 +329,8 @@ async function postToServer(name, location, comments, timestamp) {
             // Stringify local storage array for post to server
             const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
             
-            // Create merge route object and send a post request
-            const mergeLocationsRoute = new ServerRoute('MergeLocations', storedObjectStringified);
-            const response = await mergeLocationsRoute.sendRequest();
+            // Send post request on merge route
+            const response = await mergeLocationsRoute.sendRequest(storedObjectStringified);
 
             if (response != undefined) {
                 const mergeMessage = await response.json();

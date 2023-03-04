@@ -1,13 +1,13 @@
-// Get team identifier from url
-const teamName = new ServerRoute('GetLocations').getPageIdentifier();
-
 // Create serverroute object for the get locations route
-const getLocationsRoute = new ServerRoute('GetLocations', teamName);
+const getLocationsRoute = new ServerRoute('GetLocations');
+
+// Get team identifier from url
+const teamName = getLocationsRoute.getPageIdentifier();
 
 async function getCurrentLocations() {
     
     // Send request to server and resolve response data
-    const responseData = await getLocationsRoute.sendRequest();
+    const responseData = await getLocationsRoute.sendRequest(teamName);
     
     // Get the json data from the response object
     const currentLocations = await responseData.json();
