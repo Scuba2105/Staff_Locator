@@ -158,7 +158,6 @@ const allStaffNames = jhhEmp.concat(green1, tamworth1);
 // finding location selected
 function findvalue(e) {
     document.getElementById("location").value = e.innerText;
-    console.log(e.innerText);
     var locValue = document.getElementById("location").value;
     //Checking if location selected is custom
     if (locValue == "CUSTOM") {
@@ -218,7 +217,6 @@ function getval(cel) {
 function openForm() {
     const parentElement = this.parentElement;
     const firstCell = parentElement.firstElementChild;
-    console.log(firstCell);
     const employeeName = firstCell.textContent; 
     document.getElementById("empId").innerHTML = employeeName;   
     document.getElementById("myForm").style.display = "block";
@@ -294,7 +292,7 @@ async function postToServer(name, location, comments, timestamp) {
         // Update connection status
         updateRoute.previousStatus = updateRoute.currentStatus;
         updateRoute.currentStatus = false;
-        console.log(updateRoute.previousConnectionStatus, updateRoute.currentConnectionStatus);
+        
         // If error on connection then store data in local storage
         const id = updateData.name;
         const dataString = JSON.stringify(updateData);
@@ -309,7 +307,6 @@ async function postToServer(name, location, comments, timestamp) {
         // Update connection status
         updateRoute.previousStatus = updateRoute.currentStatus;
         updateRoute.currentStatus = true;
-        console.log(updateRoute.previousConnectionStatus, updateRoute.currentConnectionStatus);
         const reconnected = updateRoute.checkReconnection(); 
 
         // If server has reconnected since last update merge local storage changes to server
