@@ -11,7 +11,7 @@ async function getCurrentLocations() {
     
     // Get the json data from the response object
     const currentLocations = await responseData.json();
-    console.log(currentLocations);
+    
     // Update each staff member in the table
     currentLocations.teamData.forEach((staffMember) => {
       const locationElement = document.querySelector(`#${staffMember.locationId}`);
@@ -21,14 +21,7 @@ async function getCurrentLocations() {
     });
 
     // Update svg's with current data
-    currentLocations.activeLocations.forEach((location) => {
-      const svgLocation = location.replace(/\s/g,'_');
-      const svgElement = document.querySelector(`#${svgLocation}`);
-      if (svgElement != null) {
-        svgElement.classList.add('animate');
-        svgElement.style.opacity = '1';
-      };
-    });
+    updateSvgOnLoad(currentLocations);
 };
 
 window.addEventListener('DOMContentLoaded', getCurrentLocations);

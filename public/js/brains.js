@@ -88,6 +88,20 @@ const updateRoute = new ServerRoute('UpdateLocations');
 // Create merge local storage route object
 const mergeLocationsRoute = new ServerRoute('MergeLocalStorage');
 
+// Function for defining the svg manipulation
+function updateSvgOnLoad(currentLocations) {
+    
+    // Update svg's with current data on page load
+    currentLocations.activeLocations.forEach((location) => {
+        const svgLocation = location.replace(/\s/g,'_');
+        const svgElement = document.querySelector(`#${svgLocation}`);
+        if (svgElement != null) {
+          svgElement.classList.add('animate');
+          svgElement.style.opacity = '1';
+        };
+      });
+}
+
 // Define array of objects for staff details. 
 const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
 {name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'Management'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
