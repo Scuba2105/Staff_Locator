@@ -9,6 +9,8 @@ const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', w
 {name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Hunter'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Hunter'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Hunter'},
 {name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Hunter'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
 
+{name: name, }; 
+
 // Define the clinical units and departments within the health service.
 const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
 "WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",

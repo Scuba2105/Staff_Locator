@@ -66,6 +66,29 @@ app.get('/Tamworth', (req, res) => {
   }
 });
 
+// Store the latest update data
+const latestUpdateData = [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', flag: 0},
+{name: 'GLADY GIDEON', currentLocation: '', comments: '', flag: 0}, {name: 'DURGA SOMPALLE', currentLocation: '', comments: '', flag: 0}, {name: 'ATIF SIDDIQUI', currentLocation: '', comments: '', flag: 0},
+{name: 'MICHAEL DATHAN-HORDER', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PACEY', currentLocation: '', comments: '', flag: 0}, {name: 'STEVEN BRADBURY', currentLocation: '', comments: '', flag: 0},
+{name: 'KEITH BALL', currentLocation: '', comments: '', flag: 0}, {name: 'ELLEN HEYDON', currentLocation: '', comments: '', flag: 0}, {name: 'RODNEY BIRT', currentLocation: '', comments: '', flag: 0},
+{name: 'RAY AUNEI MOSE', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PYNE', currentLocation: '', comments: '', flag: 0}, {name: 'PEDRAM BIDAR', currentLocation: '', comments: '', flag: 0},
+{name: 'JOHN LARKWORTHY', currentLocation: '', comments: '', flag: 0}, {name: 'AZMI REFAL', currentLocation: '', comments: '', flag: 0}, {name: 'BRET PRYOR', currentLocation: '', comments: '', flag: 0},
+{name: 'TROY TRAEGAR', currentLocation: '', comments: '', flag: 0}, {name: 'PATRICK SMALL', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW MURRELL', currentLocation: '', comments: '', flag: 0},
+{name: 'WAYNE FULLER', currentLocation: '', comments: '', flag: 0}, {name: 'LEIGH RYAN', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW LAW', currentLocation: '', comments: '', flag: 0},
+{name: 'TOME TOMEV', currentLocation: '', comments: '', flag: 0}, {name: 'KENDO WU', currentLocation: '', comments: '', flag: 0}];
+
+// Store the latest update data
+const latestMergeData = [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', flag: 0},
+{name: 'GLADY GIDEON', currentLocation: '', comments: '', flag: 0}, {name: 'DURGA SOMPALLE', currentLocation: '', comments: '', flag: 0}, {name: 'ATIF SIDDIQUI', currentLocation: '', comments: '', flag: 0},
+{name: 'MICHAEL DATHAN-HORDER', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PACEY', currentLocation: '', comments: '', flag: 0}, {name: 'STEVEN BRADBURY', currentLocation: '', comments: '', flag: 0},
+{name: 'KEITH BALL', currentLocation: '', comments: '', flag: 0}, {name: 'ELLEN HEYDON', currentLocation: '', comments: '', flag: 0}, {name: 'RODNEY BIRT', currentLocation: '', comments: '', flag: 0},
+{name: 'RAY AUNEI MOSE', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PYNE', currentLocation: '', comments: '', flag: 0}, {name: 'PEDRAM BIDAR', currentLocation: '', comments: '', flag: 0},
+{name: 'JOHN LARKWORTHY', currentLocation: '', comments: '', flag: 0}, {name: 'AZMI REFAL', currentLocation: '', comments: '', flag: 0}, {name: 'BRET PRYOR', currentLocation: '', comments: '', flag: 0},
+{name: 'TROY TRAEGAR', currentLocation: '', comments: '', flag: 0}, {name: 'PATRICK SMALL', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW MURRELL', currentLocation: '', comments: '', flag: 0},
+{name: 'WAYNE FULLER', currentLocation: '', comments: '', flag: 0}, {name: 'LEIGH RYAN', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW LAW', currentLocation: '', comments: '', flag: 0},
+{name: 'TOME TOMEV', currentLocation: '', comments: '', flag: 0}, {name: 'KENDO WU', currentLocation: '', comments: '', flag: 0}];
+
+
 // Variable stored in memory to track latest update data
 let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, svgLocationStatus: ''};
 
