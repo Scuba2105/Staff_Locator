@@ -52,6 +52,7 @@ sseSource.onmessage = function (event) {
     
     // Destructure the update object into variables. 
     const receivedData = JSON.parse(event.data);
+    console.log(receivedData);
     const { name, locationId, commentId, workshop, currentLocation, comments } = receivedData.newData;
     const svgLocations = receivedData.svgLocationStatus;
         

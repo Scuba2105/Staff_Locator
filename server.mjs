@@ -68,7 +68,7 @@ app.get('/Tamworth', (req, res) => {
 });
 
 // Store the latest update data
-const latestUpdateData = {newData: [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', timestamp: '', flag: 0},
+let latestUpdateData = {newData: [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', timestamp: '', flag: 0},
 {name: 'GLADY GIDEON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'DURGA SOMPALLE', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'ATIF SIDDIQUI', currentLocation: '', comments: '', timestamp: '', flag: 0},
 {name: 'MICHAEL DATHAN-HORDER', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MITCHELL PACEY', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'STEVEN BRADBURY', currentLocation: '', comments: '', timestamp: '', flag: 0},
 {name: 'KEITH BALL', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'ELLEN HEYDON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'RODNEY BIRT', currentLocation: '', comments: '', timestamp: '', flag: 0},
@@ -77,21 +77,6 @@ const latestUpdateData = {newData: [{name: 'ISHAQUE KHAN', currentLocation: '', 
 {name: 'TROY TRAEGAR', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PATRICK SMALL', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MATTHEW MURRELL', currentLocation: '', comments: '', timestamp: '', flag: 0},
 {name: 'WAYNE FULLER', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'LEIGH RYAN', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MATTHEW LAW', currentLocation: '', comments: '', timestamp: '', flag: 0},
 {name: 'TOME TOMEV', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'KENDO WU', currentLocation: '', comments: '', timestamp: '', flag: 0}], svgLocationStatus: ''};
-
-// Store the latest merge data
-const latestMergeData = {newData: [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', flag: 0},
-{name: 'GLADY GIDEON', currentLocation: '', comments: '', flag: 0}, {name: 'DURGA SOMPALLE', currentLocation: '', comments: '', flag: 0}, {name: 'ATIF SIDDIQUI', currentLocation: '', comments: '', flag: 0},
-{name: 'MICHAEL DATHAN-HORDER', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PACEY', currentLocation: '', comments: '', flag: 0}, {name: 'STEVEN BRADBURY', currentLocation: '', comments: '', flag: 0},
-{name: 'KEITH BALL', currentLocation: '', comments: '', flag: 0}, {name: 'ELLEN HEYDON', currentLocation: '', comments: '', flag: 0}, {name: 'RODNEY BIRT', currentLocation: '', comments: '', flag: 0},
-{name: 'RAY AUNEI MOSE', currentLocation: '', comments: '', flag: 0}, {name: 'MITCHELL PYNE', currentLocation: '', comments: '', flag: 0}, {name: 'PEDRAM BIDAR', currentLocation: '', comments: '', flag: 0},
-{name: 'JOHN LARKWORTHY', currentLocation: '', comments: '', flag: 0}, {name: 'AZMI REFAL', currentLocation: '', comments: '', flag: 0}, {name: 'BRET PRYOR', currentLocation: '', comments: '', flag: 0},
-{name: 'TROY TRAEGAR', currentLocation: '', comments: '', flag: 0}, {name: 'PATRICK SMALL', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW MURRELL', currentLocation: '', comments: '', flag: 0},
-{name: 'WAYNE FULLER', currentLocation: '', comments: '', flag: 0}, {name: 'LEIGH RYAN', currentLocation: '', comments: '', flag: 0}, {name: 'MATTHEW LAW', currentLocation: '', comments: '', flag: 0},
-{name: 'TOME TOMEV', currentLocation: '', comments: '', flag: 0}, {name: 'KENDO WU', currentLocation: '', comments: '', flag: 0}], svgLocationStatus: ''};
-
-
-// Variable stored in memory to track latest update data
-let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, svgLocationStatus: ''};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -106,10 +91,16 @@ app.get('/LatestUpdate', (req, res) => {
       const currentUpdates = latestUpdateData.newData.filter((entry) => {
         return entry.flag == 1;
       })
-      console.log(currentUpdates);
-      const data = JSON.stringify(latestData);
-      res.write(`data: ${data}\n\n`);
-      res.end();
+      console.log(currentUpdates)
+      //if (currentUpdates.length > 0) {
+        const data = JSON.stringify({newData: currentUpdates, svgLocationStatus: latestUpdateData.svgLocationStatus});
+        res.write(`data: ${data}\n\n`);
+        res.end();
+        latestUpdateData.newData.forEach((entry) => {
+          entry.flag = 0;
+        })
+        console.log(latestUpdateData)
+      //}
     }, 5000);  
   } 
   catch (error) {
@@ -128,10 +119,9 @@ app.post('/GetLocations', async (req, res) => {
 
 app.post('/UpdateLocations', async (req, res) => {
   try {
-    console.log(latestUpdateData);
     const lastUpdatedData = await updateTeamData(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
-    const finalData = latestUpdateData.map((entry) => {
+    const finalData = latestUpdateData.newData.map((entry) => {
       if (entry.name == lastUpdatedData.name) {
         lastUpdatedData.flag = 1;
         return lastUpdatedData;
@@ -140,9 +130,8 @@ app.post('/UpdateLocations', async (req, res) => {
         return entry;
       }
     });
-    console.log(finalData);
-    latestData = {newData: finalData, svgLocationStatus: svgData};
-    res.json({message: `Location was successfully updated for ${latestData.newData.name}`});
+    latestUpdateData = {newData: finalData, svgLocationStatus: svgData};
+    res.json({message: `Location was successfully updated for ${lastUpdatedData.name}`});
   } 
   catch (error) {
     res.send(error.message);
