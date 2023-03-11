@@ -92,15 +92,14 @@ app.get('/LatestUpdate', (req, res) => {
         return entry.flag == 1;
       })
       console.log(currentUpdates)
-      //if (currentUpdates.length > 0) {
+      if (currentUpdates.length > 0) {
         const data = JSON.stringify({newData: currentUpdates, svgLocationStatus: latestUpdateData.svgLocationStatus});
         res.write(`data: ${data}\n\n`);
         res.end();
         latestUpdateData.newData.forEach((entry) => {
           entry.flag = 0;
         })
-        console.log(latestUpdateData)
-      //}
+      }
     }, 5000);  
   } 
   catch (error) {
