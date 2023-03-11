@@ -91,9 +91,9 @@ app.get('/LatestUpdate', (req, res) => {
       const currentUpdates = latestUpdateData.newData.filter((entry) => {
         return entry.flag == 1;
       })
-      console.log(currentUpdates)
       if (currentUpdates.length > 0) {
         const data = JSON.stringify({newData: currentUpdates, svgLocationStatus: latestUpdateData.svgLocationStatus});
+        console.log(data);
         res.write(`data: ${data}\n\n`);
         res.end();
         latestUpdateData.newData.forEach((entry) => {
