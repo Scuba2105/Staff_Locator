@@ -1,3 +1,112 @@
+// Define a class for getting server route information and sending requests endpoint routes.
+class ServerRoute {
+    constructor(endpoint) {
+        this.endpoint = endpoint;
+        this.urlArray = window.location.href.split('/');
+        this.url = `${this.urlArray.splice(0, this.urlArray.length - 1).join('/')}/${endpoint}`;
+        this.previousConnectionStatus = undefined;
+        this.currentConnectionStatus = undefined;
+    }
+
+    get previousStatus() {
+        return this.previousConnectionStatus;
+    }
+
+    get currentStatus() {
+        return this.currentConnectionStatus;
+    }
+    
+    set previousStatus(value) {
+        this.previousConnectionStatus = value;
+    }
+
+    set currentStatus(value) {
+        this.currentConnectionStatus = value;
+    }
+
+    // Check if the server has reconnected
+    checkReconnection() {
+        if (this.previousConnectionStatus == false && this.currentConnectionStatus == true) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    // Get the url for the endpoint route
+    getRoute() {
+        return this.url;
+    }
+
+    // Get the URL for the current page
+    getCurrentURL() {
+        return this.urlArray.join('/');
+    }
+
+    // Identify what page is being viewed (eg. Management, JHH, Hunter, Tamworth)
+    getPageIdentifier() {
+        return {teamName: this.urlArray[this.urlArray.length - 1].replace('#', '')};
+    }
+
+    // Send a request to the server endpoint
+    async sendRequest(data = '') {
+        let requestData;
+        if (this.endpoint == 'GetLocations') {
+            requestData = JSON.stringify(this.getPageIdentifier());
+        }
+        else if (this.endpoint == 'UpdateLocations') {
+            requestData = JSON.stringify(data); 
+        }
+        else if (this.endpoint == 'MergeLocalStorage') {
+            requestData = data;
+        }
+        else {
+            throw new Error('The requested endpoint does not exist');
+        }
+        
+        const endpointURL = this.getRoute(); 
+        
+        const response = await fetch(endpointURL, {
+                method: 'POST', 
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: requestData // body data type must match "Content-Type" header
+            });
+      
+        return response;
+        }
+}
+
+class MergeData {
+    constructor() {
+       this.management = true;
+       this.jhh = true;
+       this.hunter = true;
+       this.tamworth = true; 
+    }
+
+}
+
+// Create a merge status object to track merge updates for each page
+const mergeStatus = new MergeData();
+
+const keys = Object.keys(mergeStatus);
+const values = keys.map((key) => {
+    return mergeStatus[key];
+})
+console.log(values);
+
+// Create update locations route object
+const updateRoute = new ServerRoute('UpdateLocations');
+
+// Create merge local storage route object
+const mergeLocationsRoute = new ServerRoute('MergeLocalStorage');
+
 // Define array of objects for staff details. 
 const staffArray = [{ name: 'ISHAQUE KHAN', locationId: 'lik', commentId: 'cik', workshop: 'Management' }, { name: 'PAUL COOKSON', locationId: 'lpk', commentId: 'cpk', workshop: 'Management' }, { name: 'MICHELLE ISON', locationId: 'lmi', commentId: 'cmi', workshop: 'Management' },
 { name: 'GLADY GIDEON', locationId: 'lgg', commentId: 'cgg', workshop: 'Management' }, { name: 'DURGA SOMPALLE', locationId: 'lds', commentId: 'cds', workshop: 'JHH' }, { name: 'ATIF SIDDIQUI', locationId: 'las', commentId: 'cas', workshop: 'JHH' },
@@ -11,14 +120,14 @@ const staffArray = [{ name: 'ISHAQUE KHAN', locationId: 'lik', commentId: 'cik',
 
 // Define the clinical units and departments within the health service.
 const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
-    "WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
-    "WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME",
-    "KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS",
-    "WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB",
-    "SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT",
-    "NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK",
-    "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI",
-    "WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
+"WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
+"WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME", 
+"KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS",
+"WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB", 
+"SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT", 
+"NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK", 
+"MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
+"WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
 
 // Define the clinical units within different areas for populating form lists in html.
 const locationOptions = {
@@ -52,7 +161,7 @@ const employee = staffArray.map((staffMember) => {
 
 // Get all JHH employee names.
 const jhhEmp = staffArray.reduce((acc, staffMember) => {
-    if (staffMember.workshop == 'JHH') {
+    if (staffMember.workshop == 'JHH' || staffMember.workshop == 'Management') {
         acc.push(staffMember.name);
         return acc;
     }
@@ -63,7 +172,7 @@ const jhhEmp = staffArray.reduce((acc, staffMember) => {
 
 // Get all Green Team employee names.
 const green1 = staffArray.reduce((acc, staffMember) => {
-    if (staffMember.workshop == 'Maitland' || staffMember.workshop == 'Mater' || staffMember.workshop == 'Taree') {
+    if (staffMember.workshop == 'Hunter') {
         acc.push(staffMember.name);
         return acc;
     }
@@ -90,7 +199,7 @@ localStorage.setItem("team", '0');
 
 //local storage setting for clinical units//
 unit.map((location) => {
-    localStorage.setItem(location, 0);
+    localStorage.setItem(location, 0);    
 });
 
 // Set local storage of each employee to HOME
@@ -101,7 +210,6 @@ employee.map((member) => {
 // finding location selected
 function findvalue(e) {
     document.getElementById("location").value = e.innerText;
-    console.log(e.innerText);
     var locValue = document.getElementById("location").value;
     //Checking if location selected is custom
     if (locValue == "CUSTOM") {
@@ -110,20 +218,22 @@ function findvalue(e) {
         document.getElementById("location2").value = locValue.replace(/_/g, " ");
     }
     //checking if location is bme, icu bme or rnc bme
-    if (locValue == "BME" || locValue == "ICU BME" || locValue == "RNC BME") {
+    if (locValue == "BME" || locValue == "ICU BME" || locValue == "RNC BME" || locValue == "BACK IN 5") {
         currentTab = 0;
         nextPrev(1);
         nextPrev(1);
         nextPrev(1);
         nextPrev(1);
-    } else if (locValue == "BACK IN 5") {
-        document.getElementById("location2").value = "BACK IN 5";
-        nextPrev(1);
-        nextPrev(1);
-        nextPrev(1);
-        nextPrev(1);
+    
+    /******This was commented out as there was a bug when selected multiple times. Don't know why but it seems to be fixed ******/
+    // } else if (locValue == "BACK IN 5") {
+    //     document.getElementById("location2").value = "BACK IN 5";
+    //     nextPrev(1);
+    //     nextPrev(1);
+    //     nextPrev(1);
+    //     nextPrev(1);
+    // 
     }
-
     else if (locValue == "HOME") {
         let todayIs = new Date();
         let thisDay = todayIs.getDay();
@@ -176,8 +286,8 @@ function openForm() {
     const parentElement = this.parentElement;
     const firstCell = parentElement.firstElementChild;
     console.log(firstCell);
-    const employeeName = firstCell.textContent;
-    document.getElementById("empId").innerHTML = employeeName;
+    const employeeName = firstCell.textContent; 
+    document.getElementById("empId").innerHTML = employeeName;   
     document.getElementById("myForm").style.display = "block";
     document.getElementById("location").value = "";
 }
@@ -233,15 +343,18 @@ function publishToTable() {
     const newLocation = document.getElementById(`${locationElementID}`).innerHTML
     const newComments = document.getElementById(`${commentElementID}`).innerHTML
 
-    postToServer(Id, newLocation, newComments)
+    // Create a timestamp for the update
+    const time = Date.now();
+
+    postToServer(Id, newLocation, newComments, time)
 
 }
 
 async function postToServer(name, location, comments) {
-
+    
     // Put the data into the required object to post to backend
-    const data = { name: name, currentLocation: location, comments: comments };
-
+    const data = {name: name, currentLocation: location, comments: comments}; 
+    
     // Get current window URL and split protocol, domain/port and page into an array
     const currentURL = window.location.href;
     const urlArray = currentURL.split('/');
@@ -251,22 +364,25 @@ async function postToServer(name, location, comments) {
 
     // Post the data to the server
     const response = await fetch(apiURL, {
-        method: 'POST',
+        method: 'POST', 
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-            'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
-
+     
     // Get the array containing the staff members for current page and current locations. 
     //await response.json().then((data) => console.log(data)).catch(() => {
     //    const dataString = JSON.stringify(data);
     //   localStorage.setItem(name, dataString);
-    //})    
-};
+    //})
+    
+        
+    
+}
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab

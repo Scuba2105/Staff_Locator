@@ -1,29 +1,16 @@
-// Get current window URL and split protocol, domain/port and page into an array
-const currentURL = window.location.href;
-const urlArray = currentURL.split('/');
+// Create serverroute object for the get locations route
+const getLocationsRoute = new ServerRoute('GetLocations');
 
-// Find which team page is currently being viewed and store in an object.
-const team = urlArray[urlArray.length - 1];
-const data = {team: team};
+// Get team identifier from url
+const teamName = getLocationsRoute.getPageIdentifier();
 
 async function getCurrentLocations() {
     
-    // Set the URL for the fetch api.
-    const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/GetLocations';
-        
-    const response = await fetch(apiURL, {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-      });
-      
-    // Get the array containing the staff members for current page and current locations. 
-    const currentLocations = await response.json();
+    // Send request to server and resolve response data
+    const responseData = await getLocationsRoute.sendRequest(teamName);
+    
+    // Get the json data from the response object
+    const currentLocations = await responseData.json();
     
     // Update each staff member in the table
     currentLocations.teamData.forEach((staffMember) => {
@@ -34,7 +21,14 @@ async function getCurrentLocations() {
     });
 
     // Update svg's with current data
-    currentLocations.activeLocations.forEach((location) => {
+    updateSvgOnLoad(currentLocations);
+};
+
+// Function for defining the svg manipulation
+function updateSvgOnLoad(currentLocations) {
+    
+  // Update svg's with current data on page load
+  currentLocations.activeLocations.forEach((location) => {
       const svgLocation = location.replace(/\s/g,'_');
       const svgElement = document.querySelector(`#${svgLocation}`);
       if (svgElement != null) {
@@ -42,26 +36,28 @@ async function getCurrentLocations() {
         svgElement.style.opacity = '1';
       };
     });
-};
+}
 
+// Add event listener for when DOM content loaded
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
 
-// Define the sse end point 
-sseURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/LatestUpdate';
+// Define the url for the sse route
+const sseUrl = new ServerRoute('LatestUpdate').getRoute();
 
 // Create the sse event source object
-const sseSource = new EventSource(sseURL);
+const sseSource = new EventSource(sseUrl);
 
 // Define the callback to execute when message is received from sse
 sseSource.onmessage = function (event) {
     
     // Destructure the update object into variables. 
     const receivedData = JSON.parse(event.data);
+    console.log(receivedData);
     const { name, locationId, commentId, workshop, currentLocation, comments } = receivedData.newData;
     const svgLocations = receivedData.svgLocationStatus;
         
     // Check if the workshop of the updated entry corresponds to the current page
-    if (workshop == team) {
+    if (workshop == teamName) {
       
       // Get the previous location and comments
       const previousLocation = document.querySelector(`#${locationId}`).textContent;

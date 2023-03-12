@@ -1,10 +1,15 @@
+import { clear } from 'console';
 import express from 'express';
 import path from 'path';
-import { serveCurrentData, sendTeamData, updateTeamData } from './controllers/controller.mjs';
+import EventEmitter from 'events';
+import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
+
+// Create event emitter object
+const event = new EventEmitter();
 
 // Define port used for web server to listen on. Set a default if not in hosting environment. 
 const PORT = process.env.PORT || 5555;
@@ -66,8 +71,8 @@ app.get('/Tamworth', (req, res) => {
   }
 });
 
-// Variable stored in memory to track latest update data
-let latestData = {newData: {name: "", locationId: "", commentId:"", workshop: "", currentLocation: "HOME", comments: ""}, svgLocationStatus: ''};
+// Store the latest update data
+let latestUpdateData = {newData: {name: '', currentLocation: '', comments: '', timestamp: '', flag: 0}, svgLocationStatus: ''};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -78,11 +83,12 @@ app.get('/LatestUpdate', (req, res) => {
     res.setHeader("connection", "keep-alive");
     res.setHeader("Content-Type", "text/event-stream");
 
-    setInterval(() => {
-      const data = JSON.stringify(latestData);
+    event.on('update', (arg1) => {
+      const data = JSON.stringify(arg1);
+      console.log(data);
       res.write(`data: ${data}\n\n`);
       res.end();
-    }, 5000);  
+    })
   } 
   catch (error) {
     res.send(err.message);
@@ -102,8 +108,18 @@ app.post('/UpdateLocations', async (req, res) => {
   try {
     const lastUpdatedData = await updateTeamData(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
-    latestData = {newData: lastUpdatedData, svgLocationStatus: svgData};
-    res.json({message: `Location was successfully updated for ${latestData.newData.name}`});
+    latestUpdateData = {newData: lastUpdatedData, svgLocationStatus: svgData};
+    event.emit('update', latestUpdateData);
+    res.json({message: `Location was successfully updated for ${lastUpdatedData.name}`});
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
+app.post('/MergeLocalStorage', async (req, res) => {
+  try {
+    await mergeLocalStorage(req, res, __dirname);
   } 
   catch (error) {
     res.send(error.message);
