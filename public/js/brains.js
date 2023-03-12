@@ -1,36 +1,38 @@
 // Define array of objects for staff details. 
-const staffArray = [{name: 'ISHAQUE KHAN', locationId: 'lik', commentId:'cik', workshop: 'Management'}, {name: 'PAUL COOKSON', locationId: 'lpk', commentId:'cpk', workshop: 'Management'}, {name: 'MICHELLE ISON', locationId: 'lmi', commentId:'cmi', workshop: 'Management'},
-{name: 'GLADY GIDEON', locationId: 'lgg', commentId:'cgg', workshop: 'Management'}, {name: 'DURGA SOMPALLE', locationId: 'lds', commentId:'cds', workshop: 'JHH'}, {name: 'ATIF SIDDIQUI', locationId: 'las', commentId:'cas', workshop: 'JHH'},
-{name: 'MICHAEL DATHAN-HORDER', locationId: 'lmdh', commentId:'cmdh', workshop: 'JHH'}, {name: 'MITCHELL PACEY', locationId: 'lmjp', commentId:'cmjp', workshop: 'JHH'}, {name: 'STEVEN BRADBURY', locationId: 'lsb', commentId:'csb', workshop: 'JHH'},
-{name: 'KEITH BALL', locationId: 'lkb', commentId:'ckb', workshop: 'JHH'}, {name: 'ELLEN HEYDON', locationId: 'leh', commentId:'ceh', workshop: 'JHH'}, {name: 'RODNEY BIRT', locationId: 'lrb', commentId:'crb', workshop: 'JHH'},
-{name: 'RAY AUNEI MOSE', locationId: 'lram', commentId:'cram', workshop: 'JHH'}, {name: 'MITCHELL PYNE', locationId: 'lmp', commentId:'cmp', workshop: 'JHH'}, {name: 'PEDRAM BIDAR', locationId: 'lpb', commentId:'cpb', workshop: 'Tamworth'},
-{name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId:'cjl', workshop: 'Tamworth'}, {name: 'AZMI REFAL', locationId: 'lar', commentId:'car', workshop: 'Tamworth'}, {name: 'BRET PRYOR', locationId: 'lbp', commentId:'cbp', workshop: 'Tamworth'},
-{name: 'TROY TRAEGAR', locationId: 'ltt', commentId:'ctt', workshop: 'Hunter'}, {name: 'PATRICK SMALL', locationId: 'lps', commentId:'cps', workshop: 'Hunter'}, {name: 'MATTHEW MURRELL', locationId: 'lmm', commentId:'cmm', workshop: 'Hunter'},
-{name: 'WAYNE FULLER', locationId: 'lwf', commentId:'cwf', workshop: 'Hunter'}, {name: 'LEIGH RYAN', locationId: 'llr', commentId:'clr', workshop: 'Hunter'}, {name: 'MATTHEW LAW', locationId: 'lml', commentId:'cml', workshop: 'Hunter'},
-{name: 'TOME TOMEV', locationId: 'lttv', commentId:'cttv', workshop: 'Hunter'}, {name: 'KENDO WU', locationId: 'lkw', commentId:'ckw', workshop: 'JHH'}];
+const staffArray = [{ name: 'ISHAQUE KHAN', locationId: 'lik', commentId: 'cik', workshop: 'Management' }, { name: 'PAUL COOKSON', locationId: 'lpk', commentId: 'cpk', workshop: 'Management' }, { name: 'MICHELLE ISON', locationId: 'lmi', commentId: 'cmi', workshop: 'Management' },
+{ name: 'GLADY GIDEON', locationId: 'lgg', commentId: 'cgg', workshop: 'Management' }, { name: 'DURGA SOMPALLE', locationId: 'lds', commentId: 'cds', workshop: 'JHH' }, { name: 'ATIF SIDDIQUI', locationId: 'las', commentId: 'cas', workshop: 'JHH' },
+{ name: 'MICHAEL DATHAN-HORDER', locationId: 'lmdh', commentId: 'cmdh', workshop: 'JHH' }, { name: 'MITCHELL PACEY', locationId: 'lmjp', commentId: 'cmjp', workshop: 'JHH' }, { name: 'STEVEN BRADBURY', locationId: 'lsb', commentId: 'csb', workshop: 'JHH' },
+{ name: 'KEITH BALL', locationId: 'lkb', commentId: 'ckb', workshop: 'JHH' }, { name: 'ELLEN HEYDON', locationId: 'leh', commentId: 'ceh', workshop: 'JHH' }, { name: 'RODNEY BIRT', locationId: 'lrb', commentId: 'crb', workshop: 'JHH' },
+{ name: 'RAY AUNEI MOSE', locationId: 'lram', commentId: 'cram', workshop: 'JHH' }, { name: 'MITCHELL PYNE', locationId: 'lmp', commentId: 'cmp', workshop: 'JHH' }, { name: 'PEDRAM BIDAR', locationId: 'lpb', commentId: 'cpb', workshop: 'Tamworth' },
+{ name: 'JOHN LARKWORTHY', locationId: 'ljl', commentId: 'cjl', workshop: 'Tamworth' }, { name: 'AZMI REFAL', locationId: 'lar', commentId: 'car', workshop: 'Tamworth' }, { name: 'BRET PRYOR', locationId: 'lbp', commentId: 'cbp', workshop: 'Tamworth' },
+{ name: 'TROY TRAEGAR', locationId: 'ltt', commentId: 'ctt', workshop: 'Hunter' }, { name: 'PATRICK SMALL', locationId: 'lps', commentId: 'cps', workshop: 'Hunter' }, { name: 'MATTHEW MURRELL', locationId: 'lmm', commentId: 'cmm', workshop: 'Hunter' },
+{ name: 'WAYNE FULLER', locationId: 'lwf', commentId: 'cwf', workshop: 'Hunter' }, { name: 'LEIGH RYAN', locationId: 'llr', commentId: 'clr', workshop: 'Hunter' }, { name: 'MATTHEW LAW', locationId: 'lml', commentId: 'cml', workshop: 'Hunter' },
+{ name: 'TOME TOMEV', locationId: 'lttv', commentId: 'cttv', workshop: 'Hunter' }, { name: 'KENDO WU', locationId: 'lkw', commentId: 'ckw', workshop: 'JHH' }];
 
 // Define the clinical units and departments within the health service.
 const unit = ["CATHLAB", "ALLIED_HEALTH", "BME", "DELIVERY_SUITE", "AUDIOLOGY", "PHYSIOTHERAPY", "ENDOSCOPY", "DIAGNOSTIC_CENTRE",
-"WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
-"WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME", 
-"KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS",
-"WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB", 
-"SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT", 
-"NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK", 
-"MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI", 
-"WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
+    "WARD_F1", "HAPS_LVL_3", "EMERGENCY", "WARD_H1", "GASTROENTEROLOGY", "WARD_J1", "ICU", "GP_ACCESS", "WARD_K1", "ICU_BME", "HAPS_LVL_2A",
+    "WARD_G1", "JHH_OPERATING_THEATRE", "HAPS_LVL_2B", "JHH_RECOVERY", "IMAGING", "LAB_5", "INNOVATIONS_LAB", "NICU", "RNC_BME",
+    "KALIEDOSCOPE_A", "RNC_OPERATING_THEATRE", "KALIEDOSCOPE_B", "RNC_RECOVERY", "KALIEDOSCOPE_C", "WARD_E3", "NEUROLOGY", "WARD_F3", "NEXUS",
+    "WARD_G3", "NORTH_BLOCK", "WARD_H3", "NUCLEAR_MEDICINE", "WARD_J3", "OUTPATIENTS", "WARD_K3", "PATHOLOGY", "PHARMARCY", "SLEEP_LAB",
+    "SOUTH_BLOCK", "WARD_E2", "WARD_F2", "WARD_G2", "WARD_H2", "WARD_J2", "WARD_K2", "WARD_E1", "CCU", "NEW_MAITLAND", "BELMONT",
+    "NEWCASTLE", "BULAHDELAH", "KURRI_KURRI", "CESSNOCK", "TAREE", "DUNGOG", "SINGLETON", "DENMAN", "GLOUCESTOR", "SCONE", "MUSWELBROOK",
+    "MURRURUNDI", "MERRIWA", "TAMWORTH", "WALCHA", "QUIRINDI", "GUNNEDAH", "MANILLA", "ARMIDALE", "BOGGABRI", "BARRABA", "GUYRA", "NARRABRI",
+    "WEEWAA", "BINGARA", "BUNDARRA", "GLEN_INNES", "EMMAVILLE", "MOREE", "WARIALDA", "INVERELL", "TENTERFIELD"];
 
 // Define the clinical units within different areas for populating form lists in html.
-const locationOptions = {level3: ['ICU','JHH OPERATING THEATRE','JHH RECOVERY','DELIVERY SUITE','NICU','HAPS LVL 3','RNC OPERATING THEATRE','RNC RECOVERY',
-'CATHLAB','ENDOSCOPY','LAB 5','WARD E3','WARD F3','WARD G3','WARD H3','WARD J3','WARD K3','CCU'],
-level2: ['SOUTH BLOCK','NORTH BLOCK','DIAGNOSTIC CENTRE','IMAGING','EMERGENCY','PATHOLOGY','GP ACCESS','SLEEP LAB','ALLIED HEALTH',
-'OUTPATIENTS','KALIEDOSCOPE A','KALIEDOSCOPE B','KALIEDOSCOPE C','HAPS LVL 2A','HAPS LVL 2B','WARD E2','WARD F2','WARD G2','WARD H2',
-'WARD J2','WARD K2','NEXUS','NUCLEAR MEDICINE','NEUROLOGY','GASTROENTEROLOGY','AUDIOLOGY','INNOVATIONS LAB'],
-level1: ['H.E.L.L','DOCK','PHYSIOTHERAPY','WARD E1','SIM CENTRE','WARD F1','WARD G1','WARD H1','WARD J1','WARD K1'],
-hunter: ['JHH','NEW MAITLAND','BELMONT','NEWCASTLE','BULAHDELAH','KURRI KURRI','CESSNOCK','TAREE','DUNGOG','SINGLETON','DENMAN',
-'GLOUCESTOR','SCONE','MUSWELBROOK','MURRURUNDI','MERRIWA'],
-"new-england": ['TAMWORTH BME','TAMWORTH','WALCHA','QUIRINDI','GUNNEDAH','MANILLA','ARMIDALE','BOGGABRI','BARRABA','GUYRA','NARRABRI',
-'WEEWAA','BINGARA','BUNDARRA','GLEN INNES','EMMAVILLE','MOREE','WARIALDA','INVERELL','TENTERFIELD']};
+const locationOptions = {
+    level3: ['ICU', 'JHH OPERATING THEATRE', 'JHH RECOVERY', 'DELIVERY SUITE', 'NICU', 'HAPS LVL 3', 'RNC OPERATING THEATRE', 'RNC RECOVERY',
+        'CATHLAB', 'ENDOSCOPY', 'LAB 5', 'WARD E3', 'WARD F3', 'WARD G3', 'WARD H3', 'WARD J3', 'WARD K3', 'CCU'],
+    level2: ['SOUTH BLOCK', 'NORTH BLOCK', 'DIAGNOSTIC CENTRE', 'IMAGING', 'EMERGENCY', 'PATHOLOGY', 'GP ACCESS', 'SLEEP LAB', 'ALLIED HEALTH',
+        'OUTPATIENTS', 'KALIEDOSCOPE A', 'KALIEDOSCOPE B', 'KALIEDOSCOPE C', 'HAPS LVL 2A', 'HAPS LVL 2B', 'WARD E2', 'WARD F2', 'WARD G2', 'WARD H2',
+        'WARD J2', 'WARD K2', 'NEXUS', 'NUCLEAR MEDICINE', 'NEUROLOGY', 'GASTROENTEROLOGY', 'AUDIOLOGY', 'INNOVATIONS LAB'],
+    level1: ['H.E.L.L', 'DOCK', 'PHYSIOTHERAPY', 'WARD E1', 'SIM CENTRE', 'WARD F1', 'WARD G1', 'WARD H1', 'WARD J1', 'WARD K1'],
+    hunter: ['JHH', 'NEW MAITLAND', 'BELMONT', 'NEWCASTLE', 'BULAHDELAH', 'KURRI KURRI', 'CESSNOCK', 'TAREE', 'DUNGOG', 'SINGLETON', 'DENMAN',
+        'GLOUCESTOR', 'SCONE', 'MUSWELBROOK', 'MURRURUNDI', 'MERRIWA'],
+    "new-england": ['TAMWORTH BME', 'TAMWORTH', 'WALCHA', 'QUIRINDI', 'GUNNEDAH', 'MANILLA', 'ARMIDALE', 'BOGGABRI', 'BARRABA', 'GUYRA', 'NARRABRI',
+        'WEEWAA', 'BINGARA', 'BUNDARRA', 'GLEN INNES', 'EMMAVILLE', 'MOREE', 'WARIALDA', 'INVERELL', 'TENTERFIELD']
+};
 
 // Sort the location list alphabetically and append to the dom. 
 for (const prop in locationOptions) {
@@ -46,7 +48,7 @@ for (const prop in locationOptions) {
 // Get the employee location element id's from the staff array for each staff member.
 const employee = staffArray.map((staffMember) => {
     return staffMember.locationId
-}) 
+})
 
 // Get all JHH employee names.
 const jhhEmp = staffArray.reduce((acc, staffMember) => {
@@ -79,7 +81,7 @@ const tamworth1 = staffArray.reduce((acc, staffMember) => {
     else {
         return acc;
     }
-}, []); 
+}, []);
 
 var pagefrom;
 
@@ -88,7 +90,7 @@ localStorage.setItem("team", '0');
 
 //local storage setting for clinical units//
 unit.map((location) => {
-    localStorage.setItem(location, 0);    
+    localStorage.setItem(location, 0);
 });
 
 // Set local storage of each employee to HOME
@@ -136,6 +138,22 @@ function findvalue(e) {
         nextPrev(1);
         nextPrev(1);
     }
+    else if (locationOptions.level1.includes(locValue)) {
+        currentTab = 0;
+        nextPrev(1);
+        nextPrev(1);
+    }
+    else if (locationOptions.level2.includes(locValue)) {
+        currentTab = 0;
+        nextPrev(1);
+        nextPrev(1);
+    }
+    else if (locationOptions.level3.includes(locValue)) {
+        currentTab = 0;
+        nextPrev(1);
+        nextPrev(1);
+    }
+
     else {
         currentTab = 0;
         nextPrev(1);
@@ -158,8 +176,8 @@ function openForm() {
     const parentElement = this.parentElement;
     const firstCell = parentElement.firstElementChild;
     console.log(firstCell);
-    const employeeName = firstCell.textContent; 
-    document.getElementById("empId").innerHTML = employeeName;   
+    const employeeName = firstCell.textContent;
+    document.getElementById("empId").innerHTML = employeeName;
     document.getElementById("myForm").style.display = "block";
     document.getElementById("location").value = "";
 }
@@ -180,9 +198,9 @@ function closeForm() {
 
     document.getElementById("myForm").style.display = "none";
     for (let i = 1; i <= 3; i++) {
-        document.querySelectorAll(".tab")[i].style.display = "none";  
-    }  
-        
+        document.querySelectorAll(".tab")[i].style.display = "none";
+    }
+
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
 
@@ -192,7 +210,7 @@ function publishToTable() {
     // getting Employer that was clicked on
     const Id = document.getElementById("empId").innerHTML;
     const item = document.getElementById("location").value;
-    
+
     // Find the staff member who was selected and return their staffArray object.
     const staffMember = staffArray.find((staff) => {
         return staff.name == Id;
@@ -201,10 +219,10 @@ function publishToTable() {
     // Get the location and comment element ID's of the staff member.
     const locationElementID = staffMember.locationId;
     const commentElementID = staffMember.commentId;
-    
+
     // Determine the previous location of the staff member which is the current location element text content.
     const previousLocation = document.getElementById(`${locationElementID}`).innerHTML.replace(/\s/g, '_');
-    
+
     // Set the new location to that of the location select in the form.
     document.getElementById(`${locationElementID}`).innerHTML = document.getElementById("location2").value;
 
@@ -220,10 +238,10 @@ function publishToTable() {
 }
 
 async function postToServer(name, location, comments) {
-    
+
     // Put the data into the required object to post to backend
-    const data = {name: name, currentLocation: location, comments: comments}; 
-    
+    const data = { name: name, currentLocation: location, comments: comments };
+
     // Get current window URL and split protocol, domain/port and page into an array
     const currentURL = window.location.href;
     const urlArray = currentURL.split('/');
@@ -233,16 +251,16 @@ async function postToServer(name, location, comments) {
 
     // Post the data to the server
     const response = await fetch(apiURL, {
-        method: 'POST', 
+        method: 'POST',
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
-     
+
     // Get the array containing the staff members for current page and current locations. 
     //await response.json().then((data) => console.log(data)).catch(() => {
     //    const dataString = JSON.stringify(data);
@@ -267,7 +285,7 @@ function showTab(n) {
     }
     if (n == (x.length - 1)) {
         var setComment = document.getElementById("comment").value
-        if (setComment == "Back Tomorrow" || setComment == "Back on Monday") {  // not working
+        if (setComment == "Back Tomorrow" || setComment == "Back on Monday") {
 
             document.getElementById("nextBtn").innerHTML = "Submit";
             document.getElementById("nextBtn").style.backgroundColor = "green";
@@ -290,7 +308,9 @@ function showTab(n) {
                 setDate = empDate2
             }
             let empTime = document.getElementById("timeSelect").value;
-
+            if (setDate == "") {
+                setDate = "Today";
+            }
 
             let empcomment = `${empTime}     ${setDate}`;
             // document.getElementById("location2").value = document.getElementById("location").value;
