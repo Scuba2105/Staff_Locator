@@ -394,9 +394,6 @@ async function postToServer(name, location, comments, timestamp) {
 
                 // Clear the local storage. 
                 localStorage.clear();
-
-                // Get the latest data and update tables and SVG
-                            
             }
             
         }

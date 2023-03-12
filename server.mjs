@@ -85,7 +85,6 @@ app.get('/LatestUpdate', (req, res) => {
 
     event.on('update', (arg1) => {
       const data = JSON.stringify(arg1);
-      console.log(data);
       res.write(`data: ${data}\n\n`);
       res.end();
     })
@@ -122,6 +121,10 @@ app.post('/MergeLocalStorage', async (req, res) => {
     const mergeData = await mergeLocalStorage(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
     latestUpdateData = {newData: mergeData, svgLocationStatus: svgData};
+    
+    // Send message to indicate successful merging of local storage
+    const message = JSON.stringify({message: 'The local storage data has successfully merged'});
+    res.json(message);
     event.emit('update', latestUpdateData);
   } 
   catch (error) {

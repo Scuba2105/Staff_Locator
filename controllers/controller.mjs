@@ -69,10 +69,6 @@ export async function mergeLocalStorage(req, res, __dirname) {
         const filePath = path.join(__dirname, 'data', 'current-locations.json');
         await writeDataToFile(filePath, latestData);
 
-        // Send message
-        const message = JSON.stringify({message: 'The local storage data has successfully merged'});
-        res.json(message);
-
         return mergeObjectArray;
         
     } catch (error) {
