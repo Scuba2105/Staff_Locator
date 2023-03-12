@@ -84,7 +84,7 @@ app.get('/LatestUpdate', (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
 
     event.on('update', (arg1) => {
-      const data = JSON.stringify({arg1});
+      const data = JSON.stringify(arg1);
       console.log(data);
       res.write(`data: ${data}\n\n`);
       res.end();
