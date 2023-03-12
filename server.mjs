@@ -85,7 +85,9 @@ app.get('/LatestUpdate', (req, res) => {
 
     event.on('update', (arg1) => {
       const data = JSON.stringify(arg1);
+      console.log(data);
       res.write(`data: ${data}\n\n`);
+      res.flushHeaders();
       res.end();
     })
   } 

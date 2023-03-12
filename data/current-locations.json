@@ -4,18 +4,18 @@
     "locationId": "lik",
     "commentId": "cik",
     "workshop": "Management",
-    "currentLocation": "DELIVERY SUITE",
+    "currentLocation": "NICU",
     "comments": "     Today",
-    "timestamp": 1678596367255
+    "timestamp": 1678619708924
   },
   {
     "name": "PAUL COOKSON",
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
-    "currentLocation": "ICU BME",
+    "currentLocation": "BME",
     "comments": "     Today",
-    "timestamp": 1678596330543
+    "timestamp": 1678619176982
   },
   {
     "name": "MICHELLE ISON",
@@ -24,16 +24,16 @@
     "workshop": "Management",
     "currentLocation": "CATHLAB",
     "comments": "     Today",
-    "timestamp": 1678596340258
+    "timestamp": 1678619185692
   },
   {
     "name": "GLADY GIDEON",
     "locationId": "lgg",
     "commentId": "cgg",
     "workshop": "Management",
-    "currentLocation": "ICU BME",
+    "currentLocation": "WARD J1",
     "comments": "     Today",
-    "timestamp": 1678596346758
+    "timestamp": 1678618893897
   },
   {
     "name": "DURGA SOMPALLE",
