@@ -1,11 +1,15 @@
 import { clear } from 'console';
 import express from 'express';
 import path from 'path';
+import EventEmitter from 'events';
 import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
+
+// Create event emitter object
+const event = new EventEmitter();
 
 // Define port used for web server to listen on. Set a default if not in hosting environment. 
 const PORT = process.env.PORT || 5555;
@@ -68,15 +72,7 @@ app.get('/Tamworth', (req, res) => {
 });
 
 // Store the latest update data
-let latestUpdateData = {newData: [{name: 'ISHAQUE KHAN', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PAUL COOKSON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MICHELLE ISON', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'GLADY GIDEON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'DURGA SOMPALLE', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'ATIF SIDDIQUI', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'MICHAEL DATHAN-HORDER', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MITCHELL PACEY', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'STEVEN BRADBURY', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'KEITH BALL', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'ELLEN HEYDON', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'RODNEY BIRT', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'RAY AUNEI MOSE', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MITCHELL PYNE', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PEDRAM BIDAR', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'JOHN LARKWORTHY', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'AZMI REFAL', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'BRET PRYOR', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'TROY TRAEGAR', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'PATRICK SMALL', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MATTHEW MURRELL', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'WAYNE FULLER', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'LEIGH RYAN', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'MATTHEW LAW', currentLocation: '', comments: '', timestamp: '', flag: 0},
-{name: 'TOME TOMEV', currentLocation: '', comments: '', timestamp: '', flag: 0}, {name: 'KENDO WU', currentLocation: '', comments: '', timestamp: '', flag: 0}], svgLocationStatus: ''};
+let latestUpdateData = {newData: {name: '', currentLocation: '', comments: '', timestamp: '', flag: 0}, svgLocationStatus: ''};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -87,20 +83,12 @@ app.get('/LatestUpdate', (req, res) => {
     res.setHeader("connection", "keep-alive");
     res.setHeader("Content-Type", "text/event-stream");
 
-    setInterval(() => {
-      const currentUpdates = latestUpdateData.newData.filter((entry) => {
-        return entry.flag == 1;
-      })
-      if (currentUpdates.length > 0) {
-        const data = JSON.stringify({newData: currentUpdates, svgLocationStatus: latestUpdateData.svgLocationStatus});
-        console.log(data);
-        res.write(`data: ${data}\n\n`);
-        res.end();
-        latestUpdateData.newData.forEach((entry) => {
-          entry.flag = 0;
-        })
-      }
-    }, 5000);  
+    event.on('update', (arg1) => {
+      const data = JSON.stringify({arg1});
+      console.log(data);
+      res.write(`data: ${data}\n\n`);
+      res.end();
+    })
   } 
   catch (error) {
     res.send(err.message);
@@ -120,16 +108,8 @@ app.post('/UpdateLocations', async (req, res) => {
   try {
     const lastUpdatedData = await updateTeamData(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
-    const finalData = latestUpdateData.newData.map((entry) => {
-      if (entry.name == lastUpdatedData.name) {
-        lastUpdatedData.flag = 1;
-        return lastUpdatedData;
-      }
-      else {
-        return entry;
-      }
-    });
-    latestUpdateData = {newData: finalData, svgLocationStatus: svgData};
+    latestUpdateData = {newData: lastUpdatedData, svgLocationStatus: svgData};
+    event.emit('update', latestUpdateData);
     res.json({message: `Location was successfully updated for ${lastUpdatedData.name}`});
   } 
   catch (error) {
