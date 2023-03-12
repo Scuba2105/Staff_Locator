@@ -72,7 +72,7 @@ app.get('/Tamworth', (req, res) => {
 });
 
 // Store the latest update data
-let latestUpdateData = {newData: {name: '', currentLocation: '', comments: '', timestamp: '', flag: 0}, svgLocationStatus: ''};
+let latestUpdateData = {newData: {name: '', currentLocation: '', comments: '', timestamp: ''}, svgLocationStatus: ''};
 
 // Serve up the latest updated location to each client 
 app.get('/LatestUpdate', (req, res) => {
@@ -119,7 +119,10 @@ app.post('/UpdateLocations', async (req, res) => {
 
 app.post('/MergeLocalStorage', async (req, res) => {
   try {
-    await mergeLocalStorage(req, res, __dirname);
+    const mergeData = await mergeLocalStorage(req, res, __dirname);
+    const svgData = await serveCurrentData('LocationOnly');
+    latestUpdateData = {newData: mergeData, svgLocationStatus: svgData};
+    event.emit('update', latestUpdateData);
   } 
   catch (error) {
     res.send(error.message);

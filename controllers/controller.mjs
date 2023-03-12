@@ -72,6 +72,8 @@ export async function mergeLocalStorage(req, res, __dirname) {
         // Send message
         const message = JSON.stringify({message: 'The local storage data has successfully merged'});
         res.json(message);
+
+        return mergeObjectArray;
         
     } catch (error) {
         console.log(error);

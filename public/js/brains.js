@@ -350,39 +350,72 @@ function publishToTable() {
 
 }
 
-async function postToServer(name, location, comments) {
+async function postToServer(name, location, comments, timestamp) {
     
     // Put the data into the required object to post to backend
-    const data = {name: name, currentLocation: location, comments: comments}; 
-    
-    // Get current window URL and split protocol, domain/port and page into an array
-    const currentURL = window.location.href;
-    const urlArray = currentURL.split('/');
+    const updateData = {name: name, currentLocation: location, comments: comments, timestamp: timestamp}; 
 
-    // Set the URL for the fetch api.
-    const apiURL = urlArray.splice(0, urlArray.length - 1).join('/') + '/UpdateLocations';
-
-    // Post the data to the server
-    const response = await fetch(apiURL, {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });
-     
-    // Get the array containing the staff members for current page and current locations. 
-    //await response.json().then((data) => console.log(data)).catch(() => {
-    //    const dataString = JSON.stringify(data);
-    //   localStorage.setItem(name, dataString);
-    //})
-    
+    // Send post request on the update locations route
+    const response = await updateRoute.sendRequest(updateData).catch(() => {
         
+        // Update connection status
+        updateRoute.previousStatus = updateRoute.currentStatus;
+        updateRoute.currentStatus = false;
+        
+        // If error on connection then store data in local storage
+        const id = updateData.name;
+        const dataString = JSON.stringify(updateData);
+        localStorage.setItem(id, dataString);
+    });
     
-}
+    if (response != undefined) {
+        
+        // Resolve the message from the promise
+        const updateMessage = await response.json();
+        
+        // Update connection status
+        updateRoute.previousStatus = updateRoute.currentStatus;
+        updateRoute.currentStatus = true;
+        const reconnected = updateRoute.checkReconnection(); 
+
+        // If server has reconnected since last update merge local storage changes to server
+        if (reconnected) {
+            
+            // Grab all data from internal storage and store in stringified json object
+            const storedKeys = Object.keys(localStorage);
+            storedDataArray = storedKeys.reduce((acc, key) => {
+                const storedData = localStorage.getItem(key);
+                if (allStaffNames.includes(key)) {
+                    acc.push(storedData);
+                    return acc;
+                }
+                return acc;
+            }, []).join(',');
+            
+            // Stringify local storage array for post to server
+            const storedObjectStringified = storedDataArray.length == 0 ? JSON.stringify([{name: 'default'}]) : `[${storedDataArray}]`;
+            
+            // Send post request on merge route
+            const response = await mergeLocationsRoute.sendRequest(storedObjectStringified);
+
+            if (response != undefined) {
+                
+                // Resolve the response data into an object
+                const mergeMessage = await response.json();
+                console.log(mergeMessage);                
+
+                // Clear the local storage. 
+                localStorage.clear();
+
+                // Get the latest data and update tables and SVG
+                            
+            }
+            
+        }
+        console.log(updateMessage);
+    };
+        
+};
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
