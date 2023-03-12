@@ -296,6 +296,9 @@ object {
     animation: blinker 3s linear infinite;
 }
 
+.display td:hover {
+    cursor: pointer;
+}
 
 #regForm {
     background-color: #ffffff;

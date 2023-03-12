@@ -192,20 +192,8 @@ const tamworth1 = staffArray.reduce((acc, staffMember) => {
     }
 }, []);
 
-var pagefrom;
-
-// Set local storage for team
-localStorage.setItem("team", '0');
-
-//local storage setting for clinical units//
-unit.map((location) => {
-    localStorage.setItem(location, 0);    
-});
-
-// Set local storage of each employee to HOME
-employee.map((member) => {
-    localStorage.setItem(member, 'HOME');
-});
+// Define all staff names
+const allStaffNames = jhhEmp.concat(green1, tamworth1);
 
 // finding location selected
 function findvalue(e) {
