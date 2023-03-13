@@ -4,18 +4,18 @@
     "locationId": "lik",
     "commentId": "cik",
     "workshop": "Management",
-    "currentLocation": "NICU",
+    "currentLocation": "CATHLAB",
     "comments": "     Today",
-    "timestamp": 1678619708924
+    "timestamp": 1678703895115
   },
   {
     "name": "PAUL COOKSON",
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
-    "currentLocation": "BME",
+    "currentLocation": "RNC BME",
     "comments": "     Today",
-    "timestamp": 1678619176982
+    "timestamp": 1678703873789
   },
   {
     "name": "MICHELLE ISON",

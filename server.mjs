@@ -88,7 +88,6 @@ app.get('/LatestUpdate', (req, res) => {
       console.log(data);
       res.write(`data: ${data}\n\n`);
       res.flushHeaders();
-      res.end();
     })
   } 
   catch (error) {

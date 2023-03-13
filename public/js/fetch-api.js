@@ -52,25 +52,40 @@ sseSource.onmessage = function (event) {
     
     // Destructure the update object into variables. 
     const receivedData = JSON.parse(event.data);
-    console.log(receivedData);
-    const { name, locationId, commentId, workshop, currentLocation, comments } = receivedData.newData;
+    
+    const newData = receivedData.newData;
     const svgLocations = receivedData.svgLocationStatus;
-        
-    // Check if the workshop of the updated entry corresponds to the current page
-    if (workshop == teamName) {
-      
-      // Get the previous location and comments
-      const previousLocation = document.querySelector(`#${locationId}`).textContent;
-      const previousComments = document.querySelector(`#${commentId}`).textContent;
 
-      // Check if previous and current data is the same or different
-      if (previousLocation != currentLocation || previousComments != comments) {
+    // Loop over each staff member in the update data array
+    newData.forEach((staffMember) => {
+      const {name, currentLocation, comments} = staffMember;
+
+      // Find the entry in the staffArray
+      const employeeData = staffArray.find((staff) => {
+        return staff.name == name;
+      });
+
+      // Use destructuring to assign the locationId, commentId and workshop to variables 
+      ({locationId, commentId, workshop}) = employeeData;
+      console.log(locationId, commentId, workshop);
+
+      // Check if the workshop of the updated entry corresponds to the current page
+      if (workshop == teamName) {
         
-        // Update location and comments if data is different   
-        document.querySelector(`#${locationId}`).textContent = currentLocation;
-        document.querySelector(`#${commentId}`).textContent = comments;
+        // Get the previous location and comments
+        const previousLocation = document.querySelector(`#${locationId}`).textContent;
+        const previousComments = document.querySelector(`#${commentId}`).textContent;
+
+        // Check if previous and current data is the same or different
+        if (previousLocation != currentLocation || previousComments != comments) {
+          
+          // Update location and comments if data is different   
+          document.querySelector(`#${locationId}`).textContent = currentLocation;
+          document.querySelector(`#${commentId}`).textContent = comments;
+        }
       }
-    }
+    })
+    
 
     // Define ID's within svg
     if (svgLocations != '') {
