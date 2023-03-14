@@ -4,36 +4,36 @@
     "locationId": "lik",
     "commentId": "cik",
     "workshop": "Management",
-    "currentLocation": "CATHLAB",
+    "currentLocation": "WARD J3",
     "comments": "     Today",
-    "timestamp": 1678703895115
+    "timestamp": 1678784639333
   },
   {
     "name": "PAUL COOKSON",
     "locationId": "lpk",
     "commentId": "cpk",
     "workshop": "Management",
-    "currentLocation": "RNC BME",
+    "currentLocation": "WARD G3",
     "comments": "     Today",
-    "timestamp": 1678703873789
+    "timestamp": 1678784651819
   },
   {
     "name": "MICHELLE ISON",
     "locationId": "lmi",
     "commentId": "cmi",
     "workshop": "Management",
-    "currentLocation": "CATHLAB",
+    "currentLocation": "WARD E3",
     "comments": "     Today",
-    "timestamp": 1678619185692
+    "timestamp": 1678784459950
   },
   {
     "name": "GLADY GIDEON",
     "locationId": "lgg",
     "commentId": "cgg",
     "workshop": "Management",
-    "currentLocation": "WARD J1",
+    "currentLocation": "BME",
     "comments": "     Today",
-    "timestamp": 1678618893897
+    "timestamp": 1678784695902
   },
   {
     "name": "DURGA SOMPALLE",

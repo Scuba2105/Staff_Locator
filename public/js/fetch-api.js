@@ -55,9 +55,16 @@ sseSource.onmessage = function (event) {
     
     const newData = receivedData.newData;
     const svgLocations = receivedData.svgLocationStatus;
-
+    let newStaffData;
+    if (newData.length == undefined) {
+      newStaffData = [newData];
+    }
+    else {
+      newStaffData = newData;
+    }    
+    
     // Loop over each staff member in the update data array
-    newData.forEach((staffMember) => {
+    newStaffData.forEach((staffMember) => {
       const {name, currentLocation, comments} = staffMember;
 
       // Find the entry in the staffArray
@@ -66,9 +73,8 @@ sseSource.onmessage = function (event) {
       });
 
       // Use destructuring to assign the locationId, commentId and workshop to variables 
-      ({locationId, commentId, workshop}) = employeeData;
-      console.log(locationId, commentId, workshop);
-
+      const {locationId, commentId, workshop} = employeeData;
+      
       // Check if the workshop of the updated entry corresponds to the current page
       if (workshop == teamName) {
         
