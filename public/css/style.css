@@ -296,6 +296,13 @@ object {
     animation: blinker 3s linear infinite;
 }
 
+.networkMessage {
+    position: absolute;
+    top: 470px;
+    left: 160px;
+    font-size: 20px;
+}
+
 .display td:hover {
     cursor: pointer;
 }

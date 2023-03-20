@@ -195,6 +195,11 @@ const tamworth1 = staffArray.reduce((acc, staffMember) => {
 // Define all staff names
 const allStaffNames = jhhEmp.concat(green1, tamworth1);
 
+// Define elements of the network svg
+const networkIcon = document.querySelector('#network');
+const rect = document.querySelector('#rect325');
+const networkMessage = document.querySelector('.networkMessage');
+
 // finding location selected
 function findvalue(e) {
     document.getElementById("location").value = e.innerText;
@@ -349,7 +354,9 @@ async function postToServer(name, location, comments, timestamp) {
         // Update connection status
         updateRoute.previousStatus = updateRoute.currentStatus;
         updateRoute.currentStatus = false;
-        
+        networkIcon.setAttribute('style','display:inline;opacity:1;fill:#f51637;fill-opacity:1;stroke:#000000;stroke-width:0.572465;stroke-dasharray:none;stroke-opacity:1');
+        networkMessage.textContent = 'Server Offline'
+
         // If error on connection then store data in local storage
         const id = updateData.name;
         const dataString = JSON.stringify(updateData);
@@ -369,6 +376,10 @@ async function postToServer(name, location, comments, timestamp) {
         // If server has reconnected since last update merge local storage changes to server
         if (reconnected) {
             
+            // Set the network icon back to connected
+            networkIcon.setAttribute('style','display:inline;opacity:1;fill:#67a7f0;fill-opacity:1;stroke:#000000;stroke-width:0.572465;stroke-dasharray:none;stroke-opacity:1') 
+            networkMessage.textContent = 'Server Online'
+
             // Grab all data from internal storage and store in stringified json object
             const storedKeys = Object.keys(localStorage);
             storedDataArray = storedKeys.reduce((acc, key) => {
