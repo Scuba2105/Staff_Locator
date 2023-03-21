@@ -298,8 +298,8 @@ object {
 
 .networkMessage {
     position: absolute;
-    top: 470px;
-    left: 160px;
+    top: 25px;
+    left: 150px;
     font-size: 20px;
 }
 
