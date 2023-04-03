@@ -1,5 +1,7 @@
 import { clear } from 'console';
 import express from 'express';
+import session from 'express-session';
+import formidable from "formidable";
 import path from 'path';
 import EventEmitter from 'events';
 import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
@@ -20,11 +22,45 @@ const __dirname = path.dirname('.')
 // Load pug view engine
 app.set('view engine', 'pug');
 
+// Set the express sessions middleware
+app.use(session({secret: 'verifiedUser', resave: true, saveUninitialized: true}));
+
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
 // Serving static files 
 app.use(express.static('public'));
+
+// Serve the login page when accessing the root directory
+app.get('/', (req, res) => {
+  try {
+    res.sendFile("public/html/Login.html", { root: __dirname });
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
+// Authroise the user when login for submitted.
+app.post('/auth', (req, res) => {
+  try {
+    const form = formidable({multiples: true});
+    let username;
+    let password;
+    form.parse(req, (err, fields) => {
+      username = fields.uname;
+      password = fields.psw;
+      console.log(fields);
+    });
+
+    // if (username == 'StaffLocator' && password == 'Bbroyg123456?') {
+    //   res.sendFile()
+    // };
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
 
 // Serve up jhh.html when root page accessed
 app.get('/Management', (req, res) => {
