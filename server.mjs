@@ -1,7 +1,6 @@
 import { clear } from 'console';
 import express from 'express';
 import session from 'express-session';
-import formidable from "formidable";
 import path from 'path';
 import EventEmitter from 'events';
 import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
@@ -44,18 +43,28 @@ app.get('/', (req, res) => {
 // Authroise the user when login for submitted.
 app.post('/auth', (req, res) => {
   try {
-    const form = formidable({multiples: true});
-    let username;
-    let password;
-    form.parse(req, (err, fields) => {
-      username = fields.uname;
-      password = fields.psw;
-      console.log(fields);
-    });
-
-    // if (username == 'StaffLocator' && password == 'Bbroyg123456?') {
-    //   res.sendFile()
-    // };
+    
+    // Convert binary string to json and get the team page being viewed.
+    const jsonData = JSON.stringify(req.body);
+    const loginInfo = JSON.parse(jsonData);
+    const username = loginInfo.username;
+    const password = loginInfo.password;
+    const page = loginInfo.page;
+    
+    if (username == 'BiomedLogin' && password == 'Bbroyg123456?') {
+      if (page == 'Management') {
+        res.sendFile("/home/steven/WebDevelopment/LocatorBoard/Staff_Locator/public/html/jhh.html")
+      }
+      else if (page == 'JHH') {
+        res.sendFile("public/html/jhhteam.html", { root: __dirname });
+      }
+      else if (page == 'Hunter') {
+        res.sendFile("public/html/greenteam.html", { root: __dirname });
+      }
+      else if (page == 'Tamworth') {
+        res.sendFile("public/html/tamworth.html", { root: __dirname });
+      }
+    };
   } 
   catch (error) {
     res.send(error.message);
@@ -118,13 +127,13 @@ app.get('/LatestUpdate', (req, res) => {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("connection", "keep-alive");
     res.setHeader("Content-Type", "text/event-stream");
-
+    
     event.on('update', (arg1) => {
       const data = JSON.stringify(arg1);
       console.log(data);
       res.write(`data: ${data}\n\n`);
       res.flushHeaders();
-    })
+    });
   } 
   catch (error) {
     res.send(err.message);

@@ -57,8 +57,8 @@
 
         /* Extra styles for the cancel button */
         .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
+            width: 100%;
+            padding: 14px 20px;
             background-color: #f44336;
         }
 
@@ -183,7 +183,7 @@
 
     <div id="id01" class="modal">
 
-        <form class="modal-content animate" action="/auth"  method="post"> 
+        <form class="modal-content animate"> 
             <div class="imgcontainer">
                 <span onclick="document.getElementById('id01').style.display='none'" class="close"
                     title="Close Modal">&times;</span>
@@ -192,37 +192,94 @@
 
             <div class="container">
                 <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+                <input type="text" placeholder="Enter Username" class="uname" name="uname" required>
 
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <input type="password" placeholder="Enter Password" class="psw" name="psw" required>
                 <label for="uname"><b>Select location:  </b></label> <label>
-                    <input type="checkbox"  name="MANAGEMENT"> MANAGEMENT              
+                    <input type="checkbox"  class="check" id="Management"> Management              
                 </label>
                 <label>
-                    <input type="checkbox"  name="JHH"> JHH               
+                    <input type="checkbox" class="check" id="JHH"> JHH               
                 </label>
                 <label>
-                    <input type="checkbox"  name="HUNTER"> HUNTER      
+                    <input type="checkbox" class="check" id="Hunter"> Hunter      
                 </label>
                 <label>
-                    <input type="checkbox"  name="NEW ENGLAND"> TAMWORTH
+                    <input type="checkbox" class="check" id="New England"> Tamworth
                 </label>
-                <button type=" submit">Login</button>
+                <button class="submit" type="submit">Submit</button>
 
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
                 <button type="button" onclick="document.getElementById('id01').style.display='none'"
                     class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
+                <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
             </div>
         </form>
     </div>
 
     <script>
-        // Get the modal
-        var modal = document.getElementById('id01');
+        // Get the modal a d the login button
+        const modal = document.getElementById('id01');
+        const login = document.querySelector(".submit"); 
+        const usernameField = document.querySelector('.uname');
+        const passwordField = document.querySelector('.psw');
+        const checkboxes = document.querySelectorAll('.check');
+
+        // When the user submits the form, post data
+        login.addEventListener('click', submitLoginForm);
+
+        async function submitLoginForm(event) {
+            event.preventDefault();
+            const username = usernameField.value;
+            const password = passwordField.value;
+            const checkedPage = [...checkboxes].filter((checkbox) => {
+                return checkbox.checked == true;
+            });
+            
+            // Check if username or password is incorrect
+            if (username != 'BiomedLogin' || password != 'Bbroyg123456?') {
+                alert("Username or password is incorrect");
+                return;
+            }
+           
+            // Get selected page from the checkbox
+            if (checkedPage.length != 0) {
+                const selectedPage = checkedPage[0].id;
+                submitObject = {username: username, password: password, page: selectedPage};
+                
+                fetch('/auth', {
+                    method: 'POST', 
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(submitObject) // body data type must match "Content-Type" header
+                });
+            }
+            else {
+                alert("No page has been selected!");
+                return;
+            }
+        }
+
+        // Add event listener for checkboxes
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', onlyOne)
+        })
+
+        // Only allow one checkbox to be selected
+        function onlyOne(event) {
+            checkboxes.forEach((item) => {
+                if (item !== event.target) {
+                    item.checked = false;
+                };
+            });
+        };
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function (event) {
