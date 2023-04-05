@@ -206,7 +206,7 @@
                     <input type="checkbox" class="check" id="Hunter"> Hunter      
                 </label>
                 <label>
-                    <input type="checkbox" class="check" id="New England"> Tamworth
+                    <input type="checkbox" class="check" id="Tamworth"> Tamworth
                 </label>
                 <button class="submit" type="submit">Submit</button>
 
@@ -250,7 +250,8 @@
                 const selectedPage = checkedPage[0].id;
                 submitObject = {username: username, password: password, page: selectedPage};
                 
-                fetch('/auth', {
+                // POST the form data to the server and then receive the HTML repsonse. 
+                const response = await fetch('/auth', {
                     method: 'POST', 
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -260,6 +261,10 @@
                     },
                     body: JSON.stringify(submitObject) // body data type must match "Content-Type" header
                 });
+
+                // GET the appropriate HTML page after being authorised
+                window.location = `${window.location.href}${selectedPage}`
+
             }
             else {
                 alert("No page has been selected!");

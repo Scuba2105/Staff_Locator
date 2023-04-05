@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
   }
 });
 
-// Authroise the user when login for submitted.
+// Authorise the user when login for submitted.
 app.post('/auth', (req, res) => {
   try {
     
@@ -52,18 +52,10 @@ app.post('/auth', (req, res) => {
     const page = loginInfo.page;
     
     if (username == 'BiomedLogin' && password == 'Bbroyg123456?') {
-      if (page == 'Management') {
-        res.sendFile("/home/steven/WebDevelopment/LocatorBoard/Staff_Locator/public/html/jhh.html")
-      }
-      else if (page == 'JHH') {
-        res.sendFile("public/html/jhhteam.html", { root: __dirname });
-      }
-      else if (page == 'Hunter') {
-        res.sendFile("public/html/greenteam.html", { root: __dirname });
-      }
-      else if (page == 'Tamworth') {
-        res.sendFile("public/html/tamworth.html", { root: __dirname });
-      }
+      
+      // Authenticate the user BiomedLogin
+      req.session.loggedin = true;
+      req.session.username = username;      
     };
   } 
   catch (error) {
