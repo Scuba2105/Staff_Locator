@@ -74,7 +74,8 @@ app.get('/Management', (req, res) => {
       res.sendFile("public/html/jhh.html", { root: __dirname });
     }
     else {
-      res.sendFile("public/html/Login.html", { root: __dirname });
+      res.redirect('/');
+      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -91,7 +92,8 @@ app.get('/JHH', (req, res) => {
       res.sendFile("public/html/jhhteam.html", { root: __dirname });
     }
     else {
-      res.sendFile("public/html/Login.html", { root: __dirname });
+      res.redirect('/');
+      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -108,7 +110,8 @@ app.get('/Hunter', (req, res) => {
       res.sendFile("public/html/greenteam.html", { root: __dirname });
     }
     else {
-      res.sendFile("public/html/Login.html", { root: __dirname });
+      res.redirect('/');
+      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -125,7 +128,8 @@ app.get('/Tamworth', (req, res) => {
       res.sendFile("public/html/tamworth.html", { root: __dirname });
     }
     else {
-      res.sendFile("public/html/Login.html", { root: __dirname });
+      res.redirect('/');
+      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
