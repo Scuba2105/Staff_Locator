@@ -57,6 +57,8 @@ app.post('/auth', (req, res) => {
       req.session.loggedin = true;
       req.session.username = username;      
     };
+
+    res.end();
   } 
   catch (error) {
     res.send(error.message);
@@ -66,9 +68,14 @@ app.post('/auth', (req, res) => {
 // Serve up jhh.html when root page accessed
 app.get('/Management', (req, res) => {
   try {
-    //const currentData = await serveCurrentData('Management');
-    //res.render('body', {formLocations: availableLocations, currentLocations: currentData, backgroundColor: '#ff4444'});
-    res.sendFile("public/html/jhh.html", { root: __dirname });
+    
+    // If logged in send the requested page otherwise send the login page
+    if (req.session.loggedin) {
+      res.sendFile("public/html/jhh.html", { root: __dirname });
+    }
+    else {
+      res.sendFile("public/html/Login.html", { root: __dirname });
+    }
   } 
   catch (error) {
     res.send(error.message);
@@ -78,8 +85,14 @@ app.get('/Management', (req, res) => {
 // Serve up jhhteam.html when JHH page accessed
 app.get('/JHH', (req, res) => {
   try {
-    //await serveCurrentData(req, res, 'JHH');
-    res.sendFile("public/html/jhhteam.html", { root: __dirname });
+    
+    // If logged in send the requested page otherwise send the login page
+    if (req.session.loggedin) {
+      res.sendFile("public/html/jhhteam.html", { root: __dirname });
+    }
+    else {
+      res.sendFile("public/html/Login.html", { root: __dirname });
+    }
   } 
   catch (error) {
     res.send(err.message);
@@ -89,8 +102,14 @@ app.get('/JHH', (req, res) => {
 // Serve up greenteam.html when Hunter team page accessed
 app.get('/Hunter', (req, res) => {
   try {
-    //await serveCurrentData(req, res, 'Green);
-    res.sendFile("public/html/greenteam.html", { root: __dirname });
+
+    // If logged in send the requested page otherwise send the login page
+    if (req.session.loggedin) {
+      res.sendFile("public/html/greenteam.html", { root: __dirname });
+    }
+    else {
+      res.sendFile("public/html/Login.html", { root: __dirname });
+    }
   } 
   catch (error) {
     res.send(err.message);
@@ -100,8 +119,14 @@ app.get('/Hunter', (req, res) => {
 // Serve up tamworth.html when New England page is accessed
 app.get('/Tamworth', (req, res) => {
   try {
-    //await serveCurrentData(req, res, 'Tamworth');
-    res.sendFile("public/html/tamworth.html", { root: __dirname });
+    
+    // If logged in send the requested page otherwise send the login page
+    if (req.session.loggedin) {
+      res.sendFile("public/html/tamworth.html", { root: __dirname });
+    }
+    else {
+      res.sendFile("public/html/Login.html", { root: __dirname });
+    }
   } 
   catch (error) {
     res.send(err.message);
