@@ -1,7 +1,7 @@
-import { clear } from 'console';
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
+import cors from 'cors';
 import EventEmitter from 'events';
 import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 //import { availableLocations } from './data/available-locations.mjs';
@@ -29,6 +29,9 @@ app.use(express.json());
 
 // Serving static files 
 app.use(express.static('public'));
+
+// Specify CORS to allow web page to access any Cross-Origin API including Amazon S3.
+app.use(cors({origin: '*'}));
 
 // Serve the login page when accessing the root directory
 app.get('/', (req, res) => {
