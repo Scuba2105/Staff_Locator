@@ -5,7 +5,7 @@ import { writeDataToFile } from '../utils/access-json-data.mjs';
 export async function serveCurrentData(team) {
     try {
         const activeLocations = await getActiveLocations(); 
-        const inactiveLocations = await getInactiveLocations(activeLocations);
+        const inactiveLocations = await getInactiveLocations();
         if (team == 'LocationOnly') {
             return {activeLocations: activeLocations, inactiveLocations: inactiveLocations};
         }
@@ -43,13 +43,10 @@ export async function updateTeamData(req, res, __dirname) {
         const jsonData = JSON.stringify(req.body);
         const updateObject = JSON.parse(jsonData);
         
-        // Get the current location data for the specified team.
+        // Update the location data in the database.
         const newLocations = await updateLocations(updateObject);
         
-        // Write the data to the json file.
-        const filePath = path.join(__dirname, 'data', 'current-locations.json');
-        console.log(filePath);
-        await writeDataToFile(filePath, newLocations);
+        // Return the update data to controller.
         return updateObject;
     } catch (error) {
         console.log(error);
