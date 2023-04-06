@@ -60,13 +60,9 @@ export async function mergeLocalStorage(req, res, __dirname) {
         const jsonData = JSON.stringify(req.body);
         const mergeObjectArray = JSON.parse(jsonData);
         
-        // Merge local storage entries with current server data
+        // Merge local storage entries with current data and write to DB
         const latestData = await mergeLocalData(mergeObjectArray);
         
-        // Write the data to the json file.
-        const filePath = path.join(__dirname, 'data', 'current-locations.json');
-        await writeDataToFile(filePath, latestData);
-
         return mergeObjectArray;
         
     } catch (error) {

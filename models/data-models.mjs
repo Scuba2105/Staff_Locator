@@ -154,8 +154,18 @@ export async function mergeLocalData(localEntries) {
             };
             return currentEntry;
         });
-        const mergedLocationData = JSON.stringify(updatedStaff, null, 2);
-        resolve(mergedLocationData);
+        
+        // Store the data within the array as strings.
+        const mergedLocationData = updatedStaff.map((staffMember) => {
+            return JSON.stringify(staffMember);
+        });
+
+        // Write the updated data to the DB.
+        const updateDB = await dataFB.set({
+            locationData: mergedLocationData
+        }, { merge: true });
+        
+        resolve('The local storage data has been merged with the DB');
     });
 };
 
