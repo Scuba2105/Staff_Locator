@@ -48,6 +48,7 @@ export async function updateTeamData(req, res, __dirname) {
         
         // Write the data to the json file.
         const filePath = path.join(__dirname, 'data', 'current-locations.json');
+        console.log(filePath);
         await writeDataToFile(filePath, newLocations);
         return updateObject;
     } catch (error) {
