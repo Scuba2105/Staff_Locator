@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from '@cyclic.sh/s3fs';
 import { availableLocations } from '../data/available-locations.mjs';
 import { readJSON } from '../utils/access-json-data.mjs';
 
