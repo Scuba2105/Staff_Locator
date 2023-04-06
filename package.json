@@ -5,10 +5,10 @@
   "description": "bme locator board",
   "main": "server.mjs",
   "dependencies": {
-    "@cyclic.sh/s3fs": "^1.2.8",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "firebase-admin": "^11.5.0",
     "nodemon": "^2.0.20"
   },
   "scripts": {

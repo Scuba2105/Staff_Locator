@@ -1,10 +1,13 @@
-import fs from '@cyclic.sh/s3fs';
 import { availableLocations } from '../data/available-locations.mjs';
 import { readJSON } from '../utils/access-json-data.mjs';
+import { db } from '../data/firebase.mjs'
 
 export async function fetchLocations(team) { 
     return new Promise(async (resolve, reject) => {
         const currentLocations = await readJSON('../data/current-locations.json');
+        const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');
+        const doc = await dataFB.get();
+        console.log(doc);
         if (currentLocations == undefined) {
             reject('The json file has not been loaded from file');
         }

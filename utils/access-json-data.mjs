@@ -1,5 +1,3 @@
-import fs from '@cyclic.sh/s3fs';
-
 // create an asynclock constructor
 class AsyncLock {
     constructor() {
