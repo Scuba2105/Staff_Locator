@@ -7,9 +7,15 @@ export async function fetchLocations(team) {
         const currentLocations = await readJSON('../data/current-locations.json');
         const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');
         const doc = await dataFB.get();
-        console.log(doc);
+        const dataArray = (doc.data().locationData);
+        const currentLocations2 = dataArray.map((entry) => {
+            return JSON.parse(entry);
+        });
+
+        console.log(currentLocations2);
+        
         if (currentLocations == undefined) {
-            reject('The json file has not been loaded from file');
+            reject('The location data has not been retrieved from the database');
         }
         const teamArray = currentLocations.reduce((acc, currentMember) => {
             if (currentMember.workshop == team) {

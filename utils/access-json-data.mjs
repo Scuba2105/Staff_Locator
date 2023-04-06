@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 // create an asynclock constructor
 class AsyncLock {
     constructor() {
