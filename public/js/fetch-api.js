@@ -44,14 +44,19 @@ window.addEventListener('DOMContentLoaded', getCurrentLocations);
 // Define the url for the sse route
 const sseUrl = new ServerRoute('LatestUpdate').getRoute();
 
-// Create the sse event source object
-const sseSource = new EventSource(sseUrl);
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
 
-// Define the callback to execute when message is received from sse
-sseSource.onmessage = function (event) {
-    console.log(event.data);
+var pusher = new Pusher('37bc4f70b8b5ef5ca38a', {
+  cluster: 'ap4'
+});
+
+const channel = pusher.subscribe('my-channel');
+channel.bind('my-event', function(data) {
+  console.log(JSON.stringify(data));
+
     // Destructure the update object into variables. 
-    const receivedData = JSON.parse(event.data);
+    const receivedData = JSON.parse(data);
     
     const newData = receivedData.newData;
     const svgLocations = receivedData.svgLocationStatus;
@@ -104,7 +109,7 @@ sseSource.onmessage = function (event) {
       });
       updateSVG(activeLocations, inactiveLocations);
     }
-};
+});
 
 function updateSVG(activeLocations, inactiveLocations) {
   

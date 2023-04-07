@@ -2,9 +2,8 @@ import express from 'express';
 import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
-import EventEmitter from 'events';
+import Pusher from 'pusher';
 import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
-//import { availableLocations } from './data/available-locations.mjs';
 
 // Create app
 const app = express();
@@ -17,6 +16,15 @@ const PORT = process.env.PORT || 5555;
 
 // Define root directory
 const __dirname = path.dirname('.')
+
+// Create new instance of Pusher for real time updates
+const pusher = new Pusher({
+  appId: "1580687",
+  key: "37bc4f70b8b5ef5ca38a",
+  secret: "e8128e8608c377656029",
+  cluster: "ap4",
+  useTLS: true
+});
 
 // Load pug view engine
 app.set('view engine', 'pug');
@@ -78,7 +86,6 @@ app.get('/Management', (req, res) => {
     }
     else {
       res.redirect('/');
-      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -96,7 +103,6 @@ app.get('/JHH', (req, res) => {
     }
     else {
       res.redirect('/');
-      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -114,7 +120,6 @@ app.get('/Hunter', (req, res) => {
     }
     else {
       res.redirect('/');
-      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
   catch (error) {
@@ -132,42 +137,8 @@ app.get('/Tamworth', (req, res) => {
     }
     else {
       res.redirect('/');
-      //res.sendFile("public/html/Login.html", { root: __dirname });
     }
   } 
-  catch (error) {
-    res.send(err.message);
-  }
-});
-
-// Store the latest update data
-let latestUpdateData = {newData: {name: '', currentLocation: '', comments: '', timestamp: ''}, svgLocationStatus: ''};
-
-// Serve up the latest updated location to each client 
-app.get('/LatestUpdate', (req, res) => {
-  try {
-    res.statusCode = 200;
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("connection", "keep-alive");
-    res.setHeader("Content-Type", "text/event-stream");
-    
-    event.on('update', (arg1) => {
-      const data = JSON.stringify(arg1);
-      res.write(`data: ${data}\n\n`);
-      res.flushHeaders();
-    });
-
-    let keepAliveMS = 15 * 1000;
-    
-    function keepAlive() {
-      // SSE comment for keep alive. Chrome times out after two minutes.
-      res.write(':\n\n');
-      res.flushHeaders();
-    }; 
-
-    setInterval(keepAlive, keepAliveMS);
-  }
   catch (error) {
     res.send(err.message);
   }
@@ -186,8 +157,8 @@ app.post('/UpdateLocations', async (req, res) => {
   try {
     const lastUpdatedData = await updateTeamData(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
-    latestUpdateData = {newData: lastUpdatedData, svgLocationStatus: svgData};
-    event.emit('update', latestUpdateData);
+    const latestUpdateData = {newData: lastUpdatedData, svgLocationStatus: svgData};
+    pusher.trigger("my-channel", "my-event", latestUpdateData);
     res.json({message: `Location was successfully updated for ${lastUpdatedData.name}`});
   } 
   catch (error) {
@@ -204,7 +175,7 @@ app.post('/MergeLocalStorage', async (req, res) => {
     // Send message to indicate successful merging of local storage
     const message = JSON.stringify({message: 'The local storage data has successfully merged'});
     res.json(message);
-    event.emit('update', latestUpdateData);
+    pusher.trigger("my-channel", "my-event", latestUpdateData);
   } 
   catch (error) {
     res.send(error.message);
