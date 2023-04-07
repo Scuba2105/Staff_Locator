@@ -8,9 +8,6 @@ import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } fro
 // Create app
 const app = express();
 
-// Create event emitter object
-const event = new EventEmitter();
-
 // Define port used for web server to listen on. Set a default if not in hosting environment. 
 const PORT = process.env.PORT || 5555;
 

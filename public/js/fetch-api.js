@@ -53,13 +53,11 @@ var pusher = new Pusher('37bc4f70b8b5ef5ca38a', {
 
 const channel = pusher.subscribe('my-channel');
 channel.bind('my-event', function(data) {
-  console.log(JSON.stringify(data));
-
-    // Destructure the update object into variables. 
-    const receivedData = JSON.parse(data);
-    
-    const newData = receivedData.newData;
-    const svgLocations = receivedData.svgLocationStatus;
+  
+    // Get the new data and location data from the sent data object   
+    const newData = data.newData;
+    const svgLocations = data.svgLocationStatus;
+    console.log(newData);
     let newStaffData;
     if (newData.length == undefined) {
       newStaffData = [newData];
