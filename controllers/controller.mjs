@@ -2,33 +2,36 @@ import bcrypt from 'bcrypt';
 import { getCredentials, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
 
 export async function authenticateUser(req, res) {
-    // Convert binary string to json and get the team page being viewed.
-    const jsonData = JSON.stringify(req.body);
-    const loginInfo = JSON.parse(jsonData);
-    const submittedUsername = loginInfo.username;
-    const submittedPassword = loginInfo.password;
-    const page = loginInfo.page;
+    try {
+        // Convert binary string to json and get the team page being viewed.
+        const jsonData = JSON.stringify(req.body);
+        const loginInfo = JSON.parse(jsonData);
+        const submittedUsername = loginInfo.username;
+        const submittedPassword = loginInfo.password;
+        const page = loginInfo.page;
   
-    // Get the username and hashed password from the database
-    const storedCredentials = await getCredentials();
-    const storedUsername = storedCredentials.username;
-    const hashedPassword = storedCredentials.password;
+        // Get the username and hashed password from the database
+        const storedCredentials = await getCredentials();
+        const storedUsername = storedCredentials.username;
+        const hashedPassword = storedCredentials.password;
 
-    // Compare the username and password and determine if they match
-    const passwordResult = await bcrypt.compare(submittedPassword, hashedPassword);
-    const usernameResult = submittedUsername == storedUsername ? true : false;
+        // Compare the username and password and determine if they match
+        const passwordResult = await bcrypt.compare(submittedPassword, hashedPassword);
+        const usernameResult = submittedUsername == storedUsername ? true : false;
     
-    // If credentials match then authorise login to the user
-    if (usernameResult && passwordResult) {
-        // Authenticate the user BiomedLogin
-        req.session.loggedin = true;
-        req.session.username = username;      
+        // If credentials match then authorise login to the user
+        if (usernameResult && passwordResult) {
+            // Authenticate the user BiomedLogin
+            req.session.loggedin = true;
+            req.session.username = storedUsername; 
+            res.send('success');     
+        }
+        else {
+            res.send('fail');
+        };
+    } catch (error) {
+        console.log(error);
     }
-    else {
-        res.send('Incorrect username or password has been provided');
-    };
-
-    res.end();
 } 
 
 export async function serveCurrentData(team) {

@@ -238,39 +238,44 @@
             const checkedPage = [...checkboxes].filter((checkbox) => {
                 return checkbox.checked == true;
             });
-            
-            // Check if username or password is incorrect
-            if (username != 'BiomedLogin' || password != 'Bbroyg123456?') {
-                alert("Username or password is incorrect");
-                return;
-            }
-           
+            let selectedPage;
+
             // Get selected page from the checkbox
             if (checkedPage.length != 0) {
-                const selectedPage = checkedPage[0].id;
-                submitObject = {username: username, password: password, page: selectedPage};
-                
-                // POST the form data to the server and then receive the HTML repsonse. 
-                const response = await fetch('/auth', {
-                    method: 'POST', 
-                    mode: 'cors', // no-cors, *cors, same-origin
-                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                    credentials: 'same-origin', // include, *same-origin, omit
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(submitObject) // body data type must match "Content-Type" header
-                });
-
-                // GET the appropriate HTML page after being authorised
-                window.location = `${window.location.href}${selectedPage}`
-                
+                selectedPage = checkedPage[0].id;
             }
             else {
                 alert("No page has been selected!");
                 return;
             }
-        }
+
+            const submitObject = {username: username, password: password, page: selectedPage};
+                
+            // POST the form data to the server and then receive the HTML repsonse. 
+            const response = await fetch('/auth', {
+                method: 'POST', 
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(submitObject) // body data type must match "Content-Type" header
+                });
+
+            // Get message from http repsonse
+            const data = await response.text(); 
+            
+            // If authorisation has been granted then direct to the requested page else show error message
+            if (data == 'success') {
+                // Direct to the appropriate HTML page after being authorised
+                window.location = `${window.location.href}${selectedPage}`
+            }
+            else {
+                alert('Incorrect username or password has been entered');
+            }
+        }    
+        
 
         // Add event listener for checkboxes
         checkboxes.forEach((checkbox) => {
