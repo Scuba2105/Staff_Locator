@@ -60,24 +60,6 @@ app.get('/', (req, res) => {
 app.post('/auth', async (req, res) => {
   try {
     await authenticateUser(req, res);
-    async function authenticateUser(req, res) {
-      // Convert binary string to json and get the team page being viewed.
-    const jsonData = JSON.stringify(req.body);
-    const loginInfo = JSON.parse(jsonData);
-    const username = loginInfo.username;
-    const password = loginInfo.password;
-    const page = loginInfo.page;
-    
-    if (username == 'BiomedLogin' && password == 'Bbroyg123456?') {
-      
-      // Authenticate the user BiomedLogin
-      req.session.loggedin = true;
-      req.session.username = username;      
-    };
-
-    res.end();
-  } 
-    
   }  
   catch (error) {
     res.send(error.message);

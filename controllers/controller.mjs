@@ -1,4 +1,27 @@
+import bcrypt from 'bcrypt';
 import { fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
+
+export async function authenticateUser(req, res) {
+    // Convert binary string to json and get the team page being viewed.
+    const jsonData = JSON.stringify(req.body);
+    const loginInfo = JSON.parse(jsonData);
+    const username = loginInfo.username;
+    const password = loginInfo.password;
+    const page = loginInfo.page;
+  
+    const hash = await bcrypt.hash(password, 10);
+    const hashTest = await bcrypt.hash('Bbroyg123456?', 10);
+    console.log(hashTest);
+
+  if (username == 'BiomedLogin' && password == 'Bbroyg123456?') {
+    
+    // Authenticate the user BiomedLogin
+    req.session.loggedin = true;
+    req.session.username = username;      
+  };
+
+  res.end();
+} 
 
 export async function serveCurrentData(team) {
     try {
