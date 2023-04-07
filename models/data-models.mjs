@@ -1,5 +1,4 @@
 import { availableLocations } from '../data/available-locations.mjs';
-import { readJSON } from '../utils/access-json-data.mjs';
 import { db } from '../data/firebase.mjs'
 
 export async function fetchLocations(team) { 
