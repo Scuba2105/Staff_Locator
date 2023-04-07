@@ -1,6 +1,4 @@
-import path from 'path';
 import { fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
-import { writeDataToFile } from '../utils/access-json-data.mjs';
 
 export async function serveCurrentData(team) {
     try {
