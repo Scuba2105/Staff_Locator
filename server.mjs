@@ -27,7 +27,15 @@ const pusher = new Pusher({
 app.set('view engine', 'pug');
 
 // Set the express sessions middleware
-app.use(session({secret: 'verifiedUser', resave: true, saveUninitialized: true}));
+app.use(session({secret: 'verifiedUser', resave: true, saveUninitialized: true, cookie : {
+  sameSite: 'strict'
+}}));
+
+// Serve secure cookies 
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  sessionConfig.cookie.secure = true; // serve secure cookies
+};
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());

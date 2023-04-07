@@ -44,9 +44,7 @@ window.addEventListener('DOMContentLoaded', getCurrentLocations);
 // Define the url for the sse route
 const sseUrl = new ServerRoute('LatestUpdate').getRoute();
 
-// Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
-
+// Connect to instance of Pusher with key.
 var pusher = new Pusher('37bc4f70b8b5ef5ca38a', {
   cluster: 'ap4'
 });
@@ -57,7 +55,7 @@ channel.bind('my-event', function(data) {
     // Get the new data and location data from the sent data object   
     const newData = data.newData;
     const svgLocations = data.svgLocationStatus;
-    console.log(newData);
+    
     let newStaffData;
     if (newData.length == undefined) {
       newStaffData = [newData];
