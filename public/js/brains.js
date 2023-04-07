@@ -99,7 +99,6 @@ const keys = Object.keys(mergeStatus);
 const values = keys.map((key) => {
     return mergeStatus[key];
 })
-console.log(values);
 
 // Create update locations route object
 const updateRoute = new ServerRoute('UpdateLocations');
