@@ -49,7 +49,7 @@ const sseSource = new EventSource(sseUrl);
 
 // Define the callback to execute when message is received from sse
 sseSource.onmessage = function (event) {
-    
+    console.log(event.data);
     // Destructure the update object into variables. 
     const receivedData = JSON.parse(event.data);
     

@@ -157,7 +157,17 @@ app.get('/LatestUpdate', (req, res) => {
       res.write(`data: ${data}\n\n`);
       res.flushHeaders();
     });
-  } 
+
+    let keepAliveMS = 15 * 1000;
+    
+    function keepAlive() {
+      // SSE comment for keep alive. Chrome times out after two minutes.
+      res.write(':\n\n');
+      res.flushHeaders();
+    }; 
+
+    setInterval(keepAlive, keepAliveMS);
+  }
   catch (error) {
     res.send(err.message);
   }
