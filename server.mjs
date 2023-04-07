@@ -57,10 +57,11 @@ app.get('/', (req, res) => {
 });
 
 // Authorise the user when login for submitted.
-app.post('/auth', (req, res) => {
+app.post('/auth', async (req, res) => {
   try {
-    
-    // Convert binary string to json and get the team page being viewed.
+    await authenticateUser(req, res);
+    async function authenticateUser(req, res) {
+      // Convert binary string to json and get the team page being viewed.
     const jsonData = JSON.stringify(req.body);
     const loginInfo = JSON.parse(jsonData);
     const username = loginInfo.username;
@@ -76,6 +77,8 @@ app.post('/auth', (req, res) => {
 
     res.end();
   } 
+    
+  }  
   catch (error) {
     res.send(error.message);
   }
