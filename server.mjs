@@ -3,7 +3,7 @@ import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 import Pusher from 'pusher';
-import { serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
+import { authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 
 // Create app
 const app = express();

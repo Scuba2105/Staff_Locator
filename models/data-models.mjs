@@ -1,6 +1,20 @@
 import { availableLocations } from '../data/available-locations.mjs';
 import { db } from '../data/firebase.mjs'
 
+export async function getCredentials() {
+    return new Promise(async (resolve, reject) => {
+        const dataFB = db.collection('Authentication').doc('Password');
+        const doc = await dataFB.get();
+        const storedPassword = (doc.data().password);
+        const storedUsername = (doc.data().username);
+        const credentials = {username: storedUsername, password: storedPassword};
+        if (storedPassword == undefined) {
+            reject('The password has not been retrieved from the database');
+        }
+        resolve(credentials);
+    });
+};
+
 export async function fetchLocations(team) { 
     return new Promise(async (resolve, reject) => {
         const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');
