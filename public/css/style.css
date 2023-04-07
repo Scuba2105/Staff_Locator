@@ -296,11 +296,31 @@ object {
     animation: blinker 3s linear infinite;
 }
 
-.networkMessage {
+.network-background {
+    width: auto;
+    padding: 0px 10px;
     position: absolute;
-    top: 25px;
-    left: 150px;
-    font-size: 20px;
+    top: 15px;
+    left: 50px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+}
+
+.network-indicator {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color:rgb(87, 243, 60);
+    margin-right: 10px;
+}
+
+.networkMessage {
+    font-size: 14px;
+    margin-left: 10px;
 }
 
 .display td:hover {
