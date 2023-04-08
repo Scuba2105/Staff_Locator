@@ -194,10 +194,9 @@ const tamworth1 = staffArray.reduce((acc, staffMember) => {
 // Define all staff names
 const allStaffNames = jhhEmp.concat(green1, tamworth1);
 
-// Define elements of the network svg
-const networkIcon = document.querySelector('#network');
-const rect = document.querySelector('#rect325');
-const networkMessage = document.querySelector('.networkMessage');
+// Define elements of the network indicator and message
+const networkMessage = document.querySelector('.network-message');
+const networkIndicator = document.querySelector('.network-indicator');
 
 // finding location selected
 function findvalue(e) {
@@ -350,11 +349,11 @@ async function postToServer(name, location, comments, timestamp) {
     // Send post request on the update locations route
     const response = await updateRoute.sendRequest(updateData).catch(() => {
         
-        // Update connection status
+        // Update connection status to offline
         updateRoute.previousStatus = updateRoute.currentStatus;
         updateRoute.currentStatus = false;
-        networkIcon.setAttribute('style','display:inline;opacity:1;fill:#f51637;fill-opacity:1;stroke:#000000;stroke-width:0.572465;stroke-dasharray:none;stroke-opacity:1');
-        networkMessage.textContent = 'Server Offline'
+        networkIndicator.style.backgroundColor = 'rgb(241, 28, 28)';
+        networkMessage.textContent = 'Server Offline - Local Storage Only';
 
         // If error on connection then store data in local storage
         const id = updateData.name;
@@ -375,9 +374,9 @@ async function postToServer(name, location, comments, timestamp) {
         // If server has reconnected since last update merge local storage changes to server
         if (reconnected) {
             
-            // Set the network icon back to connected
-            networkIcon.setAttribute('style','display:inline;opacity:1;fill:#67a7f0;fill-opacity:1;stroke:#000000;stroke-width:0.572465;stroke-dasharray:none;stroke-opacity:1') 
-            networkMessage.textContent = 'Server Online'
+            // Set the network icon back to connected 
+            networkIndicator.style.backgroundColor = 'rgb(87, 243, 60)';
+            networkMessage.textContent = 'Server Online';
 
             // Grab all data from internal storage and store in stringified json object
             const storedKeys = Object.keys(localStorage);
