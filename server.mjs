@@ -26,7 +26,7 @@ const pusher = new Pusher({
 // Load pug view engine
 app.set('view engine', 'pug');
 
-// Set the express sessions middleware
+// Set the express sessions middleware to validate user browser session
 app.use(session({secret: 'verifiedUser', resave: true, saveUninitialized: true, cookie : {
   sameSite: 'strict'
 }}));
