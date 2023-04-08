@@ -3,7 +3,7 @@ const getLocationsRoute = new ServerRoute('GetLocations');
 
 // Get team identifier from url
 const teamName = getLocationsRoute.getPageIdentifier();
-
+console.log(teamName);
 async function getCurrentLocations() {
     
     // Send request to server and resolve response data
@@ -41,10 +41,7 @@ function updateSvgOnLoad(currentLocations) {
 // Add event listener for when DOM content loaded
 window.addEventListener('DOMContentLoaded', getCurrentLocations);
 
-// Define the url for the sse route
-const sseUrl = new ServerRoute('LatestUpdate').getRoute();
-
-// Connect to instance of Pusher with key.
+// This part of the code subscribes to Pusher channel and listens for updates.
 var pusher = new Pusher('37bc4f70b8b5ef5ca38a', {
   cluster: 'ap4'
 });

@@ -270,7 +270,7 @@
             // If authorisation has been granted then direct to the requested page else show error message
             if (data == 'success') {
                 // Direct to the appropriate HTML page after being authorised
-                window.location = `${window.location.href}${selectedPage}`
+                window.location = `${window.location.href}location/${selectedPage}`;
             }
             else {
                 alert('Incorrect username or password has been entered');

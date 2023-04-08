@@ -49,7 +49,7 @@ app.use(cors({origin: '*'}));
 // Serve the login page when accessing the root directory
 app.get('/', (req, res) => {
   try {
-    res.sendFile("public/html/Login.html", { root: __dirname });
+    res.sendFile("public/html/login.html", { root: __dirname });
   } 
   catch (error) {
     res.send(error.message);
@@ -66,13 +66,15 @@ app.post('/auth', async (req, res) => {
   }
 });
 
-// Serve up jhh.html when root page accessed
-app.get('/Management', (req, res) => {
+// Serve up requested html page based on provided id parameter in the URL
+app.get('/location/:id', (req, res) => {
   try {
+    // Get id parameter from the url
+    const id = (req.params.id).toLowerCase();
     
     // If logged in send the requested page otherwise send the login page
     if (req.session.loggedin) {
-      res.sendFile("public/html/jhh.html", { root: __dirname });
+      res.sendFile(`public/html/${id}.html`, { root: __dirname });
     }
     else {
       res.redirect('/');
@@ -82,58 +84,9 @@ app.get('/Management', (req, res) => {
     res.send(error.message);
   }
 });
-    
-// Serve up jhhteam.html when JHH page accessed
-app.get('/JHH', (req, res) => {
-  try {
-    
-    // If logged in send the requested page otherwise send the login page
-    if (req.session.loggedin) {
-      res.sendFile("public/html/jhhteam.html", { root: __dirname });
-    }
-    else {
-      res.redirect('/');
-    }
-  } 
-  catch (error) {
-    res.send(err.message);
-  }
-  });
 
-// Serve up greenteam.html when Hunter team page accessed
-app.get('/Hunter', (req, res) => {
-  try {
-
-    // If logged in send the requested page otherwise send the login page
-    if (req.session.loggedin) {
-      res.sendFile("public/html/greenteam.html", { root: __dirname });
-    }
-    else {
-      res.redirect('/');
-    }
-  } 
-  catch (error) {
-    res.send(err.message);
-  }
-  });
-
-// Serve up tamworth.html when New England page is accessed
-app.get('/Tamworth', (req, res) => {
-  try {
-    
-    // If logged in send the requested page otherwise send the login page
-    if (req.session.loggedin) {
-      res.sendFile("public/html/tamworth.html", { root: __dirname });
-    }
-    else {
-      res.redirect('/');
-    }
-  } 
-  catch (error) {
-    res.send(err.message);
-  }
-});
-
+// When location ID is posted to route provide the location data for that location.
+// This is used to initialise locations when page first loaded
 app.post('/GetLocations', async (req, res) => {
   try {
     sendTeamData(req, res);
@@ -143,6 +96,7 @@ app.post('/GetLocations', async (req, res) => {
   }
 });
 
+// Update location data when update made and use Pusher to send to all clients 
 app.post('/UpdateLocations', async (req, res) => {
   try {
     const lastUpdatedData = await updateTeamData(req, res, __dirname);
@@ -156,6 +110,7 @@ app.post('/UpdateLocations', async (req, res) => {
   }
 });
 
+// Merge local storage data when client reconnects and use Pusher to send relevant data to connected clients 
 app.post('/MergeLocalStorage', async (req, res) => {
   try {
     const mergeData = await mergeLocalStorage(req, res, __dirname);

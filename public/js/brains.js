@@ -65,8 +65,8 @@ class ServerRoute {
             throw new Error('The requested endpoint does not exist');
         }
         
-        const endpointURL = this.getRoute(); 
-        
+        const endpointURL = this.getRoute().replace('/location',''); 
+        console.log(`URL: ${endpointURL}`)
         const response = await fetch(endpointURL, {
                 method: 'POST', 
                 mode: 'cors', // no-cors, *cors, same-origin
