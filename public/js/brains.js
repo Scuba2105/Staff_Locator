@@ -66,7 +66,7 @@ class ServerRoute {
         }
         
         const endpointURL = this.getRoute().replace('/location',''); 
-        console.log(`URL: ${endpointURL}`)
+        
         const response = await fetch(endpointURL, {
                 method: 'POST', 
                 mode: 'cors', // no-cors, *cors, same-origin
@@ -276,7 +276,6 @@ function getval(cel) {
 function openForm() {
     const parentElement = this.parentElement;
     const firstCell = parentElement.firstElementChild;
-    console.log(firstCell);
     const employeeName = firstCell.textContent; 
     document.getElementById("empId").innerHTML = employeeName;   
     document.getElementById("myForm").style.display = "block";
@@ -399,14 +398,13 @@ async function postToServer(name, location, comments, timestamp) {
                 
                 // Resolve the response data into an object
                 const mergeMessage = await response.json();
-                console.log(mergeMessage);                
-
+                
                 // Clear the local storage. 
                 localStorage.clear();
             }
             
         }
-        console.log(updateMessage);
+        //console.log(updateMessage);
     };
         
 };

@@ -3,6 +3,7 @@ import { getCredentials, fetchLocations, fetchAllLocations, getActiveLocations, 
 
 export async function authenticateUser(req, res) {
     try {
+                
         // Convert binary string to json and get the team page being viewed.
         const jsonData = JSON.stringify(req.body);
         const loginInfo = JSON.parse(jsonData);
@@ -21,6 +22,12 @@ export async function authenticateUser(req, res) {
     
         // If credentials match then authorise login to the user
         if (usernameResult && passwordResult) {
+            // Generate a unique session ID for the cookie and the expiry date 
+            const date = Date.now();
+            const cookieMaxAge = req.session.cookie.maxAge;
+            const expiryDate = date + cookieMaxAge;
+            const sessionID = req.session.id;
+            console.log(sessionID, expiryDate);
             // Authenticate the user BiomedLogin
             req.session.loggedin = true;
             req.session.username = storedUsername; 

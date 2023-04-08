@@ -1,5 +1,7 @@
 import express from 'express';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import cors from 'cors';
 import Pusher from 'pusher';
@@ -27,15 +29,27 @@ const pusher = new Pusher({
 app.set('view engine', 'pug');
 
 // Set the express sessions middleware to validate user browser session
-app.use(session({secret: 'verifiedUser', resave: true, saveUninitialized: true, cookie : {
-  sameSite: 'strict'
-}}));
+app.use(session({
+  secret: 'verifiedUser', 
+  genid: function (req) {
+    return uuidv4(); 
+  },
+  resave: false, 
+  saveUninitialized: false, 
+  cookie : {
+    sameSite: 'strict',
+    maxAge: 1000 * 60 * 60 * 720,
+    secure: false
+  }
+}));
 
 // Serve secure cookies 
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1); // trust first proxy
-  sessionConfig.cookie.secure = true; // serve secure cookies
 };
+
+// Enable the server to parse cookies from the client
+app.use(cookieParser());
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
@@ -115,7 +129,7 @@ app.post('/MergeLocalStorage', async (req, res) => {
   try {
     const mergeData = await mergeLocalStorage(req, res, __dirname);
     const svgData = await serveCurrentData('LocationOnly');
-    latestUpdateData = {newData: mergeData, svgLocationStatus: svgData};
+    const latestUpdateData = {newData: mergeData, svgLocationStatus: svgData};
     
     // Send message to indicate successful merging of local storage
     const message = JSON.stringify({message: 'The local storage data has successfully merged'});
@@ -126,6 +140,9 @@ app.post('/MergeLocalStorage', async (req, res) => {
     res.send(error.message);
   }
 });
+
+// Set cron job for deleting expired session information from firebase
+
 
 app.listen(PORT, () => {
     console.log(`The server is listening on port ${PORT}`)

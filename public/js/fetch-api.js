@@ -3,7 +3,7 @@ const getLocationsRoute = new ServerRoute('GetLocations');
 
 // Get team identifier from url
 const teamName = getLocationsRoute.getPageIdentifier();
-console.log(teamName);
+
 async function getCurrentLocations() {
     
     // Send request to server and resolve response data
