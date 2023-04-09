@@ -1,8 +1,5 @@
 import express from 'express';
-import session from 'express-session';
-import { createClient } from 'redis';
-import RedisStore from 'connect-redis';
-import { v4 as uuidv4 } from 'uuid';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
 import Pusher from 'pusher';
@@ -10,20 +7,6 @@ import { authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeL
 
 // Create app
 const app = express();
-
-// Create Redis client and log if successfully connected or if error occurred
-const redisClient  = createClient();
-redisClient.connect().catch(console.error);
-
-redisClient.on('connect', () => {
-  console.log(`New Redis client created: ${client}`);
-});
-
-// Create a Redis cache for storing session information
-const redisStore = new RedisStore({
-  client: redisClient,
-  prefix: 'hnect-staff-locator'
-});
 
 // Define port used for web server to listen on. Set a default if not in hosting environment 
 const PORT = process.env.PORT || 5555;
@@ -50,6 +33,9 @@ app.use(express.json());
 
 // Serving static files 
 app.use(express.static('public'));
+
+// Parse cookie sent in the request headers
+app.use(cookieParser());
 
 // Specify CORS to allow web page to access any Cross-Origin API including Amazon S3.
 app.use(cors({origin: '*'}));

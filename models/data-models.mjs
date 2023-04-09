@@ -15,6 +15,26 @@ export async function getCredentials() {
     });
 };
 
+export async function retrieveCookieData() {
+    return new Promise(async (resolve, reject) => {
+        const dataFB = db.collection('Session Store').doc('Cookies');
+        const doc = await dataFB.get();
+        const dataArray = doc.data()
+        resolve(dataArray);
+ });
+};
+
+export async function addCookieData(id, expiryDate) {
+    return new Promise(async (resolve, reject) => {
+        const dataFB = db.collection('Session Store').doc('Cookies');
+        const updatedCookieData = await dataFB.set({
+            id: id,
+            expiryDate: expiryDate
+        }, {merge: true})
+        resolve('New session ID successfully added to DB');
+ });
+};
+
 export async function fetchLocations(team) { 
     return new Promise(async (resolve, reject) => {
         const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');

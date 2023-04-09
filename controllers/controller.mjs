@@ -1,9 +1,14 @@
 import bcrypt from 'bcrypt';
-import { getCredentials, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
+import { v4 as uuidv4 } from 'uuid';
+import { getCredentials, retrieveCookieData, addCookieData, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
 
 export async function authenticateUser(req, res) {
     try {
-                
+        const cookie = req.cookie
+        console.log(req.cookie);
+
+        const sessionData = await retrieveCookieData();
+        console.log(sessionData);
         // Convert binary string to json and get the team page being viewed.
         const jsonData = JSON.stringify(req.body);
         const loginInfo = JSON.parse(jsonData);
@@ -23,14 +28,16 @@ export async function authenticateUser(req, res) {
         // If credentials match then authorise login to the user
         if (usernameResult && passwordResult) {
             // Generate a unique session ID for the cookie and the expiry date 
+            const uniqueID = uuidv4();
             const date = Date.now();
-            const cookieMaxAge = req.session.cookie.maxAge;
+            const cookieMaxAge = 1000 * 60 * 10;
             const expiryDate = date + cookieMaxAge;
-            const sessionID = req.session.id;
-            console.log(sessionID, expiryDate);
-            // Authenticate the user BiomedLogin
-            req.session.loggedin = true;
-            req.session.username = storedUsername; 
+            
+            // Store the session ID and expiry date in the database
+            addCookieData(uniqueID, expiryDate);
+
+            // Authenticate the user BiomedLogin with unique ID
+            res.cookie('uniqueID', uniqueID,{maxAge: cookieMaxAge});
             res.send('success');     
         }
         else {
