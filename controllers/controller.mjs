@@ -52,7 +52,7 @@ export async function authenticateUser(req, res) {
             // Generate a unique session ID for the cookie and the expiry date 
             const uniqueID = uuidv4();
             const date = Date.now();
-            const cookieMaxAge = 1000 * 60 * 10;
+            const cookieMaxAge = 1000 * 60 * 60 * 720; // limits max age to 720 hours or 30 days 
             const expiryDate = date + cookieMaxAge;
             
             // Store the session ID and expiry date in the database
