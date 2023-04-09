@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
-import cookieParser from 'cookie-parser';
+import { createClient } from 'redis';
+import RedisStore from 'connect-redis';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import cors from 'cors';
@@ -10,7 +11,25 @@ import { authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeL
 // Create app
 const app = express();
 
-// Define port used for web server to listen on. Set a default if not in hosting environment. 
+// Create Redis client and log if successfully connected or if error occurred
+const redisClient  = createClient();
+redisClient.connect();
+
+client.on('connect', () => {
+  console.log(`New Redis client created: ${client}`);
+});
+
+client.on('error', () => {
+  console.log('Redis client error!');
+});
+
+// Create a Redis cache for storing session information
+const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: 'hnect-staff-locator'
+});
+
+// Define port used for web server to listen on. Set a default if not in hosting environment 
 const PORT = process.env.PORT || 5555;
 
 // Define root directory
@@ -25,31 +44,46 @@ const pusher = new Pusher({
   useTLS: true
 });
 
-// Load pug view engine
-app.set('view engine', 'pug');
+// Add redis store to production environment only after testing and set session middleware to store in Redis cache 
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  // Create a Redis cache for storing session information
+  // const redisStore = new RedisStore({
+  //   client: redisClient,
+  //   prefix: 'hnect-staff-locator'
+  // }); 
+  // Set the express sessions middleware to validate user browser session and persist in Redis cache for 1 month 
+//   app.use(session({
+//     secret: 'verifiedUser', 
+//     genid: function (req) {
+//       return uuidv4(); 
+//     },
+//     store: redisStore,
+//     resave: false, 
+//     saveUninitialized: false, 
+//     cookie : {
+//     sameSite: 'strict',
+//     maxAge: 1000 * 60 * 60 * 720,
+//     secure: false
+//   }
+// }));
+};
 
-// Set the express sessions middleware to validate user browser session
+// Set the express sessions middleware to validate user browser session and persist in Redis cache for 10 mins for testing 
 app.use(session({
   secret: 'verifiedUser', 
   genid: function (req) {
     return uuidv4(); 
   },
+  store: redisStore,
   resave: false, 
   saveUninitialized: false, 
   cookie : {
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 60 * 720,
+    maxAge: 1000 * 60 * 10,
     secure: false
   }
 }));
-
-// Serve secure cookies 
-if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1); // trust first proxy
-};
-
-// Enable the server to parse cookies from the client
-app.use(cookieParser());
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
