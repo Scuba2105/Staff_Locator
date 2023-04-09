@@ -13,14 +13,10 @@ const app = express();
 
 // Create Redis client and log if successfully connected or if error occurred
 const redisClient  = createClient();
-redisClient.connect();
+redisClient.connect().catch(console.error);
 
-client.on('connect', () => {
+redisClient.on('connect', () => {
   console.log(`New Redis client created: ${client}`);
-});
-
-client.on('error', () => {
-  console.log('Redis client error!');
 });
 
 // Create a Redis cache for storing session information
@@ -47,43 +43,7 @@ const pusher = new Pusher({
 // Add redis store to production environment only after testing and set session middleware to store in Redis cache 
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1); // trust first proxy
-  // Create a Redis cache for storing session information
-  // const redisStore = new RedisStore({
-  //   client: redisClient,
-  //   prefix: 'hnect-staff-locator'
-  // }); 
-  // Set the express sessions middleware to validate user browser session and persist in Redis cache for 1 month 
-//   app.use(session({
-//     secret: 'verifiedUser', 
-//     genid: function (req) {
-//       return uuidv4(); 
-//     },
-//     store: redisStore,
-//     resave: false, 
-//     saveUninitialized: false, 
-//     cookie : {
-//     sameSite: 'strict',
-//     maxAge: 1000 * 60 * 60 * 720,
-//     secure: false
-//   }
-// }));
 };
-
-// Set the express sessions middleware to validate user browser session and persist in Redis cache for 10 mins for testing 
-app.use(session({
-  secret: 'verifiedUser', 
-  genid: function (req) {
-    return uuidv4(); 
-  },
-  store: redisStore,
-  resave: false, 
-  saveUninitialized: false, 
-  cookie : {
-    sameSite: 'strict',
-    maxAge: 1000 * 60 * 10,
-    secure: false
-  }
-}));
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
