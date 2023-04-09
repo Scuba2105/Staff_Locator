@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
 import Pusher from 'pusher';
-import { authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
+import { verifyUser, authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
 
 // Create app
 const app = express();
@@ -41,9 +41,16 @@ app.use(cookieParser());
 app.use(cors({origin: '*'}));
 
 // Serve the login page when accessing the root directory
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   try {
-    res.sendFile("public/html/login.html", { root: __dirname });
+    const loggedIn = await verifyUser(req, res);
+    if (loggedIn) {
+      res.redirect(302, '/location/Management');
+    }
+    else {
+      res.sendFile("public/html/login.html", { root: __dirname });
+    }
+    
   } 
   catch (error) {
     res.send(error.message);
@@ -61,13 +68,14 @@ app.post('/auth', async (req, res) => {
 });
 
 // Serve up requested html page based on provided id parameter in the URL
-app.get('/location/:id', (req, res) => {
+app.get('/location/:id', async (req, res) => {
   try {
     // Get id parameter from the url
     const id = (req.params.id).toLowerCase();
     
     // If logged in send the requested page otherwise send the login page
-    if (req.session.loggedin) {
+    const loggedIn = await verifyUser(req, res);
+    if (loggedIn) {
       res.sendFile(`public/html/${id}.html`, { root: __dirname });
     }
     else {

@@ -2,13 +2,35 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { getCredentials, retrieveCookieData, addCookieData, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
 
+export async function verifyUser(req, res) {
+    try {
+        const cookies = req.cookies
+        const cookieID = cookies.uniqueID;
+
+        // Get the data from the sessionStore and retrieve currently valid id's
+        const sessionStore = await retrieveCookieData();
+        const sessionData = sessionStore.sessionData;
+        const sessionStoreIDs = sessionData.reduce((acc, currentSession) => {
+            const sessionObject = JSON.parse(currentSession);
+            acc.push(sessionObject.id);
+            return acc;
+        },[]);
+        
+        // Check if cookie id is in list of ids in session store.
+        if (sessionStoreIDs.includes(cookieID)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
 export async function authenticateUser(req, res) {
     try {
-        const cookie = req.cookie
-        console.log(req.cookie);
-
-        const sessionData = await retrieveCookieData();
-        console.log(sessionData);
         // Convert binary string to json and get the team page being viewed.
         const jsonData = JSON.stringify(req.body);
         const loginInfo = JSON.parse(jsonData);
@@ -35,7 +57,7 @@ export async function authenticateUser(req, res) {
             
             // Store the session ID and expiry date in the database
             addCookieData(uniqueID, expiryDate);
-
+            
             // Authenticate the user BiomedLogin with unique ID
             res.cookie('uniqueID', uniqueID,{maxAge: cookieMaxAge});
             res.send('success');     
