@@ -63,7 +63,7 @@ body {
     cursor: pointer;
 }
 
-.nav-box > a {
+.nav-link {
     display: flex;
     justify-content: center;
     align-items: center;

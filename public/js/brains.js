@@ -710,12 +710,41 @@ tableCells.forEach((cell) => {
 });
 
 
-// Select the header bar menu options
+// Select the header bar and menu options
 const navBar = document.querySelector('.nav-bar');
 const navBoxes = document.querySelectorAll('.nav-box');
+const navLinks = document.querySelectorAll('.nav-link');
 
 // Define the unique colors for the nav bar options
-const optionHeadingColours = {Management: '#db3c20', JHH: '#950ab8', Hunter: '#0ab875', Tamworth: '#350ab8'}
+const optionHeadingColours = {Management: '#db3c20', JHH: '#950ab8', Hunter: '#0ab875', Tamworth: '#350ab8'};
+
+// Declare index variable for storing index based on current page
+let index;
+
+// Get the page currently being viewed
+const pageNameLower = mergeLocationsRoute.getPageIdentifier().teamName.toLowerCase();
+
+// Get the page currently being viewed
+const pageName = mergeLocationsRoute.getPageIdentifier().teamName;
+
+// Get the current nav link
+const currentNavLink = document.querySelector(`.${pageNameLower}-box`);
+
+ // Format the navbox for the current page
+currentNavLink.style.borderBottom = `10px solid ${optionHeadingColours[pageName]}`;
+
+// Move the font to account for border width change
+currentNavLink.firstElementChild.marginTop = '10px';
+
+// Add click event for nav links and direct to new page if not current page
+navLinks.forEach((navLink) => {
+    navLink.addEventListener('click', async (event) => {
+        const optionHeading = navLink.firstElementChild.textContent;
+        if (optionHeading == pageName) {
+            event.preventDefault();
+        };
+    });
+});
 
 // Add bottom border when mouse hovers over menu option
 navBoxes.forEach((navBox) => {
@@ -724,14 +753,14 @@ navBoxes.forEach((navBox) => {
         const optionColour = optionHeadingColours[optionHeading]
         navBox.style.backgroundColor = `${optionColour}`;
     });
-})
+});
 
 // Remove bottom border when mouse leaves element
 navBoxes.forEach((navBox) => {
     navBox.addEventListener('mouseout', (event) => {
         navBox.style.backgroundColor = `#4f4d4d`;
     });
-})
+});
 
 // Check if the mouse is at the top of the screen
 window.addEventListener('mousemove', (event) => {
@@ -741,8 +770,8 @@ window.addEventListener('mousemove', (event) => {
     }  
     else {
         navBar.style.transform = 'translateY(-75px)';
-    }
-})
+    };
+});
 
 
 
