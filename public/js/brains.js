@@ -710,6 +710,42 @@ tableCells.forEach((cell) => {
 });
 
 
+// Select the header bar menu options
+const navBar = document.querySelector('.nav-bar');
+const navBoxes = document.querySelectorAll('.nav-box');
+
+// Define the unique colors for the nav bar options
+const optionHeadingColours = {Management: '#db3c20', JHH: '#950ab8', Hunter: '#0ab875', Tamworth: '#350ab8'}
+
+// Add bottom border when mouse hovers over menu option
+navBoxes.forEach((navBox) => {
+    navBox.addEventListener('mouseover', (event) => {
+        const optionHeading = navBox.firstElementChild.firstElementChild.textContent;
+        const optionColour = optionHeadingColours[optionHeading]
+        navBox.style.backgroundColor = `${optionColour}`;
+    });
+})
+
+// Remove bottom border when mouse leaves element
+navBoxes.forEach((navBox) => {
+    navBox.addEventListener('mouseout', (event) => {
+        navBox.style.backgroundColor = `#4f4d4d`;
+    });
+})
+
+// Check if the mouse is at the top of the screen
+window.addEventListener('mousemove', (event) => {
+    const yCoordinate = event.clientY;
+    if (yCoordinate <= 75) {
+        navBar.style.transform = 'translateY(0px)';
+    }  
+    else {
+        navBar.style.transform = 'translateY(-75px)';
+    }
+})
+
+
+
 
 
 
