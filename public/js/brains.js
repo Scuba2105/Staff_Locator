@@ -716,7 +716,7 @@ const navBoxes = document.querySelectorAll('.nav-box');
 const navLinks = document.querySelectorAll('.nav-link');
 
 // Define the unique colors for the nav bar options
-const optionHeadingColours = {Management: '#db3c20', JHH: '#950ab8', Hunter: '#0ab875', Tamworth: '#350ab8'};
+const optionHeadingColours = {Management: '#ff4444', JHH: '#a30afc', Hunter: '#0ab875', Tamworth: '#1d19ff'};
 
 // Declare index variable for storing index based on current page
 let index;
