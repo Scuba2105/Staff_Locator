@@ -72,10 +72,9 @@ channel.bind('my-event', function(data) {
 
       // Use destructuring to assign the locationId, commentId and workshop to variables 
       const {locationId, commentId, workshop} = employeeData;
-      console.log(employeeData);
-      console.log(workshop, teamName);
+      
       // Check if the workshop of the updated entry corresponds to the current page
-      if (workshop == teamName) {
+      if (workshop == teamName.teamName) {
         
         // Get the previous location and comments
         const previousLocation = document.querySelector(`#${locationId}`).textContent;
