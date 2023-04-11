@@ -38,7 +38,7 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // Specify CORS to allow web page to access any Cross-Origin API including Amazon S3.
-app.use(cors({origin: '*'}));
+//app.use(cors({origin: '*'}));
 
 // Serve the login page when accessing the root directory
 app.get('/', async (req, res) => {

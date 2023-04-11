@@ -774,6 +774,19 @@ window.addEventListener('mousemove', (event) => {
 });
 
 
+// Add event listener to SVG elements
+const svgDocument = document.querySelector('#svg176');
+const gElement = svgDocument.querySelector('#g173');
+const svgPaths = gElement.querySelectorAll('path');
+
+svgPaths.forEach((path) => {
+    path.addEventListener('click', () => {
+        console.log(path.getAttribute('id'));
+    })
+});
+
+
+
 
 
 
