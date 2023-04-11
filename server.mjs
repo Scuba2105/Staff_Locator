@@ -67,6 +67,24 @@ app.post('/auth', async (req, res) => {
   }
 });
 
+// Serve up the clock html page for the clock route
+app.get('/clock', async (req, res) => {
+  try {
+    
+    // If logged in send the requested page otherwise send the login page
+    const loggedIn = await verifyUser(req, res);
+    if (loggedIn) {
+      res.sendFile(`public/html/index.html`, { root: __dirname });
+    }
+    else {
+      res.redirect('/');
+    }
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
 // Serve up requested html page based on provided id parameter in the URL
 app.get('/location/:id', async (req, res) => {
   try {
