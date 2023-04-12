@@ -782,6 +782,11 @@ const svgDocument = document.querySelector('#svg176');
 const gElement = svgDocument.querySelector('#g173');
 const svgPaths = gElement.querySelectorAll('path');
 
+//Get the svg form elements
+const svgForm = document.querySelector('.svg-form');
+const svgFormHeading = document.querySelector('.department-heading');
+const nameList = document.querySelector('.name-list');
+
 svgPaths.forEach((path) => {
     path.addEventListener('click', async () => {
         
@@ -793,11 +798,27 @@ svgPaths.forEach((path) => {
         const presentStaff = await staffRoute.sendRequest(deptObject);
         const data = await presentStaff.json();
 
-        console.log(data);
+        svgFormHeading.textContent = dept;
+
+        if (data.length != 0) {
+            const listHTML = data.map((name) => {
+                return `<li class="staff-name">${name}</li>`
+            }).join('');
+            nameList.innerHTML = listHTML;
+        }
+        svgForm.style.opacity = 1;
     })
 });
 
-
+    window.addEventListener('click', () => {
+        const svgFormOpacity = svgForm.getAttribute('opacity');
+        const formVisible = svgFormOpacity == 1 ? true : false;
+        console.log(svgFormOpacity, formVisible);
+        if (formVisible) {
+            svgForm.style.opacity = 0;
+        }
+        nameList.innerHTML = "";
+    })
 
 
 
