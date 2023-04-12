@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
 import Pusher from 'pusher';
-import { verifyUser, authenticateUser,serveCurrentData, sendTeamData, updateTeamData, mergeLocalStorage } from './controllers/controller.mjs';
+import { verifyUser, authenticateUser,serveCurrentData, sendTeamData, updateTeamData, sendStaffData, mergeLocalStorage } from './controllers/controller.mjs';
 
 // Create app
 const app = express();
@@ -124,6 +124,17 @@ app.post('/UpdateLocations', async (req, res) => {
     const latestUpdateData = {newData: lastUpdatedData, svgLocationStatus: svgData};
     pusher.trigger("my-channel", "my-event", latestUpdateData);
     res.json({message: `Location was successfully updated for ${lastUpdatedData.name}`});
+  } 
+  catch (error) {
+    res.send(error.message);
+  }
+});
+
+// When location ID is posted to route provide the location data for that location.
+// This is used to initialise locations when page first loaded
+app.post('/StaffAtLocation', async (req, res) => {
+  try {
+    sendStaffData(req, res);
   } 
   catch (error) {
     res.send(error.message);

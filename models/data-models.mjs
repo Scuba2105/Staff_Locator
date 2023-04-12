@@ -164,6 +164,23 @@ export async function updateLocations(newEntry) {
     });
 };
 
+export async function filterCurrentData(department) {
+    return new Promise(async (resolve, reject) => {
+        const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');
+        const doc = await dataFB.get();
+        const dataArray = (doc.data().locationData);
+        const parsedLocationData = dataArray.map((entry) => {
+            return JSON.parse(entry);
+        });
+
+        const filteredStaff = parsedLocationData.filter((staffMember) => {
+            return staffMember.currentLocation == department;
+        });
+
+        resolve(filteredStaff);
+    });
+};
+
 export async function mergeLocalData(localEntries) {
     return new Promise(async (resolve, reject) => {
         const dataFB = db.collection('HNECT Staff Members').doc('Staff Locations');

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import { getCredentials, retrieveCookieData, addCookieData, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
+import { getCredentials, retrieveCookieData, addCookieData, fetchLocations, fetchAllLocations, getActiveLocations, updateLocations, filterCurrentData, getInactiveLocations, mergeLocalData } from "../models/data-models.mjs";
 
 export async function verifyUser(req, res) {
     try {
@@ -121,6 +121,20 @@ export async function updateTeamData(req, res, __dirname) {
     }
 }
 
+export async function sendStaffData(req, res) {
+    try {
+        // Convert binary string to json and get the team page being viewed.
+        const jsonData = JSON.stringify(req.body);
+        const dataObject = JSON.parse(jsonData);
+        const presentStaffMembers = await filterCurrentData(dataObject.dept);
+        const presentNames = presentStaffMembers.map((staffMember) => {
+            return staffMember.name;
+        })
+        res.json(presentNames);
+    } catch (error) {
+        console.log(error);
+    }
+}
 export async function mergeLocalStorage(req, res, __dirname) {
     try {
         

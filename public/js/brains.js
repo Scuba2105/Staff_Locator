@@ -55,7 +55,7 @@ class ServerRoute {
         if (this.endpoint == 'GetLocations') {
             requestData = JSON.stringify(this.getPageIdentifier());
         }
-        else if (this.endpoint == 'UpdateLocations') {
+        else if (this.endpoint == 'UpdateLocations' || this.endpoint == 'StaffAtLocation') {
             requestData = JSON.stringify(data); 
         }
         else if (this.endpoint == 'MergeLocalStorage') {
@@ -102,6 +102,9 @@ const values = keys.map((key) => {
 
 // Create update locations route object
 const updateRoute = new ServerRoute('UpdateLocations');
+
+// Create staff at location route object
+const staffRoute = new ServerRoute('StaffAtLocation');
 
 // Create merge local storage route object
 const mergeLocationsRoute = new ServerRoute('MergeLocalStorage');
@@ -780,8 +783,17 @@ const gElement = svgDocument.querySelector('#g173');
 const svgPaths = gElement.querySelectorAll('path');
 
 svgPaths.forEach((path) => {
-    path.addEventListener('click', () => {
-        console.log(path.getAttribute('id'));
+    path.addEventListener('click', async () => {
+        
+        // Get the name of the department which was selected and store it in an object
+        const dept = path.getAttribute('id').replace(/_/g,' ');
+        const deptObject = {dept: dept};
+
+        // Submit post request to endpoint to get staff at selected location
+        const presentStaff = await staffRoute.sendRequest(deptObject);
+        const data = await presentStaff.json();
+
+        console.log(data);
     })
 });
 
